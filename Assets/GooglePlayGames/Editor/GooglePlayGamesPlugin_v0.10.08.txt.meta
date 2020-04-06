@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 8c9229d44f571604a8645562d528b186
-labels:
-- gvh
-- gvh_manifest
-- gvh_version-0.10.08
 TextScriptImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+labels:
+- gvh
+- gvh_manifest

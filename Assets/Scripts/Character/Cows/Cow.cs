@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Cow : MonoBehaviour
+public class Cow : Character
 {
     public CowState CurrentState;
     public float MovementSpeed;
