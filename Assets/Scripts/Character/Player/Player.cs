@@ -17,25 +17,38 @@ public class Player : Character
         this.rb.velocity = GetKeyboardInput() * MovementSpeed;
     }
 
-    private Vector2 GetKeyboardInput()
+    protected override void Initialize() {
+        this.Health = 100;
+        this.Damage = 10;
+        this.AttackSpeed = 1;
+        this.Allegiance = Allegiance.Player;
+        this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
+    }
+
+    private Vector3 GetKeyboardInput()
     {
-        Vector2 movementDirection = Vector2.zero;
+        Vector3 movementDirection = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
-            movementDirection.y += 1;
+            movementDirection.z += 1;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            movementDirection.x -= 1;
+            movementDirection.x += 1;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            movementDirection.y -= 1;
+            movementDirection.z -= 1;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            movementDirection.x += 1;
+            movementDirection.x -= 1;
         }
         return movementDirection;
+    }
+
+    protected override void Initialize()
+    {
+        throw new System.NotImplementedException();
     }
 }

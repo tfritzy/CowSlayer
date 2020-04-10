@@ -14,6 +14,6 @@ public class Map : MonoBehaviour
 
     public static Vector3 GridPosToWorldPos(Vector2Int gridPos)
     {
-        return new Vector3(gridPos.x, gridPos.y, Constants.MapParameters.BlockZPos);
+        return new Vector3(gridPos.x, Constants.MapParameters.BlockYPos, gridPos.y);
     }
 }

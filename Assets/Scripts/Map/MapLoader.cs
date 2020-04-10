@@ -23,9 +23,9 @@ public static class MapLoader
         bool isDark = false;
         for (int x = 0; x < mapData.GroundTiles.GetLength(0); x++)
         {
-            for (int y = 0; y < mapData.GroundTiles.GetLength(1); y++)
+            for (int z = 0; z < mapData.GroundTiles.GetLength(1); z++)
             {
-                PlaceBlock(new Vector2Int(x, y), mapData.GroundTiles[x, y], groundParent.transform, isDark);
+                PlaceBlock(new Vector2Int(x, z), mapData.GroundTiles[x, z], groundParent.transform, isDark);
                 isDark = !isDark;
             }
 
@@ -34,6 +34,26 @@ public static class MapLoader
                 isDark = !isDark;
             }
         }
+    }
+
+    private static void PlaceObjects(MapData mapData){
+        GameObject objectsParent = GameObject.Instantiate(new GameObject());
+        objectsParent.name = "Objects";
+        for (int x = 0; x < mapData.Objects.GetLength(0); x++)
+        {
+            for (int z = 0; z < mapData.Objects.GetLength(1); z++)
+            {
+                PlaceObject(new Vector2Int(x, z), mapData.Objects[x, z], objectsParent.transform);
+            }
+        }
+    }
+
+    private static void PlaceObject(Vector2Int gridPos, ObjectType type, Transform parent){
+        // GameObject inst = GameObject.Instantiate(
+        //     Constants.GameObjects.Blocks[type],
+        //     Map.GridPosToWorldPos(gridPos),
+        //     new Quaternion(),
+        //     parent);
     }
 
     private static void PlaceBlock(Vector2Int gridPos, TileType type, Transform parent, bool isDarkBlock)
