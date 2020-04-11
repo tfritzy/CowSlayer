@@ -13,12 +13,7 @@ public class Cow : Character
         Attacking
     }
 
-    void Start()
-    {
-        this.rb = this.GetComponent<Rigidbody>();
-    }
-
-    void Update()
+    protected override void UpdateLoop()
     {
         AIUpdate();
     }
@@ -40,21 +35,19 @@ public class Cow : Character
     }
 
     protected override void Initialize() {
-        this.Health = 100;
+        base.Initialize();
+        this.Health = 10;
+        this.MaxHealth = Health;
         this.Damage = 2;
         this.AttackSpeed = 1;
         this.TargetFindRadius = 3;
         this.AttackRange = .5f;
         this.Allegiance = Allegiance.Cows;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Player};
+        this.rb = this.GetComponent<Rigidbody>();
     }
 
-    protected void Attack(){
-        Vector2 diffVector = Vector2.MoveTowards((Vector2)this.transform.position, Target.transform.position, 1000);
-        this.rb.velocity = diffVector.normalized * this.MovementSpeed;
-    }
-
-    private Vector2 grazeTargetPosition;
+    private Vector3 grazeTargetPosition;
     private float lastGrazePositionTimeChange;
     private const float timeBetweenGrazePositionChanges = 5f;
     protected void Graze()
@@ -64,7 +57,7 @@ public class Cow : Character
             this.grazeTargetPosition = FindNewGrazePosition();
             lastGrazePositionTimeChange = Time.time;
         }
-        Vector2 diffVector = Vector2.MoveTowards((Vector2)this.transform.position, this.grazeTargetPosition, 1000);
+        Vector3 diffVector = Vector3.MoveTowards((Vector2)this.transform.position, this.grazeTargetPosition, 1000);
         float magnitude = diffVector.magnitude;
         if (magnitude < .1f)
         {
@@ -76,8 +69,8 @@ public class Cow : Character
         }
     }
 
-    private Vector2 FindNewGrazePosition()
+    private Vector3 FindNewGrazePosition()
     {
-        return new Vector2(Random.Range(-.75f, .75f), Random.Range(-.75f, .75f));
+        return new Vector3(Random.Range(-.75f, .75f), Constants.MapParameters.BlockYPos, Random.Range(-.75f, .75f));
     }
 }

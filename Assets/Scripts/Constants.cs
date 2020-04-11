@@ -13,47 +13,36 @@ public static class Constants
     {
         public const string Maps = "Assets/Resources/Maps";
         public const string TilePrefabLocation = "Prefabs/GridTiles";
+        public const string UIPrefabs = "Prefabs/Objects/UI";
     }
 
     public static class Layers {
-        public const int Character = 8;
+        public const int Character = 1 << 8;
     }
 
     public static class GameObjects
     {
-        private static Dictionary<TileType, GameObject> _blocks;
-        public static Dictionary<TileType, GameObject> Blocks
-        {
-            get
-            {
-                if (_blocks == null)
-                {
-                    _blocks = new Dictionary<TileType, GameObject>();
-                    foreach (TileType gridType in Enum.GetValues(typeof(TileType)))
-                    {
-                        Debug.Log($"{Constants.FilePaths.TilePrefabLocation}/{gridType}");
-                        Blocks[gridType] = Resources.Load<GameObject>($"{Constants.FilePaths.TilePrefabLocation}/{gridType}");
-                    }
+        public static Camera _camera;
+        public static Camera Camera {
+            get {
+                if (_camera == null){
+                    _camera = Camera.main;
                 }
-                return _blocks;
+
+                return _camera;
             }
         }
-
-        private static Dictionary<ObjectType, GameObject> _objects;
-        public static Dictionary<ObjectType, GameObject> Objects
+        
+        private static Transform _healthUIParent;
+        public static Transform HealthUIParent
         {
-            get
+            get 
             {
-                if (_objects == null)
+                if (_healthUIParent == null)
                 {
-                    _objects = new Dictionary<ObjectType, GameObject>();
-                    // foreach (ObjectType gridType in Enum.GetValues(typeof(ObjectType)))
-                    // {
-                    //     Debug.Log($"{Constants.FilePaths.TilePrefabLocation}/{gridType}");
-                    //     Blocks[gridType] = Resources.Load<GameObject>($"{Constants.FilePaths.TilePrefabLocation}/{gridType}");
-                    // }
+                    _healthUIParent = GameObject.Find("HealthUI").transform;
                 }
-                return _objects;
+                return _healthUIParent;
             }
         }
     }

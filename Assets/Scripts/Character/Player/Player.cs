@@ -7,12 +7,7 @@ public class Player : Character
     private Rigidbody rb;
     public float MovementSpeed;
 
-    void Start()
-    {
-        this.rb = this.GetComponent<Rigidbody>();
-    }
-
-    void Update()
+    protected override void UpdateLoop()
     {
         this.rb.velocity = GetKeyboardInput() * MovementSpeed;
         CheckForTarget();
@@ -20,13 +15,16 @@ public class Player : Character
     }
 
     protected override void Initialize() {
+        base.Initialize();
         this.Health = 100;
-        this.Damage = 10;
+        this.MaxHealth = Health;
+        this.Damage = 1;
         this.AttackSpeed = 1;
-        this.AttackRange = .5f;
+        this.AttackRange = 1.5f;
         this.TargetFindRadius = 3;
         this.Allegiance = Allegiance.Player;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
+        this.rb = this.GetComponent<Rigidbody>();
     }
 
     private Vector3 GetKeyboardInput()
