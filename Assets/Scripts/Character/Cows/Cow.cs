@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Cow : Character
@@ -38,14 +39,14 @@ public class Cow : Character
         }
     }
 
-    protected float lastTargetCheckTime;
-    protected void CheckForTarget(){
-        if (Target == null && Time.time + lastTargetCheckTime > 1f){
-            this.Target = this.FindTarget();
-            if (this.Target != null){
-                this.CurrentState = CowState.Attacking;
-            }
-        }
+    protected override void Initialize() {
+        this.Health = 100;
+        this.Damage = 2;
+        this.AttackSpeed = 1;
+        this.TargetFindRadius = 3;
+        this.AttackRange = .5f;
+        this.Allegiance = Allegiance.Cows;
+        this.Enemies = new HashSet<Allegiance>() {Allegiance.Player};
     }
 
     protected void Attack(){

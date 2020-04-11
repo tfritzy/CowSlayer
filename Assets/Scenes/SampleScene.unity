@@ -3215,7 +3215,7 @@ GameObject:
   - component: {fileID: 959220806}
   - component: {fileID: 959220805}
   - component: {fileID: 959220807}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3237,6 +3237,9 @@ MonoBehaviour:
   Health: 0
   Damage: 0
   AttackSpeed: 0
+  AttackRange: 0
+  Target: {fileID: 0}
+  Allegiance: 0
   MovementSpeed: 3
 --- !u!4 &959220806
 Transform:
@@ -3268,7 +3271,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &963194225
 GameObject:
@@ -3696,7 +3699,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1085160122}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 533406437}
@@ -5315,6 +5318,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 991030624459660191, guid: 5d4059c25fb96ac47887a231ec1429b4,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d4059c25fb96ac47887a231ec1429b4, type: 3}
 --- !u!4 &1676264950 stripped
@@ -5588,7 +5596,7 @@ GameObject:
   - component: {fileID: 1771668150}
   - component: {fileID: 1771668149}
   - component: {fileID: 1771668151}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5610,6 +5618,9 @@ MonoBehaviour:
   Health: 0
   Damage: 0
   AttackSpeed: 0
+  AttackRange: 0
+  Target: {fileID: 0}
+  Allegiance: 0
   CurrentState: 0
   MovementSpeed: 2
 --- !u!4 &1771668150

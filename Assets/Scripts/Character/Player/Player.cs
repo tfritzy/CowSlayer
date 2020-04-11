@@ -15,12 +15,16 @@ public class Player : Character
     void Update()
     {
         this.rb.velocity = GetKeyboardInput() * MovementSpeed;
+        CheckForTarget();
+        Attack();
     }
 
     protected override void Initialize() {
         this.Health = 100;
         this.Damage = 10;
         this.AttackSpeed = 1;
+        this.AttackRange = .5f;
+        this.TargetFindRadius = 3;
         this.Allegiance = Allegiance.Player;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
     }
@@ -45,10 +49,5 @@ public class Player : Character
             movementDirection.x -= 1;
         }
         return movementDirection;
-    }
-
-    protected override void Initialize()
-    {
-        throw new System.NotImplementedException();
     }
 }
