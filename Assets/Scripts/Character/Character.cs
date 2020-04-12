@@ -18,9 +18,11 @@ public abstract class Character : MonoBehaviour
     public Allegiance Allegiance;
     public HashSet<Allegiance> Enemies;
     protected Healthbar Healthbar;
+    protected GameObject DamageNumberPrefab;
 
     protected virtual void Initialize()
     {
+        this.DamageNumberPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/DamageNumber");
         this.Healthbar = Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/Healthbar"), Vector3.zero, 
             new Quaternion(), Constants.GameObjects.HealthUIParent).GetComponent<Healthbar>();
         this.Healthbar.SetOwner(this.transform);
@@ -41,24 +43,20 @@ public abstract class Character : MonoBehaviour
     public void Attack(){
         if (Target == null || Time.time - lastAttackTime < TimeBetweenAttacks)
         {
-            Debug.Log("on attack cooldown");
             return;
         }
         float distance = Vector3.Distance(Target.transform.position, this.transform.position);
         if (distance <= AttackRange)
         {
-            Debug.Log("Target In Range");
             Target.GetComponent<Character>().TakeDamage(this.Damage, this);    
             lastAttackTime = Time.time;
-        } else {
-            Debug.Log("Target out of range");
         }
     }
 
     protected float timeBetweenTargetChecks = .5f;
     protected float lastTargetCheckTime;
     protected void CheckForTarget(){
-        if (Target == null && Time.time + lastTargetCheckTime > timeBetweenTargetChecks){
+        if (Time.time + lastTargetCheckTime > timeBetweenTargetChecks){
             this.Target = this.FindTarget();
             lastTargetCheckTime = Time.time;
         }
@@ -90,11 +88,14 @@ public abstract class Character : MonoBehaviour
     public void TakeDamage(int amount, Character attacker)
     {
         this.Health -= amount;
+        GameObject inst = Instantiate(DamageNumberPrefab, new Vector3(1000, 1000, 1000),
+            new Quaternion(), Constants.GameObjects.DamageUIParent);
+        inst.GetComponent<DamageNumber>().SetValue(amount, this.gameObject);
         if (this.Health <= 0)
         {
             this.Health = 0;
-            Destroy(this.gameObject);
-            Destroy(this.Healthbar);
+            Destroy(this.Healthbar.gameObject);
+            Destroy(this.gameObject.gameObject);
         }
 
         this.Healthbar.SetFillScale((float)this.Health / this.MaxHealth);

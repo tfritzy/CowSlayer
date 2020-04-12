@@ -45,5 +45,18 @@ public static class Constants
                 return _healthUIParent;
             }
         }
+
+        private static Transform _damageUIParent;
+        public static Transform DamageUIParent
+        {
+            get
+            {
+                if (_damageUIParent == null)
+                {
+                    _damageUIParent = GameObject.Find("DamageNumbers").transform;
+                }
+                return _damageUIParent;
+            }
+        }
     }
 }
