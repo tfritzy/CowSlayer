@@ -20,6 +20,10 @@ public static class Constants
         public const int Character = 1 << 8;
     }
 
+    public static class Tags {
+        public const string Player = "Player";
+    }
+
     public static class GameObjects
     {
         public static Camera _camera;

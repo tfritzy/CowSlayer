@@ -6,6 +6,7 @@ public class Player : Character
 {
     private Rigidbody rb;
     public float MovementSpeed;
+    public List<Item> Inventory;
 
     protected override void UpdateLoop()
     {
@@ -25,6 +26,7 @@ public class Player : Character
         this.Allegiance = Allegiance.Player;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
         this.rb = this.GetComponent<Rigidbody>();
+        this.Inventory = new List<Item>();
     }
 
     private Vector3 GetKeyboardInput()
@@ -47,5 +49,13 @@ public class Player : Character
             movementDirection.x -= 1;
         }
         return movementDirection;
+    }
+
+    public void LogInventory(){
+        string inventoryDescription = "";
+        foreach (Item item in this.Inventory){
+            inventoryDescription += $"{item},";
+        }
+        Debug.Log(inventoryDescription);
     }
 }
