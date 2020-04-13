@@ -8,6 +8,8 @@ public class Player : Character
     public float MovementSpeed;
     public List<Item> Inventory;
 
+    private GameObject playerInventoryUI;
+
     protected override void UpdateLoop()
     {
         this.rb.velocity = GetKeyboardInput() * MovementSpeed;
@@ -27,6 +29,9 @@ public class Player : Character
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
         this.rb = this.GetComponent<Rigidbody>();
         this.Inventory = new List<Item>();
+        this.Name = "Player";
+        this.name = "Player";
+        this.playerInventoryUI = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/PlayerInventoryUI");
     }
 
     private Vector3 GetKeyboardInput()

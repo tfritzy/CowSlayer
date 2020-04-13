@@ -11,6 +11,7 @@ public static class Constants
 
     public static class FilePaths
     {
+        public const string Icons = "Icons";
         public const string Maps = "Assets/Resources/Maps";
         public const string TilePrefabLocation = "Prefabs/GridTiles";
         public const string UIPrefabs = "Prefabs/Objects/UI";
@@ -47,6 +48,19 @@ public static class Constants
                     _healthUIParent = GameObject.Find("HealthUI").transform;
                 }
                 return _healthUIParent;
+            }
+        }
+
+        private static Transform _interactableUI;
+        public static Transform InteractableUI
+        {
+            get 
+            {
+                if (_interactableUI == null)
+                {
+                    _interactableUI = GameObject.Find("InteractableUI").transform;
+                }
+                return _interactableUI;
             }
         }
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour, Interactable
 {
     public int Health;
     protected int MaxHealth;
@@ -14,7 +14,7 @@ public abstract class Character : MonoBehaviour
     }
     public float AttackRange;
     public GameObject Target;
-
+    public string Name;
     public Allegiance Allegiance;
     public HashSet<Allegiance> Enemies;
     protected Healthbar Healthbar;
@@ -99,5 +99,10 @@ public abstract class Character : MonoBehaviour
         }
 
         this.Healthbar.SetFillScale((float)this.Health / this.MaxHealth);
+    }
+
+    public void Interact()
+    {
+        Debug.Log($"Clicked on {this.Name}");
     }
 }

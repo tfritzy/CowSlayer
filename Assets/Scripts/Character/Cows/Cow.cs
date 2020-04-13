@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 public class Cow : Character
 {
     public CowState CurrentState;
@@ -45,6 +46,8 @@ public class Cow : Character
         this.Allegiance = Allegiance.Cows;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Player};
         this.rb = this.GetComponent<Rigidbody>();
+        this.Name = "Cow " + Guid.NewGuid().ToString("N").Substring(0, 8);
+        this.name = this.Name;
     }
 
     private Vector3 grazeTargetPosition;
