@@ -101,7 +101,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Healthbar.SetFillScale((float)this.Health / this.MaxHealth);
     }
 
-    public void Interact()
+    public virtual void Interact()
     {
         Debug.Log($"Clicked on {this.Name}");
     }

@@ -23,11 +23,52 @@ public static class Constants
 
     public static class Tags {
         public const string Player = "Player";
+        public const string InteractableUI = "InteractableUI";
     }
 
     public static class GameObjects
     {
-        public static Camera _camera;
+        private static GameObject _player;
+        public static GameObject Player
+        {
+            get
+            {
+                if (_player == null)
+                {
+                    _player = GameObject.Find("Player");
+                }
+                return _player;
+            }
+        }
+
+
+        private static GameObject _canvas;
+        public static GameObject Canvas
+        {
+            get
+            {
+                if (_canvas == null)
+                {
+                    _canvas = GameObject.Find("Canvas");
+                }
+                return _canvas;
+            }
+        }
+
+        private static GameObject _interactableCanvas;
+        public static GameObject InteractableCanvas
+        {
+            get
+            {
+                if (_interactableCanvas == null)
+                {
+                    _interactableCanvas = GameObject.Find("InteractableUI");
+                }
+                return _interactableCanvas;
+            }
+        }
+
+        private static Camera _camera;
         public static Camera Camera {
             get {
                 if (_camera == null){

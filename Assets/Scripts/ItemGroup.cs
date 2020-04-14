@@ -18,12 +18,17 @@ public class ItemGroup
         this.dimensions = dimensions;
         this.UIPrefabName = UIPrefabName;
         emptyItemSlot = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/EmptyItemSlot");
+        this.Items = new List<Item>();
     }
 
-    public void OpenMenu()
+    public void OpenMenu(float menuHeight)
     {
+        Vector3 uiPosition = new Vector2(
+            Constants.GameObjects.InteractableCanvas.GetComponent<RectTransform>().rect.width * .5f,
+            Constants.GameObjects.InteractableCanvas.GetComponent<RectTransform>().rect.height * menuHeight
+        );
         GameObject chestUI = GameObject.Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/{UIPrefabName}"), 
-            Constants.GameObjects.InteractableUI.transform);
+            uiPosition, new Quaternion(), Constants.GameObjects.InteractableUI.transform);
         GameObject backdrop = chestUI.transform.Find("Backdrop").gameObject;
         int width = (int)backdrop.GetComponent<RectTransform>().rect.width;
         int height = (int)backdrop.GetComponent<RectTransform>().rect.height;

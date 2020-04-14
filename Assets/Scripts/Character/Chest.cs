@@ -13,10 +13,9 @@ public class Chest : MonoBehaviour, Interactable
         this.ItemGroup.Items = new List<Item>() {new TestItem(), new TestItem(), new TestItem(), new TestItem()};
     }
 
-    
-
     public void Interact()
     {
-        this.ItemGroup.OpenMenu();
+        Constants.GameObjects.Player.GetComponent<Player>().OpenInventory();
+        this.ItemGroup.OpenMenu(.5f);
     }
 }

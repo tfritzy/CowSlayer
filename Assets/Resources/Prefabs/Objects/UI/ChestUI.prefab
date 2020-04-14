@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 9111652278946890857}
   m_Layer: 5
   m_Name: ChestUI
-  m_TagString: Untagged
+  m_TagString: InteractableUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

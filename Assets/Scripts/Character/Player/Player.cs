@@ -6,7 +6,7 @@ public class Player : Character
 {
     private Rigidbody rb;
     public float MovementSpeed;
-    public List<Item> Inventory;
+    public ItemGroup Inventory;
 
     private GameObject playerInventoryUI;
 
@@ -15,6 +15,11 @@ public class Player : Character
         this.rb.velocity = GetKeyboardInput() * MovementSpeed;
         CheckForTarget();
         Attack();
+    }
+
+    public override void Interact()
+    {
+        this.Inventory.OpenMenu(.3f);
     }
 
     protected override void Initialize() {
@@ -28,7 +33,7 @@ public class Player : Character
         this.Allegiance = Allegiance.Player;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
         this.rb = this.GetComponent<Rigidbody>();
-        this.Inventory = new List<Item>();
+        this.Inventory = new ItemGroup(20, new Vector2(5, 4), "ChestUI");
         this.Name = "Player";
         this.name = "Player";
         this.playerInventoryUI = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/PlayerInventoryUI");
@@ -56,11 +61,8 @@ public class Player : Character
         return movementDirection;
     }
 
-    public void LogInventory(){
-        string inventoryDescription = "";
-        foreach (Item item in this.Inventory){
-            inventoryDescription += $"{item},";
-        }
-        Debug.Log(inventoryDescription);
+    public void OpenInventory()
+    {
+        this.Inventory.OpenMenu(0f);
     }
 }
