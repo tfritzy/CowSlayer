@@ -12,7 +12,7 @@ public class Drop : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Constants.Tags.Player)){
-            other.GetComponent<Player>().Inventory.Items.Add(this.Item);
+            other.GetComponent<Player>().Inventory.AddItem(this.Item);
             Destroy(this.gameObject);
         }
     }

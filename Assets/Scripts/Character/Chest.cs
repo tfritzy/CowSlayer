@@ -10,7 +10,7 @@ public class Chest : MonoBehaviour, Interactable
     
     void Start() {
         this.ItemGroup = new ItemGroup(20, new Vector2(5, 4), "ChestUI");
-        this.ItemGroup.Items = new List<Item>() {new TestItem(), new TestItem(), new TestItem(), new TestItem()};
+        this.ItemGroup.AddItems(new List<Item>() {new TestItem(), new TestItem(), new TestItem(), new TestItem()});
     }
 
     public void Interact()
