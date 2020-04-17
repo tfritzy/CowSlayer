@@ -23,8 +23,6 @@ public abstract class Item
 
     public Sprite GetIcon()
     {
-        return Resources.Load<Sprite>($"{Constants.FilePaths.Icons}/{this.IconName}");
+        return Resources.Load<Sprite>($"{Constants.FilePaths.Icons}/{this.Name}");
     }
-
-    public abstract string IconName { get; }
 }

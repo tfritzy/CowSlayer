@@ -6,7 +6,7 @@ public class Drop : MonoBehaviour
 
     void Start()
     {
-        this.Item = new TestItem();
+        this.Item = new IronPlatelegs();
     }
 
     private void OnTriggerEnter(Collider other)
