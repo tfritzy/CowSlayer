@@ -6,8 +6,9 @@ public class WornItemsGroup : ItemGroup
 {
     public override int MaxSize => 9;
     public override string UIPrefabName => "PlayerWornItems";
-
-    public WornItemsGroup()
+    
+    protected override int FindTargetSlot(Item item)
     {
+        return (int)((EquipableItem)item).PlaceWorn;
     }
 }

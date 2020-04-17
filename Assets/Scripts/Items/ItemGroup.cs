@@ -23,7 +23,7 @@ public abstract class ItemGroup
         }
     }
 
-    public void AddItem(Item item)
+    protected virtual int FindTargetSlot(Item item)
     {
         int firstOpenSlot = 0;
         for (int i = 0; i < MaxSize; i++){
@@ -32,11 +32,16 @@ public abstract class ItemGroup
                 break;
             }
         }
+        return firstOpenSlot;
+    }
 
-        Items[firstOpenSlot] = item;
+    public void AddItem(Item item)
+    {
+        int targetSlot = FindTargetSlot(item);
+        Items[targetSlot] = item;
         if (IsMenuOpen())
         {
-            SetButtonValues(ButtonInsts[firstOpenSlot], item);
+            SetButtonValues(ButtonInsts[targetSlot], item);
         }
     }
 
