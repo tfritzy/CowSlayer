@@ -15,7 +15,7 @@ public class InputManager : MonoBehaviour
         {
             inputPos = Input.mousePosition;
         }
-        else if (Input.touchCount > 0)
+        else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             inputPos = Input.GetTouch(0).position;
         }

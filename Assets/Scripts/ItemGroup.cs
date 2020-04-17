@@ -3,25 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemGroup
+public abstract class ItemGroup
 {
-    public int MaxSize;
-    public Vector2 dimensions;
-    public string UIPrefabName;
+    public abstract int MaxSize { get; }
+    public abstract string UIPrefabName { get; }
 
     private GameObject emptyItemSlot;
     private Item[] Items;
     private List<GameObject> ButtonInsts;
     private ItemGroup TransferTarget;
 
-    public ItemGroup(int maxSize, Vector2 dimensions, string UIPrefabName)
+    public ItemGroup()
     {
-        this.MaxSize = maxSize;
-        this.dimensions = dimensions;
-        this.UIPrefabName = UIPrefabName;
         emptyItemSlot = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/EmptyItemSlot");
         this.Items = new Item[MaxSize];
-        for(int i = 0; i < this.MaxSize; i++){
+        for(int i = 0; i < this.MaxSize; i++)
+        {
             this.Items[i] = null;
         }
     }
@@ -35,6 +32,7 @@ public class ItemGroup
                 break;
             }
         }
+
         Items[firstOpenSlot] = item;
         if (IsMenuOpen())
         {
@@ -99,28 +97,12 @@ public class ItemGroup
             uiPosition, new Quaternion(), Constants.GameObjects.InteractableUI.transform);
         GameObject backdrop = chestUI.transform.Find("Backdrop").gameObject;
         this.TransferTarget = transferTarget;
-        int width = (int)backdrop.GetComponent<RectTransform>().rect.width;
-        int height = (int)backdrop.GetComponent<RectTransform>().rect.height;
-        int xDistBetweenIcons = (int)(width / dimensions.x);
-        int yDistBetweenIcons = (int)(height / dimensions.y);
-        int itemCount = 0;
-        this.ButtonInsts = new List<GameObject>();
-        for (int j = height / 2 - yDistBetweenIcons / 2; j > -height / 2; j -= yDistBetweenIcons)
+        ButtonInsts = new List<GameObject>();
+        for (int i = 0; i < MaxSize; i++)
         {
-            for (int i = -width / 2 + xDistBetweenIcons / 2; i < width / 2; i += xDistBetweenIcons)
-            {
-                GameObject inst = GameObject.Instantiate(emptyItemSlot, backdrop.transform.position + new Vector3(i, j),
-                    new Quaternion(), backdrop.transform);
-                ButtonInsts.Add(inst);
-                if (itemCount < Items.Length)
-                {
-                    SetButtonValues(inst, this.Items[itemCount]);
-                } else
-                {
-                    SetButtonValues(inst, null);
-                }
-                itemCount += 1;
-            }
+            GameObject inst = backdrop.transform.Find($"Slot{i}").gameObject;
+            ButtonInsts.Add(inst);
+            SetButtonValues(inst, this.Items[i]);
         }
     }
 

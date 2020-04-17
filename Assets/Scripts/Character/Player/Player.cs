@@ -7,7 +7,7 @@ public class Player : Character
     private Rigidbody rb;
     public float MovementSpeed;
     public ItemGroup Inventory;
-    public PlayerWornItems WornItems;
+    public WornItemsGroup WornItems;
 
     private GameObject playerInventoryUI;
 
@@ -20,7 +20,8 @@ public class Player : Character
 
     public override void Interact()
     {
-        this.Inventory.OpenMenu(.3f);
+        this.Inventory.OpenMenu(0f, this.WornItems);
+        this.WornItems.OpenMenu(.5f, this.Inventory);
     }
 
     protected override void Initialize() {
@@ -34,10 +35,10 @@ public class Player : Character
         this.Allegiance = Allegiance.Player;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
         this.rb = this.GetComponent<Rigidbody>();
-        this.Inventory = new ItemGroup(20, new Vector2(5, 4), "ChestUI");
+        this.Inventory = new ChestItemGroup();
         this.Name = "Player";
         this.name = "Player";
-        this.playerInventoryUI = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/PlayerInventoryUI");
+        this.WornItems = new WornItemsGroup();
     }
 
     private Vector3 GetKeyboardInput()
