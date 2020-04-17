@@ -41,6 +41,12 @@ public static class Constants
             }
         }
 
+        public static Player PlayerScript {
+            get {
+                return Player.GetComponent<Player>();
+            }
+        }
+
 
         private static GameObject _canvas;
         public static GameObject Canvas

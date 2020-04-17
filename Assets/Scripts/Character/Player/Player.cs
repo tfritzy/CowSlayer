@@ -7,6 +7,7 @@ public class Player : Character
     private Rigidbody rb;
     public float MovementSpeed;
     public ItemGroup Inventory;
+    public PlayerWornItems WornItems;
 
     private GameObject playerInventoryUI;
 
@@ -61,8 +62,8 @@ public class Player : Character
         return movementDirection;
     }
 
-    public void OpenInventory()
+    public void OpenInventory(ItemGroup transferTarget = null)
     {
-        this.Inventory.OpenMenu(0f);
+        this.Inventory.OpenMenu(0f, transferTarget);
     }
 }
