@@ -16,13 +16,13 @@ public class ChestButton : MonoBehaviour
         }
         if (ItemId == null)
         {
-            throw new NullReferenceException("Item id must have a value to call this method");
+            return;
         }
         if (SourceItemGroup == null)
         {
             throw new NullReferenceException("SourceItemGroup must have a value to call this method");
         }
-
+        
         SourceItemGroup.TransferItem(TargetItemGroup, ItemId);
     }
 }

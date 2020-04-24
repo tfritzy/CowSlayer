@@ -6,9 +6,25 @@ public class WornItemsGroup : ItemGroup
 {
     public override int MaxSize => 9;
     public override string UIPrefabName => "PlayerWornItems";
-    
+
     protected override int FindTargetSlot(Item item)
     {
-        return (int)((EquipableItem)item).PlaceWorn;
+        ItemWearLocations.SlotType slot = ((EquipableItem)item).PlaceWorn;
+        int index = 0;
+        while(Items[ItemWearLocations.Slots[slot][index]] != null)
+        {
+            if (index == ItemWearLocations.Slots[slot].Length - 1)
+            {
+                break;
+            }
+            index += 1;
+        }
+        return ItemWearLocations.Slots[slot][index];
+    }
+
+    public override void TransferItem(ItemGroup targetItemGroup, string itemId)
+    {
+         
+        targetItemGroup.AddItem(RemoveItem(itemId));
     }
 }

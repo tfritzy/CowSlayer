@@ -3,5 +3,5 @@ using System.Collections;
 
 public abstract class EquipableItem : Item
 {
-    public abstract ItemWearLocations PlaceWorn { get; }
+    public abstract ItemWearLocations.SlotType PlaceWorn { get; }
 }

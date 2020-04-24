@@ -9,7 +9,7 @@ public abstract class ItemGroup
     public abstract string UIPrefabName { get; }
 
     private GameObject emptyItemSlot;
-    private Item[] Items;
+    protected Item[] Items;
     private List<GameObject> ButtonInsts;
     private ItemGroup TransferTarget;
 
@@ -21,6 +21,10 @@ public abstract class ItemGroup
         {
             this.Items[i] = null;
         }
+    }
+
+    public bool IsFull(){
+        return Items.Length == MaxSize;
     }
 
     protected virtual int FindTargetSlot(Item item)
@@ -81,8 +85,11 @@ public abstract class ItemGroup
         return null;
     }
 
-    public void TransferItem(ItemGroup targetItemGroup, string itemId)
+    public virtual void TransferItem(ItemGroup targetItemGroup, string itemId)
     {
+        if (this.IsFull()){
+            return;
+        }
         targetItemGroup.AddItem(RemoveItem(itemId));
     }
 
