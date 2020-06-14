@@ -19,12 +19,12 @@ public class WornItemsGroup : ItemGroup
             }
             index += 1;
         }
+
         return ItemWearLocations.Slots[slot][index];
     }
 
     public override void TransferItem(ItemGroup targetItemGroup, string itemId)
     {
-         
         targetItemGroup.AddItem(RemoveItem(itemId));
     }
 }

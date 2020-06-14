@@ -10,6 +10,7 @@ public abstract class ItemGroup
 
     private GameObject emptyItemSlot;
     protected Item[] Items;
+    public int numItemsContained;
     private List<GameObject> ButtonInsts;
     private ItemGroup TransferTarget;
 
@@ -21,10 +22,11 @@ public abstract class ItemGroup
         {
             this.Items[i] = null;
         }
+        numItemsContained = 0;
     }
 
     public bool IsFull(){
-        return Items.Length == MaxSize;
+        return numItemsContained == MaxSize;
     }
 
     protected virtual int FindTargetSlot(Item item)
@@ -39,10 +41,36 @@ public abstract class ItemGroup
         return firstOpenSlot;
     }
 
+    /// <summary>
+    /// Finds the slot of the given itemId, or -1 if not found.
+    /// </summary>
+    /// <param name="itemId"></param>
+    /// <returns></returns>
+    protected virtual int FindSlotOfItem(string itemId)
+    {
+        int itemPosition = -1;
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i]?.Id == itemId)
+            {
+                itemPosition = i;
+                break;
+            }
+        }
+
+        return itemPosition;
+    }
+
     public void AddItem(Item item)
     {
         int targetSlot = FindTargetSlot(item);
+        if (Items[targetSlot] != null)
+        {
+            return;
+        }
+
         Items[targetSlot] = item;
+        numItemsContained += 1;
         if (IsMenuOpen())
         {
             SetButtonValues(ButtonInsts[targetSlot], item);
@@ -59,15 +87,10 @@ public abstract class ItemGroup
 
     public Item RemoveItem(string itemId)
     {
-        int itemPosition = 0;
-        for (int i = 0; i < Items.Length; i++){
-            if (Items[i]?.Id == itemId){
-                itemPosition = i;
-                break;
-            }
-        }
+        int itemPosition = FindSlotOfItem(itemId);
         Item item = Items[itemPosition];
         Items[itemPosition] = null;
+        numItemsContained -= 1;
         if (IsMenuOpen())
         {
             SetButtonValues(ButtonInsts[itemPosition], null);
@@ -75,10 +98,17 @@ public abstract class ItemGroup
         return item;
     }
 
+    public Item RemoveItem(int slotIndex)
+    {
+        Item item = this.Items[slotIndex];
+        this.Items[slotIndex] = null;
+        return item;
+    }
+
     public Item GetItem(string itemId)
     {
         foreach (Item item in Items){
-            if (item.Id == itemId){
+            if (item?.Id == itemId){
                 return item;
             }
         }
@@ -87,9 +117,17 @@ public abstract class ItemGroup
 
     public virtual void TransferItem(ItemGroup targetItemGroup, string itemId)
     {
-        if (this.IsFull()){
+        if (targetItemGroup.IsFull()){
             return;
         }
+
+        Item item = this.GetItem(itemId);
+        int targetSlot = targetItemGroup.FindTargetSlot(item);
+        if (targetItemGroup.Items[targetSlot] != null)
+        {
+            return;
+        }
+
         targetItemGroup.AddItem(RemoveItem(itemId));
     }
 
