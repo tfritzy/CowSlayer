@@ -10,10 +10,12 @@ public class Player : Character
     public WornItemsGroup WornItems;
 
     private GameObject playerInventoryUI;
+    private Joystick joystick { get { return Constants.GameObjects.Joystick; } }
 
     protected override void UpdateLoop()
     {
-        this.rb.velocity = GetKeyboardInput() * MovementSpeed;
+        Vector2 inputDir = 
+        this.rb.velocity = GetInput() * MovementSpeed;
         CheckForTarget();
         Attack();
     }
@@ -41,7 +43,7 @@ public class Player : Character
         this.WornItems = new WornItemsGroup();
     }
 
-    private Vector3 GetKeyboardInput()
+    private Vector3 GetInput()
     {
         Vector3 movementDirection = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
@@ -60,6 +62,12 @@ public class Player : Character
         {
             movementDirection.x -= 1;
         }
+
+        if (movementDirection == Vector3.zero)
+        {
+            movementDirection = joystick.Direction;
+        }
+
         return movementDirection;
     }
 

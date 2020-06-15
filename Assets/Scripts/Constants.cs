@@ -135,5 +135,18 @@ public static class Constants
                 return _cowParent;
             }
         }
+
+        private static Joystick _joystick;
+        public static Joystick Joystick
+        {
+            get
+            {
+                if (_joystick == null)
+                {
+                    _joystick = GameObject.Find("Joystick").GetComponent<Joystick>();
+                }
+                return _joystick;
+            }
+        }
     }
 }
