@@ -18,6 +18,7 @@ public class Healthbar : MonoBehaviour
     {
         if (Owner == null)
         {
+            Destroy(this.gameObject);
             return;
         }
         

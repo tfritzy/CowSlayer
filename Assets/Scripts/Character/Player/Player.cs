@@ -24,7 +24,7 @@ public class Player : Character
         this.WornItems.OpenMenu(.5f, this.Inventory);
     }
 
-    protected override void Initialize() {
+    public override void Initialize() {
         base.Initialize();
         this.Health = 100;
         this.MaxHealth = Health;

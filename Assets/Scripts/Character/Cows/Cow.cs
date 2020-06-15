@@ -35,7 +35,7 @@ public class Cow : Character
         }
     }
 
-    protected override void Initialize() {
+    public override void Initialize() {
         base.Initialize();
         this.Health = 10;
         this.MaxHealth = Health;

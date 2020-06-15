@@ -20,7 +20,7 @@ public abstract class Character : MonoBehaviour, Interactable
     protected Healthbar Healthbar;
     protected GameObject DamageNumberPrefab;
 
-    protected virtual void Initialize()
+    public virtual void Initialize()
     {
         this.DamageNumberPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/DamageNumber");
         this.Healthbar = Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/Healthbar"), Vector3.zero, 
