@@ -18,6 +18,7 @@ public class Drop : MonoBehaviour
         {
             return;
         }
+
         lastPickupAttemptTime = Time.time;
 
         if (other.CompareTag(Constants.Tags.Player)){

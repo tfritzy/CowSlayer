@@ -106,7 +106,7 @@ public class Player : Character
 
     public void OpenInventory(ItemGroup transferTarget = null)
     {
-        this.Inventory.OpenMenu(0f, this.WornItems);
-        this.WornItems.OpenMenu(.5f, this.Inventory);
+        this.Inventory.OpenMenu(.32f, this.WornItems);
+        this.WornItems.OpenMenu(.75f, this.Inventory);
     }
 }

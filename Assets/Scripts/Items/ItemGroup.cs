@@ -137,6 +137,12 @@ public abstract class ItemGroup
     }
 
     private GameObject chestUI;
+    /// <summary>
+    /// Opens the item ui at the given position
+    /// 0 is bottom of screen and 1 is top.
+    /// </summary>
+    /// <param name="menuHeight">0 is bottom, 1 is top</param>
+    /// <param name="transferTarget"></param>
     public void OpenMenu(float menuHeight, ItemGroup transferTarget = null)
     {
         Vector3 uiPosition = new Vector2(
