@@ -12,9 +12,8 @@ public static class Constants
     public static class FilePaths
     {
         public const string Icons = "Icons";
-        public const string Maps = "Assets/Resources/Maps";
-        public const string TilePrefabLocation = "Prefabs/GridTiles";
         public const string UIPrefabs = "Prefabs/Objects/UI";
+        public const string AreaSpawns = "AreaSpawns";
     }
 
     public static class Layers {
@@ -121,6 +120,19 @@ public static class Constants
                     _damageUIParent = GameObject.Find("DamageNumbers").transform;
                 }
                 return _damageUIParent;
+            }
+        }
+
+        private static Transform _cowParent;
+        public static Transform CowParent
+        {
+            get
+            {
+                if (_cowParent == null)
+                {
+                    _cowParent = GameObject.Find("Cows").transform;
+                }
+                return _cowParent;
             }
         }
     }
