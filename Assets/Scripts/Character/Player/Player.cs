@@ -26,12 +26,6 @@ public class Player : Character
         Attack();
     }
 
-    public override void Interact()
-    {
-        this.Inventory.OpenMenu(0f, this.WornItems);
-        this.WornItems.OpenMenu(.5f, this.Inventory);
-    }
-
     public override void Initialize() {
         base.Initialize();
         this.Health = 100;
@@ -112,6 +106,7 @@ public class Player : Character
 
     public void OpenInventory(ItemGroup transferTarget = null)
     {
-        this.Inventory.OpenMenu(0f, transferTarget);
+        this.Inventory.OpenMenu(0f, this.WornItems);
+        this.WornItems.OpenMenu(.5f, this.Inventory);
     }
 }
