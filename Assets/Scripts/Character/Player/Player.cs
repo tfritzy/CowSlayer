@@ -10,12 +10,18 @@ public class Player : Character
     public WornItemsGroup WornItems;
 
     private GameObject playerInventoryUI;
+
     private Joystick joystick { get { return Constants.GameObjects.Joystick; } }
+    private bool isDashing;
+    private const float dashDuration = .3f;
+    private float dashStartTime;
+    private float movementSpeedModifier = 1;
+    private Vector3 dashDirection;
 
     protected override void UpdateLoop()
     {
-        Vector2 inputDir = 
-        this.rb.velocity = GetInput() * MovementSpeed;
+        SetDashStatus();
+        SetVelocity();
         CheckForTarget();
         Attack();
     }
@@ -41,6 +47,19 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.WornItems = new WornItemsGroup();
+    }
+
+    private void SetVelocity()
+    {
+        if (isDashing)
+        {
+            rb.velocity = dashDirection * MovementSpeed * 3;
+        }
+        else
+        {
+            rb.velocity = GetInput() * MovementSpeed;
+        }
+        
     }
 
     private Vector3 GetInput()
@@ -69,6 +88,26 @@ public class Player : Character
         }
 
         return movementDirection;
+    }
+
+    private void SetDashStatus()
+    {
+        if (isDashing)
+        {
+            if (Time.time > dashStartTime + dashDuration)
+            {
+                isDashing = false;
+            }
+        }
+        else
+        {
+            if (joystick.IsDashing)
+            {
+                isDashing = true;
+                dashStartTime = Time.time;
+                dashDirection = joystick.Direction;
+            }
+        }
     }
 
     public void OpenInventory(ItemGroup transferTarget = null)

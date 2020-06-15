@@ -18,6 +18,8 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         } 
     }
 
+    public bool IsDashing { get { return Direction.magnitude == 1 && Time.time - startPressTime < .1f; } }
+
     public float HandleRange
     {
         get { return handleRange; }
@@ -48,6 +50,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     private Camera cam;
 
     private Vector2 input = Vector2.zero;
+    private float startPressTime;
 
     protected virtual void Start()
     {
@@ -68,6 +71,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
+        startPressTime = Time.time;
         OnDrag(eventData);
     }
 
@@ -142,6 +146,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     {
         input = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
+        startPressTime = float.MinValue;
     }
 
     protected Vector2 ScreenPointToAnchoredPosition(Vector2 screenPosition)
