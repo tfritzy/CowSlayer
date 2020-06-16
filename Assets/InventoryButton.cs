@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventoryButton : MonoBehaviour
 {
-    public bool IsOpen = false;
+    public static bool IsOpen = false;
     public void OpenInventory()
     {
         UIActions.CloseAllWindows();
@@ -13,5 +13,11 @@ public class InventoryButton : MonoBehaviour
             Constants.GameObjects.PlayerScript.OpenInventory();
         }
         IsOpen = !IsOpen;
+    }
+
+    public void CloseAllWindows()
+    {
+        UIActions.CloseAllWindows();
+        IsOpen = false;
     }
 }

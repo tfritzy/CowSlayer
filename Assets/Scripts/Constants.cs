@@ -25,6 +25,22 @@ public static class Constants
         public const string InteractableUI = "InteractableUI";
     }
 
+    public static class Prefabs
+    {
+        private static GameObject _closeMenuButton;
+        public static GameObject CloseMenuButton
+        {
+            get
+            {
+                if (_closeMenuButton == null)
+                {
+                    _closeMenuButton = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/CloseMenuButton");
+                }
+                return _closeMenuButton;
+            }
+        }
+    }
+
     public static class GameObjects
     {
         private static GameObject _player;

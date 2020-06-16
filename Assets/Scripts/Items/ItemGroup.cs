@@ -160,6 +160,7 @@ public abstract class ItemGroup
             ButtonInsts.Add(inst);
             SetButtonValues(inst, this.Items[i]);
         }
+        GameObject.Instantiate(Constants.Prefabs.CloseMenuButton, Constants.GameObjects.InteractableUI);
     }
 
     private void SetButtonValues(GameObject button, Item item)
