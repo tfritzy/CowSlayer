@@ -27,4 +27,17 @@ public class WornItemsGroup : ItemGroup
     {
         targetItemGroup.AddItem(RemoveItem(itemId));
     }
+
+    public override void AddItem(Item item)
+    {
+        base.AddItem(item);
+        ((EquipableItem)item).OnEquip();
+    }
+
+    public override Item RemoveItem(int slotIndex)
+    {
+        Item item = base.RemoveItem(slotIndex);
+        ((EquipableItem)item).OnUnequip();
+        return item;
+    }
 }

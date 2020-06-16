@@ -10,7 +10,7 @@ public class Chest : MonoBehaviour, Interactable
     
     void Start() {
         this.ItemGroup = new ChestItemGroup();
-        this.ItemGroup.AddItems(new List<Item>() {new GoldRing(), new HornedHelm(), new IceRing(), new IronBracer(),
+        this.ItemGroup.AddItems(new List<Item>() {new GoldRing(), new HornedHelm(), new IceRing(),
             new IronPlatelegs(), new LeatherBody(), new NorthstarAmulet()});
     }
 

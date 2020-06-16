@@ -61,7 +61,7 @@ public abstract class ItemGroup
         return itemPosition;
     }
 
-    public void AddItem(Item item)
+    public virtual void AddItem(Item item)
     {
         int targetSlot = FindTargetSlot(item);
         if (Items[targetSlot] != null)
@@ -88,20 +88,18 @@ public abstract class ItemGroup
     public Item RemoveItem(string itemId)
     {
         int itemPosition = FindSlotOfItem(itemId);
-        Item item = Items[itemPosition];
-        Items[itemPosition] = null;
-        numItemsContained -= 1;
-        if (IsMenuOpen())
-        {
-            SetButtonValues(ButtonInsts[itemPosition], null);
-        }
-        return item;
+        return RemoveItem(itemPosition);
     }
 
-    public Item RemoveItem(int slotIndex)
+    public virtual Item RemoveItem(int slotIndex)
     {
         Item item = this.Items[slotIndex];
         this.Items[slotIndex] = null;
+        numItemsContained -= 1;
+        if (IsMenuOpen())
+        {
+            SetButtonValues(ButtonInsts[slotIndex], null);
+        }
         return item;
     }
 

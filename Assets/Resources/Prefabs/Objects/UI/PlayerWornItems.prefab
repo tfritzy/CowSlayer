@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 1578585929350494012}
   - component: {fileID: 3776720141782706333}
   m_Layer: 5
-  m_Name: Slot8
+  m_Name: Slot1
   m_TagString: InteractableUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210,7 +210,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 28026495223521950}
-  m_RootOrder: 8
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 4197465585156865161}
   - component: {fileID: 2000088383022129960}
   m_Layer: 5
-  m_Name: Slot4
+  m_Name: Slot6
   m_TagString: InteractableUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -494,7 +494,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 28026495223521950}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -618,7 +618,7 @@ GameObject:
   - component: {fileID: 3975348318936350317}
   - component: {fileID: 1633292944951566796}
   m_Layer: 5
-  m_Name: Slot3
+  m_Name: Slot4
   m_TagString: InteractableUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -636,7 +636,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 28026495223521950}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 6741028951768137319}
   - component: {fileID: 8938848534360990150}
   m_Layer: 5
-  m_Name: Slot6
+  m_Name: Slot5
   m_TagString: InteractableUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -778,7 +778,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 28026495223521950}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -918,14 +918,14 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1.038, z: 1}
   m_Children:
   - {fileID: 1574527634418045947}
-  - {fileID: 2267182473827862251}
-  - {fileID: 8913877796935655950}
-  - {fileID: 6041514356730192868}
-  - {fileID: 6826585957253603584}
-  - {fileID: 2087016587086282910}
-  - {fileID: 4138932758442779630}
-  - {fileID: 5312553348527702428}
   - {fileID: 8148349824931687093}
+  - {fileID: 8913877796935655950}
+  - {fileID: 2267182473827862251}
+  - {fileID: 6041514356730192868}
+  - {fileID: 4138932758442779630}
+  - {fileID: 6826585957253603584}
+  - {fileID: 5312553348527702428}
+  - {fileID: 2087016587086282910}
   m_Father: {fileID: 30416395792325914}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -984,7 +984,7 @@ GameObject:
   - component: {fileID: 8649745760085515543}
   - component: {fileID: 6452471397947949750}
   m_Layer: 5
-  m_Name: Slot5
+  m_Name: Slot8
   m_TagString: InteractableUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1002,7 +1002,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 28026495223521950}
-  m_RootOrder: 5
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1126,7 +1126,7 @@ GameObject:
   - component: {fileID: 8901968317451246434}
   - component: {fileID: 6488557286358664387}
   m_Layer: 5
-  m_Name: Slot1
+  m_Name: Slot3
   m_TagString: InteractableUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1144,7 +1144,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 28026495223521950}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.367, y: 0.52359116}
   m_AnchorMax: {x: 0.63100004, y: 0.7143222}

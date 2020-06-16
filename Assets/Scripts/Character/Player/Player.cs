@@ -9,6 +9,8 @@ public class Player : Character
     public ItemGroup Inventory;
     public WornItemsGroup WornItems;
 
+    public Body Body;
+
     private GameObject playerInventoryUI;
 
     private Joystick joystick { get { return Constants.GameObjects.Joystick; } }
@@ -41,6 +43,7 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.WornItems = new WornItemsGroup();
+        this.Body = new Body(this.transform.Find("Body"));
     }
 
     private void SetVelocity()

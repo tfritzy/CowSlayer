@@ -8,7 +8,7 @@ public class Drop : MonoBehaviour
 
     void Start()
     {
-        this.Item = new IronPlatelegs();
+        this.Item = new Stick();
         lastPickupAttemptTime = Time.time;
     }
 

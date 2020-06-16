@@ -13,6 +13,7 @@ public static class Constants
     {
         public const string Icons = "Icons";
         public const string UIPrefabs = "Prefabs/Objects/UI";
+        public const string WeaponPrefabs = "Prefabs/Objects/Weapons";
         public const string AreaSpawns = "AreaSpawns";
     }
 

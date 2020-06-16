@@ -18,7 +18,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         } 
     }
 
-    public bool IsDashing { get { return Direction.magnitude == 1 && Time.time - startPressTime < .1f; } }
+    public bool IsDashing { get { return Direction.magnitude == 1 && Time.time - startPressTime < .15f; } }
 
     public float HandleRange
     {
