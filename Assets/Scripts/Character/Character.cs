@@ -22,8 +22,8 @@ public abstract class Character : MonoBehaviour, Interactable
 
     public virtual void Initialize()
     {
-        this.DamageNumberPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/DamageNumber");
-        this.Healthbar = Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/Healthbar"), Vector3.zero, 
+        this.DamageNumberPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/DamageNumber");
+        this.Healthbar = Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/Healthbar"), Vector3.zero, 
             new Quaternion(), Constants.GameObjects.HealthUIParent).GetComponent<Healthbar>();
         this.Healthbar.SetOwner(this.transform);
     }
@@ -85,6 +85,8 @@ public abstract class Character : MonoBehaviour, Interactable
         return closest;
     }
 
+    protected virtual void OnDeath() { }
+
     public void TakeDamage(int amount, Character attacker)
     {
         this.Health -= amount;
@@ -94,6 +96,7 @@ public abstract class Character : MonoBehaviour, Interactable
         if (this.Health <= 0)
         {
             this.Health = 0;
+            OnDeath();
             Destroy(this.Healthbar.gameObject);
             Destroy(this.gameObject.gameObject);
         }

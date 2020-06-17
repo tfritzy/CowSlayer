@@ -16,7 +16,7 @@ public abstract class ItemGroup
 
     public ItemGroup()
     {
-        emptyItemSlot = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/EmptyItemSlot");
+        emptyItemSlot = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/EmptyItemSlot");
         this.Items = new Item[MaxSize];
         for(int i = 0; i < this.MaxSize; i++)
         {
@@ -147,7 +147,7 @@ public abstract class ItemGroup
             Constants.GameObjects.InteractableCanvas.GetComponent<RectTransform>().rect.width * .5f,
             Constants.GameObjects.InteractableCanvas.GetComponent<RectTransform>().rect.height * menuHeight
         );
-        chestUI = GameObject.Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/{UIPrefabName}"), 
+        chestUI = GameObject.Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/{UIPrefabName}"), 
             uiPosition, new Quaternion(), Constants.GameObjects.InteractableUI.transform);
         GameObject backdrop = chestUI.transform.Find("Backdrop").gameObject;
         this.TransferTarget = transferTarget;

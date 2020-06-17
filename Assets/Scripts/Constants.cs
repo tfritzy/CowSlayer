@@ -12,8 +12,13 @@ public static class Constants
     public static class FilePaths
     {
         public const string Icons = "Icons";
-        public const string UIPrefabs = "Prefabs/Objects/UI";
-        public const string WeaponPrefabs = "Prefabs/Objects/Weapons";
+        public class Prefabs
+        {
+            public const string UI = "Prefabs/Objects/UI";
+            public const string Weapons = "Prefabs/Objects/Drops/Weapons";
+            public const string Gold = "Prefabs/Objects/Drops/Gold";
+            public const string Drops = "Prefabs/Objects/Drops";
+        }
         public const string AreaSpawns = "AreaSpawns";
     }
 
@@ -35,9 +40,40 @@ public static class Constants
             {
                 if (_closeMenuButton == null)
                 {
-                    _closeMenuButton = Resources.Load<GameObject>($"{Constants.FilePaths.UIPrefabs}/CloseMenuButton");
+                    _closeMenuButton = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/CloseMenuButton");
                 }
                 return _closeMenuButton;
+            }
+        }
+
+
+        private static GameObject _emptyDrop;
+        public static GameObject EmptyDrop
+        {
+            get
+            {
+                if (_emptyDrop == null)
+                {
+                    _emptyDrop = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Drops}/Drop");
+                }
+
+                return _emptyDrop;
+            }   
+        }
+
+        public class Gold
+        {
+            private static GameObject _smallGoldPile;
+            public static GameObject SmallGoldPile
+            {
+                get
+                {
+                    if (_smallGoldPile == null)
+                    {
+                        _smallGoldPile = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Gold}/SmallPile");
+                    }
+                    return _smallGoldPile;
+                }
             }
         }
     }

@@ -1,34 +1,20 @@
+using System;
 using UnityEngine;
 
-public class Drop : MonoBehaviour 
+public abstract class Drop 
 {
-    public Item Item;
+    protected string dropId;
 
-    protected float lastPickupAttemptTime;
-
-    void Start()
+    public Drop()
     {
-        this.Item = new Stick();
-        lastPickupAttemptTime = Time.time;
+        dropId = Guid.NewGuid().ToString("N");
     }
 
-    private void OnTriggerEnter(Collider other)
+    public abstract bool GiveDropToPlayer(Player player);
+    public abstract void SetModel(Transform container);
+
+    public override int GetHashCode()
     {
-        if (Time.time < lastPickupAttemptTime + .5f)
-        {
-            return;
-        }
-
-        lastPickupAttemptTime = Time.time;
-
-        if (other.CompareTag(Constants.Tags.Player)){
-            Player player = other.GetComponent<Player>();
-            if (!player.Inventory.IsFull())
-            {
-                player.Inventory.AddItem(this.Item);
-            }
-            
-            Destroy(this.gameObject);
-        }
+        return dropId.GetHashCode();
     }
 }

@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-public class Cow : Character
+public abstract class Cow : Character
 {
     public CowState CurrentState;
     public float MovementSpeed;
+    public DropTable DropTable;
 
     protected Rigidbody rb;
     public enum CowState
@@ -37,16 +38,9 @@ public class Cow : Character
 
     public override void Initialize() {
         base.Initialize();
-        this.Health = 10;
-        this.MaxHealth = Health;
-        this.Damage = 2;
-        this.AttackSpeed = 1;
-        this.TargetFindRadius = 3;
-        this.AttackRange = .5f;
         this.Allegiance = Allegiance.Cows;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Player};
         this.rb = this.GetComponent<Rigidbody>();
-        this.Name = "Cow " + Guid.NewGuid().ToString("N").Substring(0, 8);
         this.name = this.Name;
     }
 
@@ -75,5 +69,18 @@ public class Cow : Character
     private Vector3 FindNewGrazePosition()
     {
         return new Vector3(Random.Range(-.75f, .75f), Constants.MapParameters.BlockYPos, Random.Range(-.75f, .75f));
+    }
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        Drop drop = DropTable.RollDrop();
+        if (drop == null)
+        {
+            return;
+        }
+
+        GameObject dropContainer = GameObject.Instantiate<GameObject>(Constants.Prefabs.EmptyDrop, this.transform.position, new Quaternion(), null);
+        dropContainer.GetComponent<DropContainer>().SetDrop(drop);
     }
 }

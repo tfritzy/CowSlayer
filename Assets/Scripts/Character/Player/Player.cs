@@ -8,7 +8,7 @@ public class Player : Character
     public float MovementSpeed;
     public ItemGroup Inventory;
     public WornItemsGroup WornItems;
-
+    public int Gold;
     public Body Body;
 
     private GameObject playerInventoryUI;
