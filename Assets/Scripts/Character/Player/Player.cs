@@ -9,7 +9,6 @@ public class Player : Character
     public ItemGroup Inventory;
     public WornItemsGroup WornItems;
     public int Gold;
-    public Body Body;
 
     private GameObject playerInventoryUI;
 
@@ -17,15 +16,12 @@ public class Player : Character
     private bool isDashing;
     private const float dashDuration = .3f;
     private float dashStartTime;
-    private float movementSpeedModifier = 1;
     private Vector3 dashDirection;
 
     protected override void UpdateLoop()
     {
         SetDashStatus();
-        SetVelocity();
-        CheckForTarget();
-        Attack();
+        base.UpdateLoop();
     }
 
     public override void Initialize() {
@@ -34,7 +30,7 @@ public class Player : Character
         this.MaxHealth = Health;
         this.Damage = 1;
         this.AttackSpeed = 1;
-        this.AttackRange = 1.5f;
+        this.AttackRange = 2.1f;
         this.TargetFindRadius = 3;
         this.Allegiance = Allegiance.Player;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
@@ -43,10 +39,9 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.WornItems = new WornItemsGroup();
-        this.Body = new Body(this.transform.Find("Body"));
     }
 
-    private void SetVelocity()
+    protected override void SetVelocity()
     {
         if (isDashing)
         {
@@ -56,7 +51,7 @@ public class Player : Character
         {
             rb.velocity = GetInput() * MovementSpeed;
         }
-        
+        SetRotationWithVelocity();
     }
 
     private Vector3 GetInput()

@@ -18,6 +18,7 @@ public abstract class Cow : Character
     protected override void UpdateLoop()
     {
         AIUpdate();
+        base.UpdateLoop();
     }
 
     protected virtual void AIUpdate()
@@ -36,39 +37,74 @@ public abstract class Cow : Character
         }
     }
 
-    public override void Initialize() {
-        base.Initialize();
-        this.Allegiance = Allegiance.Cows;
-        this.Enemies = new HashSet<Allegiance>() {Allegiance.Player};
-        this.rb = this.GetComponent<Rigidbody>();
-        this.name = this.Name;
+    protected override void SetVelocity()
+    {
+        Vector3 diffVector = this.targetPosition - this.transform.position;
+        diffVector.y = 0;
+        if (diffVector.magnitude < .1f)
+        {
+            this.rb.velocity = Vector3.zero;
+            return;
+        }
+
+        this.rb.velocity = diffVector.normalized * MovementSpeed;
+        SetRotationWithVelocity();
     }
 
-    private Vector3 grazeTargetPosition;
+    public override void Attack()
+    {
+        if (Target == null)
+        {
+            if (this.CurrentState == CowState.Attacking)
+            {
+                this.CurrentState = CowState.Grazing;
+                this.targetPosition = FindNewGrazePosition();
+            }
+            
+            return;
+        }
+
+        if ((Target.transform.position - this.transform.position).magnitude > AttackRange * .8f)
+        {
+            this.targetPosition = Target.transform.position;
+        } else
+        {
+            targetPosition = this.transform.position;
+        }
+        
+        base.Attack();
+    }
+
+    public override void Initialize() {
+        this.Allegiance = Allegiance.Cows;
+        this.Enemies = new HashSet<Allegiance>() { Allegiance.Player };
+        this.rb = this.GetComponent<Rigidbody>();
+        this.name = this.Name;
+        this.targetPosition = FindNewGrazePosition();
+        base.Initialize();
+    }
+
+    private Vector3 targetPosition;
     private float lastGrazePositionTimeChange;
     private const float timeBetweenGrazePositionChanges = 5f;
     protected void Graze()
     {
         if (Time.time > lastGrazePositionTimeChange + timeBetweenGrazePositionChanges)
         {
-            this.grazeTargetPosition = FindNewGrazePosition();
+            this.targetPosition = FindNewGrazePosition();
             lastGrazePositionTimeChange = Time.time;
         }
-        Vector3 diffVector = Vector3.MoveTowards((Vector2)this.transform.position, this.grazeTargetPosition, 1000);
-        float magnitude = diffVector.magnitude;
-        if (magnitude < .1f)
+
+        CheckForTarget();
+        if (Target != null)
         {
-            this.rb.velocity = Vector3.zero;
-        }
-        else
-        {
-            this.rb.velocity = diffVector.normalized * this.MovementSpeed;
+            this.CurrentState = CowState.Attacking;
         }
     }
 
     private Vector3 FindNewGrazePosition()
     {
-        return new Vector3(Random.Range(-.75f, .75f), Constants.MapParameters.BlockYPos, Random.Range(-.75f, .75f));
+        return this.transform.position + new Vector3(Random.Range(-5f, 5f), this.transform.position.y, Random.Range(-5f, 5f));
     }
 
     protected override void OnDeath()

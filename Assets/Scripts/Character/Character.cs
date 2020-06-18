@@ -12,44 +12,65 @@ public abstract class Character : MonoBehaviour, Interactable
             return 1 / Mathf.Pow(AttackSpeed, .6f);
         }
     }
+    protected bool CanAttackWhileMoving => false;
     public float AttackRange;
     public GameObject Target;
     public string Name;
     public Allegiance Allegiance;
     public HashSet<Allegiance> Enemies;
+    public Body Body;
     protected Healthbar Healthbar;
     protected GameObject DamageNumberPrefab;
 
     public virtual void Initialize()
     {
         this.DamageNumberPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/DamageNumber");
-        this.Healthbar = Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/Healthbar"), Vector3.zero, 
+        this.Healthbar = Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/Healthbar"), Vector3.zero,
             new Quaternion(), Constants.GameObjects.HealthUIParent).GetComponent<Healthbar>();
         this.Healthbar.SetOwner(this.transform);
+        this.Body = new Body(this.transform.Find("Body"));
     }
 
-    void Start() 
+    void Start()
     {
         Initialize();
     }
 
-    protected abstract void UpdateLoop();
+    protected virtual void UpdateLoop()
+    {
+        CheckForTarget();
+        Attack();
+        SetVelocity();
+    }
+
     void Update() 
     {
         UpdateLoop();
     }
     
     protected float lastAttackTime;
-    public void Attack(){
+    public virtual void Attack(){
         if (Target == null || Time.time - lastAttackTime < TimeBetweenAttacks)
         {
             return;
         }
+
+        if (!CanAttackWhileMoving && this.GetComponent<Rigidbody>().velocity.magnitude > .1f)
+        {
+            return;
+        }
+
         float distance = Vector3.Distance(Target.transform.position, this.transform.position);
         if (distance <= AttackRange)
         {
             Target.GetComponent<Character>().TakeDamage(this.Damage, this);    
             lastAttackTime = Time.time;
+        } else
+        {
+            if (distance > TargetFindRadius)
+            {
+                Target = null;
+            }
         }
     }
 
@@ -85,6 +106,7 @@ public abstract class Character : MonoBehaviour, Interactable
         return closest;
     }
 
+    protected abstract void SetVelocity();
     protected virtual void OnDeath() { }
 
     public void TakeDamage(int amount, Character attacker)
@@ -107,5 +129,16 @@ public abstract class Character : MonoBehaviour, Interactable
     public virtual void Interact()
     {
         Debug.Log($"Clicked on {this.Name}");
+    }
+
+    protected void SetRotationWithVelocity()
+    {
+        Vector3 relativePos = this.GetComponent<Rigidbody>().velocity;
+        if (relativePos.magnitude < .1f)
+        {
+            return;
+        }
+        Quaternion lookRotation = Quaternion.LookRotation(relativePos, Vector3.up);
+        Body.Transform.rotation = lookRotation;
     }
 }

@@ -6,11 +6,13 @@ public class Body
 {
     public GameObject OffHand;
     public GameObject MainHand;
+    public Transform Transform;
 
     public Body(Transform self)
     {
-        this.OffHand = self.Find("LeftHand").gameObject;
-        this.MainHand = self.Find("RightHand").gameObject;
+        Transform = self;
+        this.OffHand = self.Find("LeftHand")?.gameObject;
+        this.MainHand = self.Find("RightHand")?.gameObject;
     }
 }
 
