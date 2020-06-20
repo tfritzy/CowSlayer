@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class WornItemsGroup : ItemGroup
 {
+    public WornItemsGroup(string Name) : base(Name)
+    {
+    }
+
     public override int MaxSize => 9;
     public override string UIPrefabName => "PlayerWornItems";
 

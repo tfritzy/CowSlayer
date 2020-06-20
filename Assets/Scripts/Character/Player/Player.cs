@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Character
 {
@@ -35,10 +36,10 @@ public class Player : Character
         this.Allegiance = Allegiance.Player;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
         this.rb = this.GetComponent<Rigidbody>();
-        this.Inventory = new ChestItemGroup();
+        this.Inventory = new ChestItemGroup("Inventory");
         this.Name = "Player";
         this.name = "Player";
-        this.WornItems = new WornItemsGroup();
+        this.WornItems = new WornItemsGroup("Equiped Items");
     }
 
     protected override void SetVelocity()
@@ -105,6 +106,12 @@ public class Player : Character
     public void OpenInventory(ItemGroup transferTarget = null)
     {
         this.Inventory.OpenMenu(.32f, this.WornItems);
-        this.WornItems.OpenMenu(.75f, this.Inventory);
+        Transform wornItems = this.WornItems.OpenMenu(.75f, this.Inventory);
+        ConfigureStatsMenu(Instantiate(Constants.Prefabs.PlayerStatsWindow, wornItems).transform);
+    }
+
+    private void ConfigureStatsMenu(Transform statsMenu)
+    {
+        statsMenu.Find("Gold").GetComponent<Text>().text = $"{this.Gold} Gold";
     }
 }

@@ -7,14 +7,14 @@ public abstract class ItemGroup
 {
     public abstract int MaxSize { get; }
     public abstract string UIPrefabName { get; }
-
+    public string GroupName; 
     private GameObject emptyItemSlot;
     protected Item[] Items;
     public int numItemsContained;
     private List<GameObject> ButtonInsts;
     private ItemGroup TransferTarget;
 
-    public ItemGroup()
+    public ItemGroup(string Name)
     {
         emptyItemSlot = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/EmptyItemSlot");
         this.Items = new Item[MaxSize];
@@ -23,6 +23,7 @@ public abstract class ItemGroup
             this.Items[i] = null;
         }
         numItemsContained = 0;
+        this.GroupName = Name;
     }
 
     public bool IsFull(){
@@ -141,7 +142,7 @@ public abstract class ItemGroup
     /// </summary>
     /// <param name="menuHeight">0 is bottom, 1 is top</param>
     /// <param name="transferTarget"></param>
-    public void OpenMenu(float menuHeight, ItemGroup transferTarget = null)
+    public Transform OpenMenu(float menuHeight, ItemGroup transferTarget = null)
     {
         Vector3 uiPosition = new Vector2(
             Constants.GameObjects.InteractableCanvas.GetComponent<RectTransform>().rect.width * .5f,
@@ -159,6 +160,8 @@ public abstract class ItemGroup
             SetButtonValues(inst, this.Items[i]);
         }
         GameObject.Instantiate(Constants.Prefabs.CloseMenuButton, Constants.GameObjects.InteractableUI);
+        backdrop.transform.Find("GroupName").GetComponent<Text>().text = GroupName;
+        return chestUI.transform;
     }
 
     private void SetButtonValues(GameObject button, Item item)

@@ -76,6 +76,19 @@ public static class Constants
                 }
             }
         }
+
+        private static GameObject _playerStatsWindow;
+        public static GameObject PlayerStatsWindow
+        {
+            get
+            {
+                if (_playerStatsWindow == null)
+                {
+                    _playerStatsWindow = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/PlayerStats");
+                }
+                return _playerStatsWindow;
+            }
+        }
     }
 
     public static class GameObjects
