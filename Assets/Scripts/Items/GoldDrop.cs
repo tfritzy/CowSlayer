@@ -3,10 +3,16 @@ using UnityEngine;
 public class GoldDrop : Drop 
 {
     public int Value;
-    
+    public override bool HasAutoPickup => true;
+
     public GoldDrop(int low, int high)
     {
         Value = Random.Range(low, high);
+    }
+
+    public override GameObject GetDropIndicator()
+    {
+        return null;
     }
 
     public override bool GiveDropToPlayer(Player player)

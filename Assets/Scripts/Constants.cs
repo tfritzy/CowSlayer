@@ -15,7 +15,6 @@ public static class Constants
         public class Prefabs
         {
             public const string UI = "Prefabs/Objects/UI";
-            public const string Weapons = "Prefabs/Objects/Drops/Weapons";
             public const string Gold = "Prefabs/Objects/Drops/Gold";
             public const string Drops = "Prefabs/Objects/Drops";
         }

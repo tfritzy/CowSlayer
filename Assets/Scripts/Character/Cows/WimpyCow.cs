@@ -6,7 +6,7 @@ public class WimpyCow : Cow
 {
     public override void Initialize()
     {
-        this.Health = 10;
+        this.Health = 1;
         this.MaxHealth = Health;
         this.Damage = 2;
         this.AttackSpeed = 1;
