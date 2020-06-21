@@ -114,4 +114,25 @@ public class Player : Character
     {
         statsMenu.Find("Gold").GetComponent<Text>().text = $"{this.Gold} Gold";
     }
+
+    protected override void OnDeath()
+    {
+        ShowDeathScreen();
+        Body.Transform.GetComponent<MeshRenderer>().material.color = Color.red;
+    }
+
+    public void Respawn()
+    {
+        UIActions.CloseAllWindows();
+        Body.Transform.GetComponent<MeshRenderer>().material.color = Color.magenta;
+        this.transform.position = Constants.GameObjects.SpawnPoint;
+        this.Health = MaxHealth;
+        this.IsDead = false;
+    }
+
+    private void ShowDeathScreen()
+    {
+        UIActions.CloseAllWindows();
+        Instantiate(Constants.Prefabs.DeathScreenUI, Constants.GameObjects.InteractableUI);
+    }
 }

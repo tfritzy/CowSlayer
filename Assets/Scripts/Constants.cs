@@ -61,6 +61,19 @@ public static class Constants
             }   
         }
 
+        private static GameObject _deathScreenUI;
+        public static GameObject DeathScreenUI
+        {
+            get
+            {
+                if (_deathScreenUI == null)
+                {
+                    _deathScreenUI = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/DeathScreen");
+                }
+                return _deathScreenUI;
+            }
+        }
+
         public class Gold
         {
             private static GameObject _smallGoldPile;
@@ -112,6 +125,18 @@ public static class Constants
             }
         }
 
+        private static Vector3 _spawnPoint;
+        public static Vector3 SpawnPoint
+        {
+            get
+            {
+                if (_spawnPoint == null)
+                {
+                    _spawnPoint = GameObject.Find("SpawnPoint").transform.position;
+                }
+                return _spawnPoint;
+            }
+        }
 
         private static GameObject _canvas;
         public static GameObject Canvas

@@ -21,6 +21,7 @@ public abstract class Character : MonoBehaviour, Interactable
     public Body Body;
     protected Healthbar Healthbar;
     protected GameObject DamageNumberPrefab;
+    protected bool IsDead;
 
     public virtual void Initialize()
     {
@@ -29,6 +30,7 @@ public abstract class Character : MonoBehaviour, Interactable
             new Quaternion(), Constants.GameObjects.HealthUIParent).GetComponent<Healthbar>();
         this.Healthbar.SetOwner(this.transform);
         this.Body = new Body(this.transform.Find("Body"));
+        this.IsDead = false;
     }
 
     void Start()
@@ -50,12 +52,18 @@ public abstract class Character : MonoBehaviour, Interactable
     
     protected float lastAttackTime;
     public virtual void Attack(){
+
         if (Target == null || Time.time - lastAttackTime < TimeBetweenAttacks)
         {
             return;
         }
 
         if (!CanAttackWhileMoving && this.GetComponent<Rigidbody>().velocity.magnitude > .1f)
+        {
+            return;
+        }
+
+        if (IsDead)
         {
             return;
         }
@@ -107,20 +115,29 @@ public abstract class Character : MonoBehaviour, Interactable
     }
 
     protected abstract void SetVelocity();
-    protected virtual void OnDeath() { }
+    protected virtual void OnDeath() 
+    {
+        Destroy(this.Healthbar.gameObject);
+        Destroy(this.gameObject.gameObject);
+    }
 
     public void TakeDamage(int amount, Character attacker)
     {
+        if (IsDead)
+        {
+            return;
+        }
+
         this.Health -= amount;
         GameObject inst = Instantiate(DamageNumberPrefab, new Vector3(1000, 1000, 1000),
             new Quaternion(), Constants.GameObjects.DamageUIParent);
         inst.GetComponent<DamageNumber>().SetValue(amount, this.gameObject);
+
         if (this.Health <= 0)
         {
             this.Health = 0;
+            this.IsDead = true;
             OnDeath();
-            Destroy(this.Healthbar.gameObject);
-            Destroy(this.gameObject.gameObject);
         }
 
         this.Healthbar.SetFillScale((float)this.Health / this.MaxHealth);

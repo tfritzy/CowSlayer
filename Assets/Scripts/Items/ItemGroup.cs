@@ -164,15 +164,33 @@ public abstract class ItemGroup
         return chestUI.transform;
     }
 
+    private static Sprite _squareIconBackground;
+    protected static Sprite SquareIconBackground
+    {
+        get
+        {
+            if (_squareIconBackground == null)
+            {
+                _squareIconBackground = Resources.Load<Sprite>($"{Constants.FilePaths.Icons}/SquareItemIcon");
+            }
+            return _squareIconBackground;
+        }
+    }
+
     private void SetButtonValues(GameObject button, Item item)
     {
         if (item == null)
         {
             button.GetComponent<Image>().sprite = emptyItemSlot.GetComponent<Image>().sprite;
+            button.GetComponent<Image>().color = Color.white;
+            button.transform.Find("Icon").GetComponent<Image>().color = Color.clear;
             button.GetComponent<ChestButton>().ItemId = null;
         } else
         {
-            button.GetComponent<Image>().sprite = item.GetIcon();
+            button.GetComponent<Image>().sprite = SquareIconBackground;
+            button.GetComponent<Image>().color = item.GetRarityColor();
+            button.transform.Find("Icon").GetComponent<Image>().sprite = item.GetIcon();
+            button.transform.Find("Icon").GetComponent<Image>().color = Color.white;
             button.GetComponent<ChestButton>().SourceItemGroup = this;
             button.GetComponent<ChestButton>().ItemId = item.Id;
         }
