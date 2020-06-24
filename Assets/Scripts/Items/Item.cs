@@ -10,6 +10,7 @@ public abstract class Item
     public abstract ItemRarity Rarity { get; }
     public string Id;
     public GameObject Prefab;
+    public virtual int Price => 10;
 
     protected readonly Dictionary<ItemRarity, Color> RarityColors = new Dictionary<ItemRarity, Color>
     {

@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class Chest : MonoBehaviour, Interactable
 {
-    public const int numRows = 4;
-    public const int numCols = 5;
     public ItemGroup ItemGroup;
     
     void Start() {

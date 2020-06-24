@@ -45,6 +45,19 @@ public static class Constants
             }
         }
 
+        private static GameObject _purchaseItemMenu;
+        public static GameObject PurchaseItemMenu
+        {
+            get
+            {
+                if (_purchaseItemMenu == null)
+                {
+                    _purchaseItemMenu = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/PurchaseItemMenu");
+                }
+                return _purchaseItemMenu;
+            }
+        }
+
 
         private static GameObject _emptyDrop;
         public static GameObject EmptyDrop

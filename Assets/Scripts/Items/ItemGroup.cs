@@ -7,7 +7,8 @@ public abstract class ItemGroup
 {
     public abstract int MaxSize { get; }
     public abstract string UIPrefabName { get; }
-    public string GroupName; 
+    public string GroupName;
+    public virtual bool RequiresRecieveConfirmation => false;
     private GameObject emptyItemSlot;
     protected Item[] Items;
     public int numItemsContained;
@@ -114,7 +115,7 @@ public abstract class ItemGroup
         return null;
     }
 
-    public virtual void TransferItem(ItemGroup targetItemGroup, string itemId)
+    public virtual void TransferItem(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false)
     {
         if (targetItemGroup.IsFull()){
             return;
@@ -124,6 +125,12 @@ public abstract class ItemGroup
         int targetSlot = targetItemGroup.FindTargetSlot(item);
         if (targetItemGroup.Items[targetSlot] != null)
         {
+            return;
+        }
+
+        if (targetItemGroup.RequiresRecieveConfirmation && hasTransferBeenConfirmed == false)
+        {
+            targetItemGroup.OpenRecieveConfirmationMenu(item);
             return;
         }
 
@@ -195,5 +202,10 @@ public abstract class ItemGroup
             button.GetComponent<ChestButton>().ItemId = item.Id;
         }
         button.GetComponent<ChestButton>().TargetItemGroup = this.TransferTarget;
+    }
+
+    public virtual void OpenRecieveConfirmationMenu(Item item)
+    {
+        throw new System.NotImplementedException();
     }
 }

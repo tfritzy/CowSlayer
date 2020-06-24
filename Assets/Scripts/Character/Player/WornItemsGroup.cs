@@ -27,7 +27,7 @@ public class WornItemsGroup : ItemGroup
         return ItemWearLocations.Slots[slot][index];
     }
 
-    public override void TransferItem(ItemGroup targetItemGroup, string itemId)
+    public override void TransferItem(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false)
     {
         targetItemGroup.AddItem(RemoveItem(itemId));
     }
