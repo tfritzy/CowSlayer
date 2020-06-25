@@ -7,6 +7,7 @@ public abstract class Cow : Character
     public CowState CurrentState;
     public float MovementSpeed;
     public DropTable DropTable;
+    public abstract CowType CowType { get; }
 
     protected Rigidbody rb;
     public enum CowState

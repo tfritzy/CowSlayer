@@ -17,6 +17,8 @@ public static class Constants
             public const string UI = "Prefabs/Objects/UI";
             public const string Gold = "Prefabs/Objects/Drops/Gold";
             public const string Drops = "Prefabs/Objects/Drops";
+            public const string Cows = "Prefabs/Objects/Cows";
+
         }
         public const string AreaSpawns = "AreaSpawns";
     }
@@ -112,6 +114,23 @@ public static class Constants
                     _playerStatsWindow = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/PlayerStats");
                 }
                 return _playerStatsWindow;
+            }
+        }
+
+        private static Dictionary<CowType, GameObject> _cowPrefabs;
+        public static Dictionary<CowType, GameObject> CowPrefabs
+        {
+            get
+            {
+                if (_cowPrefabs == null)
+                {
+                    _cowPrefabs = new Dictionary<CowType, GameObject>();
+                    foreach (CowType cowType in Enum.GetValues(typeof(CowType)))
+                    {
+                        _cowPrefabs.Add(cowType, Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Cows}/{cowType}"));
+                    }
+                }
+                return _cowPrefabs;
             }
         }
     }

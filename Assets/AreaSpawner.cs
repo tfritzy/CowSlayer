@@ -5,15 +5,16 @@ using UnityEngine;
 public class AreaSpawner : MonoBehaviour
 {
     public Dictionary<string, Cow> SpawnedCows;
-    public string AreaName;
+    public Area AreaType;
+    public int AreaIndex;
     private const int MaxCows = 20;
-    private GameObject[] SpawnableCows;
+    private List<GameObject> SpawnableCows;
     private Vector2 SpawnableAreaSize;
     private Vector3 AreaCenter;
 
     void Start()
     {
-        AreaName = gameObject.name;
+        AreaIndex = int.Parse(gameObject.name);
         SpawnableAreaSize = new Vector2(45, 45);
         SpawnedCows = new Dictionary<string, Cow>();
         SpawnableCows = LoadSpawnableCows();
@@ -59,7 +60,7 @@ public class AreaSpawner : MonoBehaviour
             Random.Range(-SpawnableAreaSize.y / 2, SpawnableAreaSize.y / 2));
 
         GameObject cow = Instantiate(
-            SpawnableCows[Random.Range(0, SpawnableCows.Length)],
+            SpawnableCows[Random.Range(0, SpawnableCows.Count)],
             position + AreaCenter,
             new Quaternion(),
             Constants.GameObjects.CowParent);
@@ -82,8 +83,13 @@ public class AreaSpawner : MonoBehaviour
         }
     }
 
-    private GameObject[] LoadSpawnableCows()
+    private List<GameObject> LoadSpawnableCows()
     {
-        return Resources.LoadAll<GameObject>($"{Constants.FilePaths.AreaSpawns}/{AreaName}");
+        List<GameObject> cows = new List<GameObject>();
+        foreach (CowType cow in WhatCowsSpawnInEachArea.Spawns[AreaType][AreaIndex])
+        {
+            cows.Add(Constants.Prefabs.CowPrefabs[cow]);
+        }
+        return cows;
     }
 }

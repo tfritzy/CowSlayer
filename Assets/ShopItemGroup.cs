@@ -10,6 +10,8 @@ public class ShopItemGroup : ItemGroup
     public override string UIPrefabName => "ChestUI";
     public override bool RequiresRecieveConfirmation => true;
 
+    private GameObject currentlyOpenConfirmationWindow;
+
     public ShopItemGroup(string Name) : base(Name)
     {
         PurchasedItems = new HashSet<string>();
@@ -31,8 +33,13 @@ public class ShopItemGroup : ItemGroup
     protected void OpenPurchaseItemMenu(string itemId)
     {
         Item item = GetItem(itemId);
-        GameObject inst = GameObject.Instantiate(Constants.Prefabs.PurchaseItemMenu, Constants.GameObjects.InteractableUI);
-        inst.GetComponent<PurchaseItemMenu>().Initialize(this, item);
+        if (currentlyOpenConfirmationWindow != null)
+        {
+            GameObject.Destroy(currentlyOpenConfirmationWindow);
+        }
+
+        currentlyOpenConfirmationWindow = GameObject.Instantiate(Constants.Prefabs.PurchaseItemMenu, Constants.GameObjects.InteractableUI);
+        currentlyOpenConfirmationWindow.GetComponent<PurchaseItemMenu>().Initialize(this, item);
 
     }
 
@@ -54,7 +61,11 @@ public class ShopItemGroup : ItemGroup
 
     public override void OpenRecieveConfirmationMenu(Item item)
     {
-        GameObject inst = GameObject.Instantiate(Constants.Prefabs.PurchaseItemMenu, Constants.GameObjects.InteractableUI);
-        inst.GetComponent<PurchaseItemMenu>().Initialize(this, item, buyMode: false);
+        if (currentlyOpenConfirmationWindow != null)
+        {
+            GameObject.Destroy(currentlyOpenConfirmationWindow);
+        }
+        currentlyOpenConfirmationWindow = GameObject.Instantiate(Constants.Prefabs.PurchaseItemMenu, Constants.GameObjects.InteractableUI);
+        currentlyOpenConfirmationWindow.GetComponent<PurchaseItemMenu>().Initialize(this, item, buyMode: false);
     }
 }

@@ -4,9 +4,11 @@ using System;
 
 public class WimpyCow : Cow
 {
+    public override CowType CowType => CowType.WimpyCow;
+
     public override void Initialize()
     {
-        this.Health = 1;
+        this.Health = 5;
         this.MaxHealth = Health;
         this.Damage = 2;
         this.AttackSpeed = 1;
