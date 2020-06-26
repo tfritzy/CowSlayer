@@ -11,6 +11,9 @@ public abstract class Item
     public string Id;
     public GameObject Prefab;
     public virtual int Price => 10;
+    protected abstract List<ItemEffect> EffectPool { get; }
+    protected abstract int NumEffects { get; }
+    public List<ItemEffect> Effects;
 
     protected readonly Dictionary<ItemRarity, Color> RarityColors = new Dictionary<ItemRarity, Color>
     {
@@ -36,10 +39,34 @@ public abstract class Item
         }
     };
 
+    /// <summary>
+    /// Creates a new instance of this item. If effects are not passed, new effects will
+    /// be rolled. This should be used for item creation. 
+    /// </summary>
     public Item()
     {
         this.Id = this.Name + Guid.NewGuid().ToString("N");
         Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Drops}/{Name.Replace(" ", "")}");
+        this.Effects = GenerateItemEffects();
+    }
+
+    protected List<ItemEffect> GenerateItemEffects()
+    {
+        List<ItemEffect> effects = new List<ItemEffect>();
+        List<ItemEffect> effectPoolCopy = new List<ItemEffect>(this.EffectPool);
+        for (int i = 0; i < NumEffects; i++)
+        {
+            int rollIndex = UnityEngine.Random.Range(0, effectPoolCopy.Count);
+            effects.Add(effectPoolCopy[rollIndex]);
+            effectPoolCopy.RemoveAt(i);
+        }
+
+        foreach (ItemEffect effect in effects)
+        {
+            effect.RollRandomValue();
+        }
+
+        return effects;
     }
 
     public override int GetHashCode()
@@ -62,6 +89,21 @@ public abstract class Item
         return RarityColors[this.Rarity];
     }
 
-    public virtual void OnEquip() { }
-    public virtual void OnUnequip() { }
+    public virtual void ApplyEffects(Character character)
+    {
+        foreach (ItemEffect effect in Effects)
+        {
+            effect.Apply(character);
+        }
+    }
+
+    public virtual void OnEquip(Character bearer) 
+    {
+        bearer.RecalculateItemEffects();
+    }
+
+    public virtual void OnUnequip(Character bearer) 
+    {
+        bearer.RecalculateItemEffects();
+    }
 }

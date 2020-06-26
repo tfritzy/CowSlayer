@@ -11,19 +11,19 @@ public abstract class Weapon : EquipableItem
     {
     }
 
-    public override void OnEquip()
+    public override void OnEquip(Character bearer)
     {
-        base.OnEquip();
+        base.OnEquip(bearer);
         bodyInst = GameObject.Instantiate(
             Prefab,
-            Constants.GameObjects.PlayerScript.Body.OffHand.transform.position,
+            bearer.Body.OffHand.transform.position,
             new Quaternion(),
-            Constants.GameObjects.PlayerScript.Body.OffHand.transform);
+            bearer.Body.OffHand.transform);
     }
 
-    public override void OnUnequip()
+    public override void OnUnequip(Character bearer)
     {
-        base.OnUnequip();
+        base.OnUnequip(bearer);
         GameObject.Destroy(bodyInst);
     }
 }

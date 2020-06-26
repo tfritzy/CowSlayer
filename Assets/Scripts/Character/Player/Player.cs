@@ -8,9 +8,7 @@ public class Player : Character
     private Rigidbody rb;
     public float MovementSpeed;
     public ItemGroup Inventory;
-    public WornItemsGroup WornItems;
     public int Gold;
-
     private GameObject playerInventoryUI;
 
     private Joystick joystick { get { return Constants.GameObjects.Joystick; } }
@@ -27,19 +25,21 @@ public class Player : Character
 
     public override void Initialize() {
         base.Initialize();
-        this.Health = 100;
-        this.MaxHealth = Health;
-        this.Damage = 1;
-        this.AttackSpeed = 1;
-        this.AttackRange = 2.1f;
-        this.TargetFindRadius = 3;
         this.Allegiance = Allegiance.Player;
         this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
         this.rb = this.GetComponent<Rigidbody>();
         this.Inventory = new ChestItemGroup("Inventory");
         this.Name = "Player";
         this.name = "Player";
-        this.WornItems = new WornItemsGroup("Equiped Items");
+    }
+
+    protected override void SetInitialStats()
+    {
+        this.Health = 100;
+        this.Damage = 1;
+        this.AttackSpeed = 1;
+        this.AttackRange = 2.1f;
+        this.TargetFindRadius = 3;
     }
 
     protected override void SetVelocity()
@@ -135,4 +135,6 @@ public class Player : Character
         UIActions.CloseAllWindows();
         Instantiate(Constants.Prefabs.DeathScreenUI, Constants.GameObjects.InteractableUI);
     }
+
+
 }

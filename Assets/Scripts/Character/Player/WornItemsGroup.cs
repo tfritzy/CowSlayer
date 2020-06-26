@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class WornItemsGroup : ItemGroup
 {
-    public WornItemsGroup(string Name) : base(Name)
+    protected Character Bearer;
+
+    public WornItemsGroup(string Name, Character bearer) : base(Name)
     {
+        this.Bearer = bearer;
     }
 
     public override int MaxSize => 9;
@@ -35,13 +38,21 @@ public class WornItemsGroup : ItemGroup
     public override void AddItem(Item item)
     {
         base.AddItem(item);
-        ((EquipableItem)item).OnEquip();
+        ((EquipableItem)item).OnEquip(Bearer);
     }
 
     public override Item RemoveItem(int slotIndex)
     {
         Item item = base.RemoveItem(slotIndex);
-        ((EquipableItem)item).OnUnequip();
+        ((EquipableItem)item).OnUnequip(Bearer);
         return item;
+    }
+
+    public void ApplyItemEffects(Character character)
+    {
+        foreach (Item item in Items)
+        {
+            item?.ApplyEffects(character);
+        }
     }
 }

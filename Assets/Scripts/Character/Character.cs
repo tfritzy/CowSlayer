@@ -7,6 +7,7 @@ public abstract class Character : MonoBehaviour, Interactable
     protected int MaxHealth;
     public int Damage;
     public float AttackSpeed;
+    public WornItemsGroup WornItems;
     protected float TimeBetweenAttacks {
         get {
             return 1 / Mathf.Pow(AttackSpeed, .6f);
@@ -31,6 +32,9 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Healthbar.SetOwner(this.transform);
         this.Body = new Body(this.transform.Find("Body"));
         this.IsDead = false;
+        this.WornItems = new WornItemsGroup("Equiped Items", this);
+        this.SetInitialStats();
+        this.MaxHealth = Health;
     }
 
     void Start()
@@ -158,4 +162,12 @@ public abstract class Character : MonoBehaviour, Interactable
         Quaternion lookRotation = Quaternion.LookRotation(relativePos, Vector3.up);
         Body.Transform.rotation = lookRotation;
     }
+
+    public void RecalculateItemEffects()
+    {
+        SetInitialStats();
+        WornItems.ApplyItemEffects(this);
+    }
+
+    protected abstract void SetInitialStats();
 }
