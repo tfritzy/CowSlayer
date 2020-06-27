@@ -191,7 +191,7 @@ public abstract class ItemGroup
             button.GetComponent<Image>().sprite = emptyItemSlot.GetComponent<Image>().sprite;
             button.GetComponent<Image>().color = Color.white;
             button.transform.Find("Icon").GetComponent<Image>().color = Color.clear;
-            button.GetComponent<ChestButton>().ItemId = null;
+            button.GetComponent<ChestButton>().SetItem(null);
         } else
         {
             button.GetComponent<Image>().sprite = SquareIconBackground;
@@ -199,7 +199,7 @@ public abstract class ItemGroup
             button.transform.Find("Icon").GetComponent<Image>().sprite = item.GetIcon();
             button.transform.Find("Icon").GetComponent<Image>().color = Color.white;
             button.GetComponent<ChestButton>().SourceItemGroup = this;
-            button.GetComponent<ChestButton>().ItemId = item.Id;
+            button.GetComponent<ChestButton>().SetItem(item);
         }
         button.GetComponent<ChestButton>().TargetItemGroup = this.TransferTarget;
     }

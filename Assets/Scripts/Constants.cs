@@ -60,6 +60,20 @@ public static class Constants
             }
         }
 
+        private static GameObject _itemDetailsPage;
+        public static GameObject ItemDetailsPage
+        {
+            get
+            {
+                if (_itemDetailsPage == null)
+                {
+                    _itemDetailsPage = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/ItemDetailsPage");
+                }
+
+                return _itemDetailsPage;
+            }
+        }
+
 
         private static GameObject _emptyDrop;
         public static GameObject EmptyDrop

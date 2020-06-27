@@ -106,4 +106,16 @@ public abstract class Item
     {
         bearer.RecalculateItemEffects();
     }
+
+    public virtual GameObject ShowItemDetailsPage()
+    {
+        GameObject itemDetails = GameObject.Instantiate(Constants.Prefabs.ItemDetailsPage, Constants.GameObjects.InteractableUI);
+        Text title = itemDetails.transform.Find("TitleText").GetComponent<Text>();
+        title.text = Name;
+        title.color = GetRarityColor();
+        itemDetails.transform.Find("ItemIcon").GetComponent<Image>().color = GetRarityColor();
+        itemDetails.transform.Find("ItemIcon").Find("Icon").GetComponent<Image>().sprite = GetIcon();
+        itemDetails.transform.Find("PrimaryStatDescription").GetComponent<Text>().text = this.Effects[0].ShortDescription;
+        return itemDetails;
+    }
 }

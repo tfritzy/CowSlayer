@@ -9,6 +9,7 @@ public class DamageItemEffect : IntItemEffect
 
     public override string Name => "Damage";
     public override string Description => $"Increases Damage By {Value}";
+    public override string ShortDescription => $"+{Value} Damage";
 
     public override void Apply(Character character)
     {
