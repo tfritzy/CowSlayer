@@ -11,9 +11,11 @@ public abstract class Item
     public string Id;
     public GameObject Prefab;
     public virtual int Price => 10;
-    protected abstract List<ItemEffect> EffectPool { get; }
-    protected abstract int NumEffects { get; }
-    public List<ItemEffect> Effects;
+    public ItemEffect PrimaryEffect;
+    protected abstract ItemEffect PrimaryEffectPrefab { get; }
+    protected abstract List<ItemEffect> SecondaryEffectPool { get; }
+    protected abstract int NumSecondaryEffects { get; }
+    public List<ItemEffect> SecondaryEffects;
 
     protected readonly Dictionary<ItemRarity, Color> RarityColors = new Dictionary<ItemRarity, Color>
     {
@@ -47,18 +49,20 @@ public abstract class Item
     {
         this.Id = this.Name + Guid.NewGuid().ToString("N");
         Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Drops}/{Name.Replace(" ", "")}");
-        this.Effects = GenerateItemEffects();
+        this.SecondaryEffects = GenerateItemEffects();
+        this.PrimaryEffect = PrimaryEffectPrefab;
+        this.PrimaryEffect.RollRandomValue();
     }
 
     protected List<ItemEffect> GenerateItemEffects()
     {
         List<ItemEffect> effects = new List<ItemEffect>();
-        List<ItemEffect> effectPoolCopy = new List<ItemEffect>(this.EffectPool);
-        for (int i = 0; i < NumEffects; i++)
+        List<ItemEffect> effectPoolCopy = new List<ItemEffect>(this.SecondaryEffectPool);
+        for (int i = 0; i < Math.Min(NumSecondaryEffects, SecondaryEffectPool.Count); i++)
         {
             int rollIndex = UnityEngine.Random.Range(0, effectPoolCopy.Count);
             effects.Add(effectPoolCopy[rollIndex]);
-            effectPoolCopy.RemoveAt(i);
+            effectPoolCopy.RemoveAt(rollIndex);
         }
 
         foreach (ItemEffect effect in effects)
@@ -91,7 +95,8 @@ public abstract class Item
 
     public virtual void ApplyEffects(Character character)
     {
-        foreach (ItemEffect effect in Effects)
+        PrimaryEffect.Apply(character);
+        foreach (ItemEffect effect in SecondaryEffects)
         {
             effect.Apply(character);
         }
@@ -115,7 +120,20 @@ public abstract class Item
         title.color = GetRarityColor();
         itemDetails.transform.Find("ItemIcon").GetComponent<Image>().color = GetRarityColor();
         itemDetails.transform.Find("ItemIcon").Find("Icon").GetComponent<Image>().sprite = GetIcon();
-        itemDetails.transform.Find("PrimaryStatDescription").GetComponent<Text>().text = this.Effects[0].ShortDescription;
+        itemDetails.transform.Find("PrimaryStatDescription").GetComponent<Text>().text = this.PrimaryEffect.ShortDescription;
+        Transform stats = itemDetails.transform.Find("Stats");
+
+        int i = 0;
+        for (; i < SecondaryEffects.Count; i++)
+        {
+            stats.Find($"Stat{i}").Find("Text").GetComponent<Text>().text = SecondaryEffects[i].ShortDescription;
+        }
+
+        for (; i < 5; i++)
+        {
+            stats.Find($"Stat{i}").gameObject.SetActive(false);
+        }
+
         return itemDetails;
     }
 }
