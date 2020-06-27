@@ -79,15 +79,40 @@ public class ChestButton : MonoBehaviour
     {
         Destroy(itemDetailsInst);
         itemDetailsInst = Item.ShowItemDetailsPage();
-        Debug.Log("Showing Item Details");
+        itemDetailsInst.transform.position = GetDetailPageTargetPos();
         areDetailsOpen = true;
     }
 
     public void CloseDetails()
     {
         Destroy(itemDetailsInst);
-        Debug.Log("Closing Details");
         areDetailsOpen = false;
         isSelected = false;
+    }
+
+    private Vector3 GetInputPosition()
+    {
+        if (Input.touchCount > 0)
+        {
+            return Input.GetTouch(0).position;
+        } else
+        {
+            return Input.mousePosition;
+        }
+    }
+
+    private Vector2 GetDetailPageTargetPos()
+    {
+        float quarterScreen = Screen.width / 4;
+        Vector2 inputPosition = GetInputPosition();
+
+        // Put it on left side if finger is on right, or vice versa
+        float leftOrRightHalf = inputPosition.x > Screen.width / 2 ? -1 : 1;
+
+        // Limit how far up or down the page can be on the screen, to keep everything visible
+        float yPos = Mathf.Min(inputPosition.y, Screen.height * .8f);
+        yPos = Mathf.Max(yPos, Screen.height * .2f);
+
+        return new Vector2(Screen.width / 2 + quarterScreen * leftOrRightHalf, yPos);
     }
 }
