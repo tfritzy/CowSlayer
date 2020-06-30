@@ -56,7 +56,7 @@ public class AreaSpawner : MonoBehaviour
     {
         Vector3 position = new Vector3(
             Random.Range(-SpawnableAreaSize.x / 2, SpawnableAreaSize.x / 2),
-            Constants.MapParameters.BlockYPos + .5f,
+            0f,
             Random.Range(-SpawnableAreaSize.y / 2, SpawnableAreaSize.y / 2));
 
         GameObject cow = Instantiate(

@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Extensions;
 
 public static class Constants
 {
-    public static class MapParameters
+    public static class UI
     {
-        public const float BlockYPos = -1f;
+        public static class Colors
+        {
+            public readonly static Color Highlight = ColorExtensions.Create("74355E");
+            public readonly static Color Base = ColorExtensions.Create("3F2C45");
+            public readonly static Color LightBase = ColorExtensions.Create("4E2E51");
+        }
     }
 
     public static class FilePaths

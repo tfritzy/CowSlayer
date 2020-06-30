@@ -93,6 +93,14 @@ public abstract class Item
         return RarityColors[this.Rarity];
     }
 
+    public Color GetDarkRarityColor()
+    {
+        Color color = GetRarityColor();
+        color = color / 1.4f;
+        color.a = 1;
+        return color;
+    }
+
     public virtual void ApplyEffects(Character character)
     {
         PrimaryEffect.Apply(character);
@@ -120,6 +128,8 @@ public abstract class Item
         title.color = GetRarityColor();
         itemDetails.transform.Find("ItemIcon").GetComponent<Image>().color = GetRarityColor();
         itemDetails.transform.Find("ItemIcon").Find("Icon").GetComponent<Image>().sprite = GetIcon();
+        itemDetails.transform.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.Base;
+        itemDetails.transform.Find("Outline").GetComponent<Image>().color = GetRarityColor();
         itemDetails.transform.Find("PrimaryStatDescription").GetComponent<Text>().text = this.PrimaryEffect.ShortDescription;
         Transform stats = itemDetails.transform.Find("Stats");
 

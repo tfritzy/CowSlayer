@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public class ChestButton : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class ChestButton : MonoBehaviour
         this.Item = item;
     }
 
-    private void Start()
+    void Start()
     {
         isSelected = false;
         areDetailsOpen = false;

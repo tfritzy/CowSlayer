@@ -9,7 +9,6 @@ public abstract class ItemGroup
     public abstract string UIPrefabName { get; }
     public string GroupName;
     public virtual bool RequiresRecieveConfirmation => false;
-    private GameObject emptyItemSlot;
     protected Item[] Items;
     public int numItemsContained;
     private List<GameObject> ButtonInsts;
@@ -17,7 +16,6 @@ public abstract class ItemGroup
 
     public ItemGroup(string Name)
     {
-        emptyItemSlot = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/EmptyItemSlot");
         this.Items = new Item[MaxSize];
         for(int i = 0; i < this.MaxSize; i++)
         {
@@ -158,6 +156,9 @@ public abstract class ItemGroup
         chestUI = GameObject.Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/{UIPrefabName}"), 
             uiPosition, new Quaternion(), Constants.GameObjects.InteractableUI.transform);
         GameObject backdrop = chestUI.transform.Find("Backdrop").gameObject;
+        Transform background = backdrop.transform.Find("Background");
+        background.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.Highlight;
+        background.GetComponent<Image>().color = Constants.UI.Colors.Base;
         this.TransferTarget = transferTarget;
         ButtonInsts = new List<GameObject>();
         for (int i = 0; i < MaxSize; i++)
@@ -171,36 +172,25 @@ public abstract class ItemGroup
         return chestUI.transform;
     }
 
-    private static Sprite _squareIconBackground;
-    protected static Sprite SquareIconBackground
-    {
-        get
-        {
-            if (_squareIconBackground == null)
-            {
-                _squareIconBackground = Resources.Load<Sprite>($"{Constants.FilePaths.Icons}/SquareItemIcon");
-            }
-            return _squareIconBackground;
-        }
-    }
-
     private void SetButtonValues(GameObject button, Item item)
     {
         if (item == null)
         {
-            button.GetComponent<Image>().sprite = emptyItemSlot.GetComponent<Image>().sprite;
-            button.GetComponent<Image>().color = Color.white;
+            button.transform.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.LightBase;
             button.transform.Find("Icon").GetComponent<Image>().color = Color.clear;
+            button.transform.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.Highlight;
             button.GetComponent<ChestButton>().SetItem(null);
         } else
         {
-            button.GetComponent<Image>().sprite = SquareIconBackground;
-            button.GetComponent<Image>().color = item.GetRarityColor();
             button.transform.Find("Icon").GetComponent<Image>().sprite = item.GetIcon();
             button.transform.Find("Icon").GetComponent<Image>().color = Color.white;
+            button.transform.Find("Background").GetComponent<Image>().color = item.GetDarkRarityColor();
+            button.transform.Find("Outline").GetComponent<Image>().color = item.GetRarityColor();
             button.GetComponent<ChestButton>().SourceItemGroup = this;
             button.GetComponent<ChestButton>().SetItem(item);
         }
+
+
         button.GetComponent<ChestButton>().TargetItemGroup = this.TransferTarget;
     }
 

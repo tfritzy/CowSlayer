@@ -40,6 +40,7 @@ public class Player : Character
         this.AttackSpeed = 1;
         this.AttackRange = 2.1f;
         this.TargetFindRadius = 3;
+        this.MovementSpeed = 5;
     }
 
     protected override void SetVelocity()
@@ -112,7 +113,10 @@ public class Player : Character
 
     private void ConfigureStatsMenu(Transform statsMenu)
     {
+        statsMenu.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.LightBase;
+        statsMenu.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.Highlight;
         statsMenu.Find("Gold").GetComponent<Text>().text = $"{this.Gold} Gold";
+
     }
 
     protected override void OnDeath()

@@ -9,10 +9,6 @@ public class WimpyCowDropTable : DropTable
         {
             { new GoldDrop(1, 3), 50 },
             { new ItemDrop(new Stick()), 10 },
-            { new ItemDrop(new IronPlatelegs()), 10 },
-            { new ItemDrop(new NorthstarAmulet()), 10 },
-            { new ItemDrop(new IceRing()), 10 },
-            { new ItemDrop(new GoldRing()), 10 },
         };
 
         base.SetValues();
