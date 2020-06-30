@@ -284,7 +284,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.32
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -337,7 +337,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.06
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -390,7 +390,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.03
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -865,7 +865,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 6.5
+      scalar: 6
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1295,7 +1295,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -1305,7 +1305,7 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
         key1: {r: 1, g: 1, b: 1, a: 0.9676471}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -1321,15 +1321,15 @@ ParticleSystem:
         ctime7: 0
         atime0: 0
         atime1: 2120
-        atime2: 65535
-        atime3: 0
+        atime2: 63415
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5038,7 +5038,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.32
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5091,7 +5091,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.06
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5144,7 +5144,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.03
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5619,7 +5619,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 6.5
+      scalar: 6
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -6049,7 +6049,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -6059,7 +6059,7 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
         key1: {r: 1, g: 1, b: 1, a: 0.9676471}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -6075,15 +6075,15 @@ ParticleSystem:
         ctime7: 0
         atime0: 0
         atime1: 2120
-        atime2: 65535
-        atime3: 0
+        atime2: 63415
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -10373,7 +10373,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3.8
+      scalar: 2
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -14546,7 +14546,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.32
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -14599,7 +14599,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.06
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -14652,7 +14652,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.03
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -15127,7 +15127,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 6.5
+      scalar: 6
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -15557,7 +15557,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -15567,7 +15567,7 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
         key1: {r: 1, g: 1, b: 1, a: 0.9676471}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -15583,15 +15583,15 @@ ParticleSystem:
         ctime7: 0
         atime0: 0
         atime1: 2120
-        atime2: 65535
-        atime3: 0
+        atime2: 63415
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -19348,7 +19348,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.32
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -19401,7 +19401,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.06
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -19454,7 +19454,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.03
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -19929,7 +19929,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 6.5
+      scalar: 6
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -20359,7 +20359,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -20369,7 +20369,7 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
         key1: {r: 1, g: 1, b: 1, a: 0.9676471}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -20385,15 +20385,15 @@ ParticleSystem:
         ctime7: 0
         atime0: 0
         atime1: 2120
-        atime2: 65535
-        atime3: 0
+        atime2: 63415
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -24716,7 +24716,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3.8
+      scalar: 2
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -28619,6 +28619,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4579454407841743219, guid: bbb9b761e40c0294382586aa1e65a988, type: 3}
+--- !u!65 &4064942258725124319
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556127401113333601}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.854627, y: 8.658186, z: 57.132523}
+  m_Center: {x: 2.4273121, y: 4.377875, z: 12.9099655}
 --- !u!64 &5134855284443161702
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -28633,6 +28646,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4579454407841743219, guid: bbb9b761e40c0294382586aa1e65a988, type: 3}
+--- !u!65 &3282855539030865007
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3779239884802778200}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.854627, y: 8.658186, z: 57.132523}
+  m_Center: {x: 2.4273121, y: 4.377875, z: 12.9099655}
 --- !u!1 &4066292795719677375
 GameObject:
   m_ObjectHideFlags: 0
@@ -34288,7 +34314,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3.8
+      scalar: 2
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -39042,7 +39068,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3.8
+      scalar: 2
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -48198,15 +48224,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbb9b761e40c0294382586aa1e65a988, type: 3}
---- !u!4 &8209756807360689255 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: bbb9b761e40c0294382586aa1e65a988,
-    type: 3}
-  m_PrefabInstance: {fileID: 3788757224366382973}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5167233550021478004 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: bbb9b761e40c0294382586aa1e65a988,
+    type: 3}
+  m_PrefabInstance: {fileID: 3788757224366382973}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8209756807360689255 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: bbb9b761e40c0294382586aa1e65a988,
     type: 3}
   m_PrefabInstance: {fileID: 3788757224366382973}
   m_PrefabAsset: {fileID: 0}
@@ -48300,6 +48326,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5139561209617923409}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3779239884802778200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 78ef4980cb3c71640a353028668306be,
+    type: 3}
+  m_PrefabInstance: {fileID: 5139561209617923409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5789620598637327976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48390,6 +48422,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5789620598637327976}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2556127401113333601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 78ef4980cb3c71640a353028668306be,
+    type: 3}
+  m_PrefabInstance: {fileID: 5789620598637327976}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5912869872387053081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48459,15 +48497,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbb9b761e40c0294382586aa1e65a988, type: 3}
---- !u!1 &2391225328391556880 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: bbb9b761e40c0294382586aa1e65a988,
-    type: 3}
-  m_PrefabInstance: {fileID: 5912869872387053081}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1689992376244043011 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: bbb9b761e40c0294382586aa1e65a988,
+    type: 3}
+  m_PrefabInstance: {fileID: 5912869872387053081}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2391225328391556880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: bbb9b761e40c0294382586aa1e65a988,
     type: 3}
   m_PrefabInstance: {fileID: 5912869872387053081}
   m_PrefabAsset: {fileID: 0}
