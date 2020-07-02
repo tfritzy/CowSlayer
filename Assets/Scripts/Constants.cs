@@ -24,7 +24,7 @@ public static class Constants
             public const string Gold = "Prefabs/Objects/Drops/Gold";
             public const string Drops = "Prefabs/Objects/Drops";
             public const string Cows = "Prefabs/Objects/Cows";
-
+            public const string Skills = "Prefabs/Objects/Skills";
         }
         public const string AreaSpawns = "AreaSpawns";
     }
