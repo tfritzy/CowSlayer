@@ -11,10 +11,12 @@ public abstract class RangedSkill : Skill
         AttackPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/{Name}");
     }
 
-    public override void Attack(Character attacker, Vector3 direction)
+    public override void Attack(Character attacker, AttackTargetingDetails attackTargetingDetails)
     {
         GameObject projectile = GameObject.Instantiate(AttackPrefab, attacker.transform.position, new Quaternion(), null);
-        Vector3 flyDirection = direction - attacker.transform.position;
-        projectile.GetComponent<Rigidbody>().velocity = flyDirection.magnitude * MovementSpeed;
+        Vector3 flyDirection = attackTargetingDetails.TravelDirection;
+        projectile.GetComponent<Rigidbody>().velocity = flyDirection.normalized * MovementSpeed;
+        projectile.GetComponent<Projectile>().Initialize(DealDamage, attacker);
+        base.Attack(attacker, attackTargetingDetails);
     }
 }

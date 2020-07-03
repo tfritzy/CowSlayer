@@ -30,7 +30,7 @@ public abstract class Cow : Character
                 Graze();
                 break;
             case CowState.Attacking:
-                Attack();
+                PrimaryAttack();
                 break;
             default:
                 Graze();
@@ -52,7 +52,7 @@ public abstract class Cow : Character
         SetRotationWithVelocity();
     }
 
-    public override void Attack()
+    public override void PrimaryAttack()
     {
         if (Target == null)
         {
@@ -73,7 +73,7 @@ public abstract class Cow : Character
             targetPosition = this.transform.position;
         }
         
-        base.Attack();
+        base.PrimaryAttack();
     }
 
     public override void Initialize() {

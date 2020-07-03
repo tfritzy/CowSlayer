@@ -31,23 +31,24 @@ public class Player : Character
         this.Inventory = new ChestItemGroup("Inventory");
         this.Name = "Player";
         this.name = "Player";
+        this.PrimarySkill = new FireBolt();
     }
 
     protected override void SetInitialStats()
     {
         this.Health = 100;
         this.Damage = 1;
-        this.AttackSpeed = 1;
-        this.AttackRange = 2.1f;
-        this.TargetFindRadius = 3;
-        this.MovementSpeed = 5;
+        this.AttackSpeed = 1f;
+        this.AttackRange = 12f;
+        this.TargetFindRadius = 10f;
+        this.MovementSpeed = 6f;
     }
 
     protected override void SetVelocity()
     {
         if (isDashing)
         {
-            rb.velocity = dashDirection * MovementSpeed * 3;
+            rb.velocity = dashDirection * MovementSpeed * 1.5f;
         }
         else
         {

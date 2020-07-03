@@ -22,5 +22,6 @@ public class WimpyCow : Cow
         this.TargetFindRadius = 3;
         this.AttackRange = 2f;
         this.MovementSpeed = 2f;
+        this.PrimarySkill = new Whack();
     }
 }

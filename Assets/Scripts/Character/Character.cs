@@ -15,6 +15,7 @@ public abstract class Character : MonoBehaviour, Interactable
     }
     protected bool CanAttackWhileMoving => false;
     public float AttackRange;
+    public Skill PrimarySkill;
     public GameObject Target;
     public string Name;
     public Allegiance Allegiance;
@@ -32,7 +33,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Healthbar.SetOwner(this.transform);
         this.Body = new Body(this.transform.Find("Body"));
         this.IsDead = false;
-        this.WornItems = new WornItemsGroup("Equiped Items", this);
+        this.WornItems = new WornItemsGroup("Equipped Items", this);
         this.SetInitialStats();
         this.MaxHealth = Health;
     }
@@ -45,7 +46,7 @@ public abstract class Character : MonoBehaviour, Interactable
     protected virtual void UpdateLoop()
     {
         CheckForTarget();
-        Attack();
+        PrimaryAttack();
         SetVelocity();
     }
 
@@ -54,32 +55,37 @@ public abstract class Character : MonoBehaviour, Interactable
         UpdateLoop();
     }
     
-    protected float lastAttackTime;
-    public virtual void Attack(){
-
-        if (Target == null || Time.time - lastAttackTime < TimeBetweenAttacks)
-        {
-            return;
-        }
-
-        if (!CanAttackWhileMoving && this.GetComponent<Rigidbody>().velocity.magnitude > .1f)
-        {
-            return;
-        }
-
+    public virtual void PrimaryAttack()
+    {
         if (IsDead)
         {
             return;
         }
 
-        float distance = Vector3.Distance(Target.transform.position, this.transform.position);
-        if (distance <= AttackRange)
+        if (Target == null || Time.time - PrimarySkill.LastAttackTime < PrimarySkill.Cooldown)
         {
-            Target.GetComponent<Character>().TakeDamage(this.Damage, this);    
-            lastAttackTime = Time.time;
-        } else
+            return;
+        }
+
+        if (!PrimarySkill.CanAttackWhileMoving && this.GetComponent<Rigidbody>().velocity.magnitude > .1f)
         {
-            if (distance > TargetFindRadius)
+            return;
+        }
+
+        float distanceToTarget = Vector3.Distance(Target.transform.position, this.transform.position);
+        if (distanceToTarget <= AttackRange)
+        {
+            AttackTargetingDetails targetingDetails = new AttackTargetingDetails {
+                Target = Target.GetComponent<Character>(),
+                TargetPosition = Target.transform.position,
+                TravelDirection = Target.transform.position - this.transform.position
+            };
+
+            PrimarySkill.Attack(this, targetingDetails);
+        } 
+        else
+        {
+            if (distanceToTarget > TargetFindRadius)
             {
                 Target = null;
             }
