@@ -15,7 +15,7 @@ public class DamageNumber : MonoBehaviour
 
     private void SetPosition()
     {
-        this.transform.position = Constants.GameObjects.Camera.WorldToScreenPoint(startingPosition + Vector3.up * 1);
+        this.transform.position = Constants.Persistant.Camera.WorldToScreenPoint(startingPosition + Vector3.up * 1);
     }
 
     private Color textColor

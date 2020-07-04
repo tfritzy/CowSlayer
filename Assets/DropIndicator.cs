@@ -21,14 +21,14 @@ public class DropIndicator : MonoBehaviour
             return;
         }
 
-        transform.position = Constants.GameObjects.Camera.WorldToScreenPoint(Owner.position) + new Vector3(0, 100 * scale);
+        transform.position = Constants.Persistant.Camera.WorldToScreenPoint(Owner.position) + new Vector3(0, 100 * scale);
     }
 
     public void PickUp()
     {
-        if (Vector3.Distance(Owner.position, Constants.GameObjects.Player.transform.position) < 3f)
+        if (Vector3.Distance(Owner.position, Constants.Persistant.Player.transform.position) < 3f)
         {
-            Owner.GetComponent<DropContainer>().PickUp(Constants.GameObjects.PlayerScript);
+            Owner.GetComponent<DropContainer>().PickUp(Constants.Persistant.PlayerScript);
         }
     }
 }

@@ -14,7 +14,7 @@ public class ItemDrop : Drop
 
     public override GameObject GetDropIndicator()
     {
-        GameObject dropIndicator = GameObject.Instantiate(DropIndicator, Constants.GameObjects.InteractableUI);
+        GameObject dropIndicator = GameObject.Instantiate(DropIndicator, Constants.Persistant.InteractableUI);
         dropIndicator.GetComponent<Button>().image.color = Item.GetRarityColor();
         dropIndicator.transform.Find("Icon").GetComponent<Image>().sprite = Item.GetIcon();
         return dropIndicator;

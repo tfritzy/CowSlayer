@@ -11,7 +11,7 @@ public class Player : Character
     public int Gold;
     private GameObject playerInventoryUI;
 
-    private Joystick joystick { get { return Constants.GameObjects.Joystick; } }
+    private Joystick joystick { get { return Constants.Persistant.Joystick; } }
     private bool isDashing;
     private const float dashDuration = .3f;
     private float dashStartTime;
@@ -130,7 +130,7 @@ public class Player : Character
     {
         UIActions.CloseAllWindows();
         Body.Transform.GetComponent<MeshRenderer>().material.color = Color.magenta;
-        this.transform.position = Constants.GameObjects.SpawnPoint;
+        this.transform.position = Constants.Persistant.SpawnPoint;
         this.Health = MaxHealth;
         this.IsDead = false;
     }
@@ -138,7 +138,7 @@ public class Player : Character
     private void ShowDeathScreen()
     {
         UIActions.CloseAllWindows();
-        Instantiate(Constants.Prefabs.DeathScreenUI, Constants.GameObjects.InteractableUI);
+        Instantiate(Constants.Prefabs.DeathScreenUI, Constants.Persistant.InteractableUI);
     }
 
 

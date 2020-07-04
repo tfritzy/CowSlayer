@@ -14,13 +14,19 @@ public class AreaSpawner : MonoBehaviour
 
     void Start()
     {
-        AreaIndex = int.Parse(gameObject.name);
+        AreaIndex = int.Parse(gameObject.name.Split('_')[1]);
         SpawnableAreaSize = new Vector2(45, 45);
         SpawnedCows = new Dictionary<string, Cow>();
         SpawnableCows = LoadSpawnableCows();
-        AreaCenter = transform.Find("Ground").position;
+        AreaCenter = transform.position;
 
         SpawnCowsToMax();
+        SpawnZoneGuardianIfNeeded();
+    }
+
+    void SpawnAreaBossIfNeeded()
+    {
+
     }
 
     void Update()
@@ -63,7 +69,7 @@ public class AreaSpawner : MonoBehaviour
             SpawnableCows[Random.Range(0, SpawnableCows.Count)],
             position + AreaCenter,
             new Quaternion(),
-            Constants.GameObjects.CowParent);
+            this.transform);
         cow.GetComponent<Cow>().Initialize();
         SpawnedCows.Add(cow.name, cow.GetComponent<Cow>());
     }
@@ -91,5 +97,20 @@ public class AreaSpawner : MonoBehaviour
             cows.Add(Constants.Prefabs.CowPrefabs[cow]);
         }
         return cows;
+    }
+
+    private void SpawnZoneGuardianIfNeeded()
+    {
+        if (AreaIndex >= GameState.Data.HighestZoneUnlocked)
+        {
+            CowType type = WhatCowsSpawnInEachArea.ZoneGuardians[AreaType][AreaIndex];
+            GameObject newCow = Instantiate(
+                Constants.Prefabs.CowPrefabs[type], 
+            AreaCenter,
+            new Quaternion(),
+            this.transform);
+            newCow.GetComponent<Cow>().Initialize();
+            newCow.GetComponent<Cow>().PromoteToZoneGuardian();
+        }
     }
 }

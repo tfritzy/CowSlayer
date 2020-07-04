@@ -23,9 +23,9 @@ public class PurchaseItemMenu : MonoBehaviour
         BuyMode = buyMode;
         if (BuyMode)
         {
-            if (item.Price > Constants.GameObjects.PlayerScript.Gold)
+            if (item.Price > Constants.Persistant.PlayerScript.Gold)
             {
-                description.text = $"Not enough gold. This costs {item.Price} but you have {Constants.GameObjects.PlayerScript.Gold}";
+                description.text = $"Not enough gold. This costs {item.Price} but you have {Constants.Persistant.PlayerScript.Gold}";
                 transform.Find("YesButton").GetComponent<Button>().interactable = false;
             }
             else

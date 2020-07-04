@@ -155,7 +155,7 @@ public static class Constants
         }
     }
 
-    public static class GameObjects
+    public static class Persistant
     {
         private static GameObject _player;
         public static GameObject Player
@@ -236,6 +236,19 @@ public static class Constants
                     _healthUIParent = GameObject.Find("HealthUI").transform;
                 }
                 return _healthUIParent;
+            }
+        }
+
+        private static ZoneManager _zoneManager;
+        public static ZoneManager ZoneManager
+        {
+            get
+            {
+                if (_zoneManager == null)
+                {
+                    _zoneManager = GameObject.Find("Zones").GetComponent<ZoneManager>();
+                }
+                return _zoneManager;
             }
         }
 

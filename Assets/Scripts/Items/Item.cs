@@ -122,7 +122,7 @@ public abstract class Item
 
     public virtual GameObject ShowItemDetailsPage()
     {
-        GameObject itemDetails = GameObject.Instantiate(Constants.Prefabs.ItemDetailsPage, Constants.GameObjects.InteractableUI);
+        GameObject itemDetails = GameObject.Instantiate(Constants.Prefabs.ItemDetailsPage, Constants.Persistant.InteractableUI);
         Text title = itemDetails.transform.Find("TitleText").GetComponent<Text>();
         title.text = Name;
         title.color = GetRarityColor();

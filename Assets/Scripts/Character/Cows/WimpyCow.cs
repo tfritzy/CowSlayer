@@ -8,7 +8,8 @@ public class WimpyCow : Cow
 
     public override void Initialize()
     {
-        this.Name = "Wimpy Cow " + Guid.NewGuid().ToString("N").Substring(0, 8);
+
+        this.Name = "Wimpy Cow";
         this.DropTable = new WimpyCowDropTable();
         base.Initialize();
     }
@@ -23,5 +24,6 @@ public class WimpyCow : Cow
         this.AttackRange = 2f;
         this.MovementSpeed = 2f;
         this.PrimarySkill = new Whack();
+        base.SetInitialStats();
     }
 }

@@ -8,6 +8,8 @@ public abstract class Cow : Character
     public float MovementSpeed;
     public DropTable DropTable;
     public abstract CowType CowType { get; }
+    public bool IsZoneGuardian;
+    public int Zone;
 
     protected Rigidbody rb;
     public enum CowState
@@ -52,6 +54,19 @@ public abstract class Cow : Character
         SetRotationWithVelocity();
     }
 
+    protected override void SetInitialStats()
+    {
+        if (IsZoneGuardian)
+        {
+            this.MaxHealth *= 4;
+            this.Health *= 4;
+            this.Damage *= 2;
+            this.MovementSpeed *= 1.3f;
+            this.TargetFindRadius *= 2;
+            this.transform.localScale *= 2;
+        }
+    }
+
     public override void PrimaryAttack()
     {
         if (Target == null)
@@ -80,8 +95,10 @@ public abstract class Cow : Character
         this.Allegiance = Allegiance.Cows;
         this.Enemies = new HashSet<Allegiance>() { Allegiance.Player };
         this.rb = this.GetComponent<Rigidbody>();
+        this.Name += Guid.NewGuid().ToString("N");
         this.name = this.Name;
         this.targetPosition = FindNewGrazePosition();
+        this.Zone = int.Parse(transform.parent.name.Split('_')[1]);
         base.Initialize();
     }
 
@@ -110,14 +127,24 @@ public abstract class Cow : Character
 
     protected override void OnDeath()
     {
-        base.OnDeath();
-        Drop drop = DropTable.RollDrop();
-        if (drop == null)
+        if (IsZoneGuardian)
         {
-            return;
+            GameState.Data.HighestZoneUnlocked = Math.Max(GameState.Data.HighestZoneUnlocked, Zone + 1);
+            Constants.Persistant.ZoneManager.UnlockZones();
         }
 
-        GameObject dropContainer = GameObject.Instantiate<GameObject>(Constants.Prefabs.EmptyDrop, this.transform.position, new Quaternion(), null);
-        dropContainer.GetComponent<DropContainer>().SetDrop(drop);
+        Drop drop = DropTable.RollDrop();
+        if (drop != null)
+        {
+            GameObject dropContainer = GameObject.Instantiate<GameObject>(Constants.Prefabs.EmptyDrop, this.transform.position, new Quaternion(), null);
+            dropContainer.GetComponent<DropContainer>().SetDrop(drop);
+        }
+
+        base.OnDeath();
+    }
+
+    public void PromoteToZoneGuardian()
+    {
+        this.IsZoneGuardian = true;
     }
 }

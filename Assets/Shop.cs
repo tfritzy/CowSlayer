@@ -21,8 +21,8 @@ public class Shop : MonoBehaviour, Interactable
     {
         if (!ShopItems.IsMenuOpen())
         {
-            Constants.GameObjects.PlayerScript.Inventory.OpenMenu(.33f, this.ShopItems);
-            this.ShopItems.OpenMenu(.75f, Constants.GameObjects.PlayerScript.Inventory);
+            Constants.Persistant.PlayerScript.Inventory.OpenMenu(.33f, this.ShopItems);
+            this.ShopItems.OpenMenu(.75f, Constants.Persistant.PlayerScript.Inventory);
         }
     }
 }

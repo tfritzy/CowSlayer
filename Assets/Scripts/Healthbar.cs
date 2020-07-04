@@ -22,7 +22,7 @@ public class Healthbar : MonoBehaviour
             return;
         }
         
-        transform.position = Constants.GameObjects.Camera.WorldToScreenPoint (Owner.position) + new Vector3(0, 150 * scale);
+        transform.position = Constants.Persistant.Camera.WorldToScreenPoint (Owner.position) + new Vector3(0, 150 * scale);
     }
 
     public void SetOwner(Transform owner){

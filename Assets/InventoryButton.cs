@@ -10,7 +10,7 @@ public class InventoryButton : MonoBehaviour
         UIActions.CloseAllWindows();
         if (!IsOpen)
         {
-            Constants.GameObjects.PlayerScript.OpenInventory();
+            Constants.Persistant.PlayerScript.OpenInventory();
         }
         IsOpen = !IsOpen;
     }

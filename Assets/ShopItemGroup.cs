@@ -38,25 +38,25 @@ public class ShopItemGroup : ItemGroup
             GameObject.Destroy(currentlyOpenConfirmationWindow);
         }
 
-        currentlyOpenConfirmationWindow = GameObject.Instantiate(Constants.Prefabs.PurchaseItemMenu, Constants.GameObjects.InteractableUI);
+        currentlyOpenConfirmationWindow = GameObject.Instantiate(Constants.Prefabs.PurchaseItemMenu, Constants.Persistant.InteractableUI);
         currentlyOpenConfirmationWindow.GetComponent<PurchaseItemMenu>().Initialize(this, item);
 
     }
 
     public void PurchaseItem(Item item)
     {
-        if (Constants.GameObjects.PlayerScript.Gold >= item.Price)
+        if (Constants.Persistant.PlayerScript.Gold >= item.Price)
         {
-            Constants.GameObjects.PlayerScript.Gold -= item.Price;
+            Constants.Persistant.PlayerScript.Gold -= item.Price;
             PurchasedItems.Add(item.Id);
-            TransferItem(Constants.GameObjects.PlayerScript.Inventory, item.Id);
+            TransferItem(Constants.Persistant.PlayerScript.Inventory, item.Id);
         }
     }
 
     public void SellItem(Item item)
     {
-        Constants.GameObjects.PlayerScript.Gold += item.Price;
-        Constants.GameObjects.PlayerScript.Inventory.TransferItem(this, item.Id, hasTransferBeenConfirmed: true);
+        Constants.Persistant.PlayerScript.Gold += item.Price;
+        Constants.Persistant.PlayerScript.Inventory.TransferItem(this, item.Id, hasTransferBeenConfirmed: true);
     }
 
     public override void OpenRecieveConfirmationMenu(Item item)
@@ -65,7 +65,7 @@ public class ShopItemGroup : ItemGroup
         {
             GameObject.Destroy(currentlyOpenConfirmationWindow);
         }
-        currentlyOpenConfirmationWindow = GameObject.Instantiate(Constants.Prefabs.PurchaseItemMenu, Constants.GameObjects.InteractableUI);
+        currentlyOpenConfirmationWindow = GameObject.Instantiate(Constants.Prefabs.PurchaseItemMenu, Constants.Persistant.InteractableUI);
         currentlyOpenConfirmationWindow.GetComponent<PurchaseItemMenu>().Initialize(this, item, buyMode: false);
     }
 }

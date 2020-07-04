@@ -150,11 +150,11 @@ public abstract class ItemGroup
     public Transform OpenMenu(float menuHeight, ItemGroup transferTarget = null)
     {
         Vector3 uiPosition = new Vector2(
-            Constants.GameObjects.InteractableCanvas.GetComponent<RectTransform>().rect.width * .5f,
-            Constants.GameObjects.InteractableCanvas.GetComponent<RectTransform>().rect.height * menuHeight
+            Constants.Persistant.InteractableCanvas.GetComponent<RectTransform>().rect.width * .5f,
+            Constants.Persistant.InteractableCanvas.GetComponent<RectTransform>().rect.height * menuHeight
         );
         chestUI = GameObject.Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/{UIPrefabName}"), 
-            uiPosition, new Quaternion(), Constants.GameObjects.InteractableUI.transform);
+            uiPosition, new Quaternion(), Constants.Persistant.InteractableUI.transform);
         GameObject backdrop = chestUI.transform.Find("Backdrop").gameObject;
         Transform background = backdrop.transform.Find("Background");
         background.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.Highlight;
@@ -167,7 +167,7 @@ public abstract class ItemGroup
             ButtonInsts.Add(inst);
             SetButtonValues(inst, this.Items[i]);
         }
-        GameObject.Instantiate(Constants.Prefabs.CloseMenuButton, Constants.GameObjects.InteractableUI);
+        GameObject.Instantiate(Constants.Prefabs.CloseMenuButton, Constants.Persistant.InteractableUI);
         backdrop.transform.Find("GroupName").GetComponent<Text>().text = GroupName;
         return chestUI.transform;
     }

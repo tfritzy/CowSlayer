@@ -29,7 +29,7 @@ public abstract class Character : MonoBehaviour, Interactable
     {
         this.DamageNumberPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/DamageNumber");
         this.Healthbar = Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/Healthbar"), Vector3.zero,
-            new Quaternion(), Constants.GameObjects.HealthUIParent).GetComponent<Healthbar>();
+            new Quaternion(), Constants.Persistant.HealthUIParent).GetComponent<Healthbar>();
         this.Healthbar.SetOwner(this.transform);
         this.Body = new Body(this.transform.Find("Body"));
         this.IsDead = false;
@@ -140,7 +140,7 @@ public abstract class Character : MonoBehaviour, Interactable
 
         this.Health -= amount;
         GameObject inst = Instantiate(DamageNumberPrefab, new Vector3(1000, 1000, 1000),
-            new Quaternion(), Constants.GameObjects.DamageUIParent);
+            new Quaternion(), Constants.Persistant.DamageUIParent);
         inst.GetComponent<DamageNumber>().SetValue(amount, this.gameObject);
 
         if (this.Health <= 0)

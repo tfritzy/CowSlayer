@@ -6,6 +6,6 @@ public class ReviveButton : MonoBehaviour
 {
     public void RevivePlayer()
     {
-        Constants.GameObjects.PlayerScript.Respawn();
+        Constants.Persistant.PlayerScript.Respawn();
     }
 }
