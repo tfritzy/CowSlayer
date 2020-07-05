@@ -7,4 +7,6 @@ using System.Threading.Tasks;
 public class GameSave
 {
     public int HighestZoneUnlocked;
+    public int PlayerLevel;
+    public int PlayerXP;
 }

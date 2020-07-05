@@ -10,6 +10,7 @@ public class GameState : MonoBehaviour
     public static void Load()
     {
         _data = new GameSave();
+        _data.PlayerLevel = Mathf.Max(_data.PlayerLevel, 1);
     }
 
     private static GameSave _data;

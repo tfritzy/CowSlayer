@@ -170,6 +170,20 @@ public static class Constants
             }
         }
 
+        private static XPBar _xpBar;
+        public static XPBar XPBar
+        {
+            get
+            {
+                if (_xpBar == null)
+                {
+                    _xpBar = Constants.Persistant.Canvas.transform.Find("XPBar").GetComponent<XPBar>();
+                }
+
+                return _xpBar;
+            }
+        }
+
         public static Player PlayerScript {
             get {
                 return Player.GetComponent<Player>();

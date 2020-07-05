@@ -10,6 +10,7 @@ public abstract class Cow : Character
     public abstract CowType CowType { get; }
     public bool IsZoneGuardian;
     public int Zone;
+    public int XPReward;
 
     protected Rigidbody rb;
     public enum CowState
@@ -128,6 +129,8 @@ public abstract class Cow : Character
 
     protected override void OnDeath()
     {
+        Constants.Persistant.PlayerScript.XP += XPReward;
+
         if (IsZoneGuardian)
         {
             GameState.Data.HighestZoneUnlocked = Math.Max(GameState.Data.HighestZoneUnlocked, Zone + 1);

@@ -16,6 +16,44 @@ public class Player : Character
     private const float dashDuration = .3f;
     private float dashStartTime;
     private Vector3 dashDirection;
+    public int Level
+    {
+        get
+        {
+            return GameState.Data.PlayerLevel;
+        }
+        set
+        {
+            GameState.Data.PlayerLevel = value;
+        }
+    }
+
+    public int XP
+    {
+        get
+        {
+            return GameState.Data.PlayerXP;
+        }
+        set
+        {
+            GameState.Data.PlayerXP = value;
+            if (XP >= maxLevelXP)
+            {
+                Level += 1;
+                GameState.Data.PlayerXP = 0;
+            }
+
+            Constants.Persistant.XPBar.SetFillScale((float)XP / (float)maxLevelXP);
+        }
+    }
+
+    private int maxLevelXP
+    {
+        get
+        {
+            return (int)(10 * Mathf.Pow(1.1f, Level));
+        }
+    }
 
     protected override void UpdateLoop()
     {
@@ -31,6 +69,7 @@ public class Player : Character
         this.Inventory = new ChestItemGroup("Inventory");
         this.Name = "Player";
         this.name = "Player";
+        this.XP = GameState.Data.PlayerXP;
         this.PrimarySkill = new FireBolt();
     }
 
