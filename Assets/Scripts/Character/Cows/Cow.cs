@@ -64,6 +64,7 @@ public abstract class Cow : Character
             this.MovementSpeed *= 1.3f;
             this.TargetFindRadius *= 2;
             this.transform.localScale *= 2;
+            this.AttackRange *= 1.5f;
         }
     }
 

@@ -26,6 +26,7 @@ public class Projectile : MonoBehaviour
         {
             damageEnemyHandler(attacker, otherCharacter);
             DetachParticles(transform.Find(trailGroupName));
+            PlayExplosion();
             Destroy(this.gameObject);
         }
     }
@@ -35,5 +36,16 @@ public class Projectile : MonoBehaviour
         particleGroup.parent = null;
         particleGroup.GetComponent<ParticleSystem>().Stop();
         Destroy(particleGroup.gameObject, 1f);
+    }
+
+    private void PlayExplosion()
+    {
+        Transform explosions = transform.Find("Explosion");
+        foreach (ParticleSystem ps in explosions.GetComponentsInChildren<ParticleSystem>())
+        {
+            ps.Play();
+        }
+        explosions.parent = null;
+        Destroy(explosions.gameObject, 1f);
     }
 }
