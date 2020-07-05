@@ -29,6 +29,8 @@ public abstract class ItemGroup
         return numItemsContained == MaxSize;
     }
 
+    public virtual bool CanHoldItem(Item item) => true;
+
     protected virtual int FindTargetSlot(Item item)
     {
         int firstOpenSlot = 0;
@@ -120,6 +122,11 @@ public abstract class ItemGroup
         }
 
         Item item = this.GetItem(itemId);
+
+        if (!targetItemGroup.CanHoldItem(item)){
+            return;
+        }
+        
         int targetSlot = targetItemGroup.FindTargetSlot(item);
         if (targetItemGroup.Items[targetSlot] != null)
         {

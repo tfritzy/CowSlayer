@@ -124,6 +124,12 @@ public abstract class Character : MonoBehaviour, Interactable
         return closest;
     }
 
+    public void Heal(int amount)
+    {
+        this.Health += amount;
+        this.Health = Mathf.Min(this.Health, this.MaxHealth);
+    }
+
     protected abstract void SetVelocity();
     protected virtual void OnDeath() 
     {

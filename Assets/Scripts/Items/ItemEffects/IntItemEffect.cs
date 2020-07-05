@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class IntItemEffect : ItemEffect
+public abstract class IntItemEffect : RandomValueItemEffect
 {
     public int LowValue;
     public int HighValue;
@@ -11,6 +11,7 @@ public abstract class IntItemEffect : ItemEffect
     {
         this.LowValue = low;
         this.HighValue = high;
+        RollRandomValue();
     }
 
     public override void RollRandomValue()

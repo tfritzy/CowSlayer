@@ -14,6 +14,12 @@ public class WornItemsGroup : ItemGroup
     public override int MaxSize => 9;
     public override string UIPrefabName => "PlayerWornItems";
 
+    public override bool CanHoldItem(Item item)
+    {
+        return item is EquipableItem;
+    }
+
+
     protected override int FindTargetSlot(Item item)
     {
         ItemWearLocations.SlotType slot = ((EquipableItem)item).PlaceWorn;

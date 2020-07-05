@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop : MonoBehaviour, Interactable
+public abstract class Shop : MonoBehaviour, Interactable
 {
     public ShopItemGroup ShopItems;
+    public abstract string StoreName { get; }
+    public abstract List<Item> StartingItems { get; }
 
     void Start()
     {
-        ShopItems = new ShopItemGroup("PotionStore");
-        ShopItems.AddItem(new Stick());
+        ShopItems = new ShopItemGroup(StoreName);
+        ShopItems.AddItems(StartingItems);
     }
 
     void Update()

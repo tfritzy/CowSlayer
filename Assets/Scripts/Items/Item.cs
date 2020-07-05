@@ -16,6 +16,7 @@ public abstract class Item
     protected abstract List<ItemEffect> SecondaryEffectPool { get; }
     protected abstract int NumSecondaryEffects { get; }
     public List<ItemEffect> SecondaryEffects;
+    public virtual bool IsInfiniteInShop => false;
 
     protected readonly Dictionary<ItemRarity, Color> RarityColors = new Dictionary<ItemRarity, Color>
     {
@@ -49,13 +50,17 @@ public abstract class Item
     {
         this.Id = this.Name + Guid.NewGuid().ToString("N");
         Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Drops}/{Name.Replace(" ", "")}");
-        this.SecondaryEffects = GenerateItemEffects();
+        this.SecondaryEffects = GenerateSecondaryEffects();
         this.PrimaryEffect = PrimaryEffectPrefab;
-        this.PrimaryEffect.RollRandomValue();
     }
 
-    protected List<ItemEffect> GenerateItemEffects()
+    protected List<ItemEffect> GenerateSecondaryEffects()
     {
+        if (NumSecondaryEffects == 0)
+        {
+            return null;
+        }
+
         List<ItemEffect> effects = new List<ItemEffect>();
         List<ItemEffect> effectPoolCopy = new List<ItemEffect>(this.SecondaryEffectPool);
         for (int i = 0; i < Math.Min(NumSecondaryEffects, SecondaryEffectPool.Count); i++)
@@ -63,11 +68,6 @@ public abstract class Item
             int rollIndex = UnityEngine.Random.Range(0, effectPoolCopy.Count);
             effects.Add(effectPoolCopy[rollIndex]);
             effectPoolCopy.RemoveAt(rollIndex);
-        }
-
-        foreach (ItemEffect effect in effects)
-        {
-            effect.RollRandomValue();
         }
 
         return effects;

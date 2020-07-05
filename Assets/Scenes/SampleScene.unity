@@ -388,7 +388,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -505.9, y: 0}
+  m_AnchoredPosition: {x: -477.8, y: 0}
   m_SizeDelta: {x: 62.54, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &86294512
@@ -409,7 +409,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 84fdc36687e81c84f82f4f1a61987b7a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31af36d453554d44b905cb3e88771b46, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15856,7 +15856,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1.6, y: 917.06}
-  m_SizeDelta: {x: 1053.8, y: 49.69}
+  m_SizeDelta: {x: 989.9, y: 49.69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &825911362
 MonoBehaviour:
@@ -16099,6 +16099,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &902077261 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 9cb37309700b90f4daeace1a21daf719,
+    type: 3}
+  m_PrefabInstance: {fileID: 1597859146}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &902077262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902077261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729000faf7d81b44ab360d9d4e0392ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &913251320
 GameObject:
   m_ObjectHideFlags: 0
@@ -16692,7 +16710,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 509.69012, y: 0.15503}
+  m_AnchoredPosition: {x: 477.5, y: 0.15503}
   m_SizeDelta: {x: 54.98, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1271795977
