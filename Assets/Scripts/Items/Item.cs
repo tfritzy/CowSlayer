@@ -104,6 +104,12 @@ public abstract class Item
     public virtual void ApplyEffects(Character character)
     {
         PrimaryEffect.Apply(character);
+
+        if (SecondaryEffects == null)
+        {
+            return;
+        }
+
         foreach (ItemEffect effect in SecondaryEffects)
         {
             effect.Apply(character);
@@ -132,9 +138,8 @@ public abstract class Item
         itemDetails.transform.Find("Outline").GetComponent<Image>().color = GetRarityColor();
         itemDetails.transform.Find("PrimaryStatDescription").GetComponent<Text>().text = this.PrimaryEffect.ShortDescription;
         Transform stats = itemDetails.transform.Find("Stats");
-
         int i = 0;
-        for (; i < SecondaryEffects.Count; i++)
+        for (; i < SecondaryEffects?.Count; i++)
         {
             stats.Find($"Stat{i}").Find("Text").GetComponent<Text>().text = SecondaryEffects[i].ShortDescription;
         }
