@@ -25,11 +25,6 @@ public class DropContainer : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (!drop.HasAutoPickup)
-        {
-            return;
-        }
-
         if (Time.time < lastPickupAttemptTime + .5f)
         {
             return;
@@ -45,7 +40,21 @@ public class DropContainer : MonoBehaviour
             return;
         }
 
-        PickUp(other.GetComponent<Player>());
+        // Make all children fly towards the player.
+        foreach (Rigidbody child in this.transform.GetComponentsInChildren<Rigidbody>())
+        {
+            if (child.GetComponent<FlyTowardsObject>() == null)
+            {
+                FlyTowardsObject flyTowards = child.gameObject.AddComponent<FlyTowardsObject>();
+                flyTowards.SetTarget(other.gameObject, RewardPlayer);
+                child.useGravity = false;
+            }
+        }
+    }
+
+    public void RewardPlayer()
+    {
+        drop.GiveDropToPlayer(Constants.Persistant.PlayerScript);
     }
 
     public void PickUp(Player player)
