@@ -18,6 +18,7 @@ public static class Constants
     public static class FilePaths
     {
         public const string Icons = "Icons";
+        public const string GoldIcons = "Icons/Gold";
         public class Prefabs
         {
             public const string UI = "Prefabs/Objects/UI";
@@ -40,6 +41,20 @@ public static class Constants
 
     public static class Prefabs
     {
+        private static GameObject _onScreenNumber;
+        public static GameObject OnScreenNumber
+        {
+            get
+            {
+                if (_onScreenNumber == null)
+                {
+                    _onScreenNumber = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/OnScreenNumber");
+                }
+
+                return _onScreenNumber;
+            }
+        }
+
         private static GameObject _closeMenuButton;
         public static GameObject CloseMenuButton
         {

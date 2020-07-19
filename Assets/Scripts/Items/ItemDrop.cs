@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,18 +7,18 @@ public class ItemDrop : Drop
     public Item Item;
     public override bool HasAutoPickup => false;
     public override int Quantity => 1;
+    public override Sprite Icon => Item.GetIcon();
 
     public ItemDrop(Item item)
     {
         this.Item = item;
-        
     }
 
     public override GameObject GetDropIndicator()
     {
         GameObject dropIndicator = GameObject.Instantiate(DropIndicator, Constants.Persistant.InteractableUI);
         dropIndicator.GetComponent<Button>().image.color = Item.GetRarityColor();
-        dropIndicator.transform.Find("Icon").GetComponent<Image>().sprite = Item.GetIcon();
+        dropIndicator.transform.Find("Icon").GetComponent<Image>().sprite = this.Icon;
         return dropIndicator;
     }
 

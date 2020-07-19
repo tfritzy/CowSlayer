@@ -22,12 +22,10 @@ public abstract class Character : MonoBehaviour, Interactable
     public HashSet<Allegiance> Enemies;
     public Body Body;
     protected Healthbar Healthbar;
-    protected GameObject DamageNumberPrefab;
     protected bool IsDead;
 
     public virtual void Initialize()
     {
-        this.DamageNumberPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/DamageNumber");
         this.Healthbar = Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/Healthbar"), Vector3.zero,
             new Quaternion(), Constants.Persistant.HealthUIParent).GetComponent<Healthbar>();
         this.Healthbar.SetOwner(this.transform);
@@ -145,9 +143,9 @@ public abstract class Character : MonoBehaviour, Interactable
         }
 
         this.Health -= amount;
-        GameObject inst = Instantiate(DamageNumberPrefab, new Vector3(1000, 1000, 1000),
+        GameObject inst = Instantiate(Constants.Prefabs.OnScreenNumber, new Vector3(1000, 1000, 1000),
             new Quaternion(), Constants.Persistant.DamageUIParent);
-        inst.GetComponent<OnScreenNumber>().SetValue(amount, this.gameObject);
+        inst.GetComponent<OnScreenNumber>().SetValue(amount, this.gameObject, null);
 
         if (this.Health <= 0)
         {

@@ -15,6 +15,7 @@ public abstract class Drop
     public abstract bool GiveDropToPlayer(Player player);
     public abstract void SetModel(Transform container);
     public abstract int Quantity { get; }
+    public abstract Sprite Icon { get; }
 
     public override int GetHashCode()
     {

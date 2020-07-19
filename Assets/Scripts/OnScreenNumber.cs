@@ -8,14 +8,17 @@ public class OnScreenNumber : MonoBehaviour
     public int Value;
     private const float LifeSpan = 1f;
 
-    private Color textColor
+    private Text _text;
+    private Text text
     {
         get
         {
-            return this.GetComponent<Text>().color;
-        }
-        set {
-            this.GetComponent<Text>().color = value;
+            if (_text == null)
+            {
+                _text = transform.Find("Text").GetComponent<Text>();
+            }
+
+            return _text;
         }
     }
 
@@ -58,30 +61,30 @@ public class OnScreenNumber : MonoBehaviour
         icon.color = currentColor;
 
         // Set text alpha
-        Color currentTextColor = textColor;
+        Color currentTextColor = text.color;
         currentTextColor.a = alpha;
-        textColor = currentTextColor;
+        text.color = currentTextColor;
     }
 
-    public void SetValue(int value, GameObject owner){
+    public void SetValue(int value, GameObject owner, Sprite icon){
         this.Value = value;
-        this.GetComponent<Text>().text = value.ToString();
+        text.text = value.ToString();
         SetColor();
-        this.transform.position = owner.transform.position;
-        this.GetComponent<Rigidbody>().velocity = Vector3.up * 10;
+        this.transform.position = Constants.Persistant.Camera.WorldToScreenPoint(owner.transform.position);
+        this.GetComponent<Rigidbody>().velocity = Vector3.up * 100;
     }
 
     private void SetColor(){
         if (Value > 1000){
-            this.textColor = Color.magenta;
+            this.text.color = Color.magenta;
         } else if (Value > 500){
-            this.textColor = Color.red;
+            this.text.color = Color.red;
         } else if (Value > 100){
-            this.textColor = Color.yellow;
+            this.text.color = Color.yellow;
         } else if (Value > 30){
-            this.textColor = new Color(1f, .5f, 0);
+            this.text.color = new Color(1f, .5f, 0);
         } else {
-            this.textColor = Color.white;
+            this.text.color = Color.white;
         }
     }
 
