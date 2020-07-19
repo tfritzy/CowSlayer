@@ -14,6 +14,7 @@ public abstract class Drop
     public abstract GameObject GetDropIndicator();
     public abstract bool GiveDropToPlayer(Player player);
     public abstract void SetModel(Transform container);
+    public abstract int Quantity { get; }
 
     public override int GetHashCode()
     {

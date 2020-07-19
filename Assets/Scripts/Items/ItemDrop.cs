@@ -5,6 +5,7 @@ public class ItemDrop : Drop
 {
     public Item Item;
     public override bool HasAutoPickup => false;
+    public override int Quantity => 1;
 
     public ItemDrop(Item item)
     {

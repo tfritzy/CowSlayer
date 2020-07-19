@@ -55,6 +55,21 @@ public class DropContainer : MonoBehaviour
     public void RewardPlayer()
     {
         drop.GiveDropToPlayer(Constants.Persistant.PlayerScript);
+        GameObject textPopup = Instantiate(
+            DropRewardText,
+            Constants.Persistant.Camera.WorldToScreenPoint(Constants.Persistant.Player.transform.position),
+            new Quaternion(),
+            Constants.Persistant.Canvas.transform);
+        textPopup.GetComponent<OnScreenNumber>().SetValue(drop.Quantity, this.gameObject);
+
+        // Destroy all objects that are still in transit.
+        foreach (Rigidbody child in this.transform.GetComponentsInChildren<Rigidbody>())
+        {
+            if (child.GetComponent<FlyTowardsObject>() == null)
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
 
     public void PickUp(Player player)
@@ -78,6 +93,20 @@ public class DropContainer : MonoBehaviour
                 _dropIndicator = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/ItemPickupIndicator");
             }
             return _dropIndicator;
+        }
+    }
+
+    private static GameObject _dropRewardText;
+    public static GameObject DropRewardText
+    {
+        get
+        {
+            if (_dropRewardText == null)
+            {
+                _dropRewardText = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/DropRewardText");
+            }
+
+            return _dropRewardText;
         }
     }
 }

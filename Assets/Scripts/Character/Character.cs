@@ -147,7 +147,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Health -= amount;
         GameObject inst = Instantiate(DamageNumberPrefab, new Vector3(1000, 1000, 1000),
             new Quaternion(), Constants.Persistant.DamageUIParent);
-        inst.GetComponent<DamageNumber>().SetValue(amount, this.gameObject);
+        inst.GetComponent<OnScreenNumber>().SetValue(amount, this.gameObject);
 
         if (this.Health <= 0)
         {

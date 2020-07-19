@@ -4,35 +4,37 @@ using UnityEngine;
 
 public class FlyTowardsObject : MonoBehaviour
 {
-    private const float TurnRate = 3f;
+    private float TurnRate = 2f;
     private GameObject TargetObject;
     private const float collectionRadius = 1f;
     public delegate void RewardLogic();
     private RewardLogic rewardLogicHandler;
     private float startTime;
     private float MovementSpeed;
+    private float moveDelay;
 
     public void SetTarget(GameObject Target, RewardLogic rewardLogic)
     {
         this.TargetObject = Target;
         Vector3 currentPosition = this.transform.position;
         this.transform.position = currentPosition;
-        GenerateInitialVelocity();
+        this.GetComponent<Collider>().enabled = false;
+        ConstantForce upwardForce = this.gameObject.AddComponent<ConstantForce>();
+        upwardForce.force = Vector3.up * 3f;
         this.rewardLogicHandler = rewardLogic;
         startTime = Time.time;
+        moveDelay = .2f;
     }
 
     void Update()
     {
-        MoveTowardsObject();
-        MovementSpeed = (Time.time - startTime) * 4f;
-    }
-
-    private void GenerateInitialVelocity()
-    {
-        Vector2 pointsTowardsTarget = TargetObject.transform.position - this.transform.position;
-        pointsTowardsTarget = Quaternion.AngleAxis(Random.Range(-20, 20), Vector3.up) * pointsTowardsTarget;
-        this.GetComponent<Rigidbody>().velocity = pointsTowardsTarget.normalized * MovementSpeed;
+        // Let the object hover for a while before starting to move towards target.
+        if (Time.time > startTime + moveDelay)
+        {
+            MoveTowardsObject();
+            MovementSpeed = Mathf.Min((Time.time - startTime) * 4f, 10f);
+            TurnRate = (Time.time - startTime) * 2f + 1;
+        }
     }
 
     private float lastVelocityCheckTime;
