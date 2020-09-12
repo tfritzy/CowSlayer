@@ -3,13 +3,7 @@ using System.Collections;
 
 public abstract class RangedSkill : Skill
 {
-    private GameObject AttackPrefab;
     protected abstract float MovementSpeed { get; }
-
-    public RangedSkill()
-    {
-        AttackPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/{Name}");
-    }
 
     public override void Attack(Character attacker, AttackTargetingDetails attackTargetingDetails)
     {

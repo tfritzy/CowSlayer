@@ -14,7 +14,8 @@ public abstract class Character : MonoBehaviour, Interactable
         }
     }
     protected bool CanAttackWhileMoving => false;
-    public float AttackRange;
+    public const float RangedAttackRange = 12f;
+    public const float MeleeAttackRange = 2f;
     public Skill PrimarySkill;
     public GameObject Target;
     public string Name;
@@ -71,7 +72,8 @@ public abstract class Character : MonoBehaviour, Interactable
         }
 
         float distanceToTarget = Vector3.Distance(Target.transform.position, this.transform.position);
-        if (distanceToTarget <= AttackRange)
+        if ((PrimarySkill is MeleeSkill && distanceToTarget < MeleeAttackRange) ||
+            (PrimarySkill is RangedSkill && distanceToTarget <= RangedAttackRange))
         {
             AttackTargetingDetails targetingDetails = new AttackTargetingDetails {
                 Target = Target.GetComponent<Character>(),

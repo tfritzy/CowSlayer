@@ -70,7 +70,7 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
-        this.PrimarySkill = new FireBolt();
+        this.PrimarySkill = new FireBall();
     }
 
     protected override void SetInitialStats()
@@ -78,7 +78,6 @@ public class Player : Character
         this.Health = 100;
         this.Damage = 1;
         this.AttackSpeed = 1f;
-        this.AttackRange = 12f;
         this.TargetFindRadius = 10f;
         this.MovementSpeed = 6f;
     }
