@@ -5,11 +5,6 @@ public abstract class RangedSkill : Skill
 {
     protected abstract float MovementSpeed { get; }
 
-    public RangedSkill()
-    {
-        AttackPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/{Name}");
-    }
-
     public override void Attack(Character attacker, AttackTargetingDetails attackTargetingDetails)
     {
         GameObject projectile = GameObject.Instantiate(AttackPrefab, attacker.transform.position, new Quaternion(), null);

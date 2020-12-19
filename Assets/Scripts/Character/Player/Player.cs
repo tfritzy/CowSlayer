@@ -70,7 +70,7 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
-        this.PrimarySkill = new FireBolt();
+        this.PrimarySkill = new Spark();
     }
 
     protected override void SetInitialStats()

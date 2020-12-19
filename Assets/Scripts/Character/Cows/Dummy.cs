@@ -24,6 +24,7 @@ public class Dummy : Cow
         this.Damage = 2;
         this.AttackSpeed = 1;
         this.TargetFindRadius = 10;
+        this.RangedAttackRange = 2f;
         this.MeleeAttackRange = 10f;
         this.MovementSpeed = 0f;
         this.PrimarySkill = new FireBolt();

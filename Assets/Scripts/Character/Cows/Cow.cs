@@ -66,6 +66,7 @@ public abstract class Cow : Character
             this.TargetFindRadius *= 2;
             this.transform.localScale *= 2;
             this.MeleeAttackRange *= 1.5f;
+            this.RangedAttackRange *= 1.5f;
         }
     }
 
