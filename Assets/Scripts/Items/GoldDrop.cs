@@ -103,6 +103,6 @@ public class GoldDrop : Drop
 
     public override void SetModel(Transform container)
     {
-        GameObject.Instantiate(GetDetails().model, container.position, new Quaternion(), null);
+        GameObject.Instantiate(GetDetails().model, container.position, new Quaternion(), container);
     }
 }

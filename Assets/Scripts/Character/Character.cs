@@ -14,7 +14,8 @@ public abstract class Character : MonoBehaviour, Interactable
         }
     }
     protected bool CanAttackWhileMoving => false;
-    public float AttackRange;
+    public float MeleeAttackRange;
+    public float RangedAttackRange;
     public Skill PrimarySkill;
     public GameObject Target;
     public string Name;
@@ -71,7 +72,7 @@ public abstract class Character : MonoBehaviour, Interactable
         }
 
         float distanceToTarget = Vector3.Distance(Target.transform.position, this.transform.position);
-        if (distanceToTarget <= AttackRange)
+        if (distanceToTarget <= GetAttackRange(PrimarySkill))
         {
             AttackTargetingDetails targetingDetails = new AttackTargetingDetails {
                 Target = Target.GetComponent<Character>(),
@@ -177,6 +178,18 @@ public abstract class Character : MonoBehaviour, Interactable
     {
         SetInitialStats();
         WornItems.ApplyItemEffects(this);
+    }
+
+
+    private float GetAttackRange(Skill skill)
+    {
+        if (skill is MeleeSkill)
+        {
+            return MeleeAttackRange;
+        } else
+        {
+            return RangedAttackRange;
+        }
     }
 
     protected abstract void SetInitialStats();

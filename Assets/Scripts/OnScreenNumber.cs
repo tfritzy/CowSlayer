@@ -23,7 +23,7 @@ public class OnScreenNumber : MonoBehaviour
     }
 
     private Image _icon;
-    private Image icon
+    private Image iconNextToNumber
     {
         get
         {
@@ -56,9 +56,9 @@ public class OnScreenNumber : MonoBehaviour
         float alpha = (LifeSpan - (Time.time - birthTime)) / LifeSpan;
 
         // Set Icon alpha
-        Color currentColor = icon.color;
+        Color currentColor = iconNextToNumber.color;
         currentColor.a = alpha;
-        icon.color = currentColor;
+        iconNextToNumber.color = currentColor;
 
         // Set text alpha
         Color currentTextColor = text.color;
@@ -72,6 +72,7 @@ public class OnScreenNumber : MonoBehaviour
         SetColor();
         this.transform.position = Constants.Persistant.Camera.WorldToScreenPoint(owner.transform.position);
         this.GetComponent<Rigidbody>().velocity = Vector3.up * 100;
+        iconNextToNumber.sprite = icon;
     }
 
     private void SetColor(){

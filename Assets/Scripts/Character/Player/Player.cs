@@ -78,7 +78,8 @@ public class Player : Character
         this.Health = 100;
         this.Damage = 1;
         this.AttackSpeed = 1f;
-        this.AttackRange = 12f;
+        this.MeleeAttackRange = 3f;
+        this.RangedAttackRange = 12f;
         this.TargetFindRadius = 10f;
         this.MovementSpeed = 6f;
     }
@@ -179,6 +180,4 @@ public class Player : Character
         UIActions.CloseAllWindows();
         Instantiate(Constants.Prefabs.DeathScreenUI, Constants.Persistant.InteractableUI);
     }
-
-
 }

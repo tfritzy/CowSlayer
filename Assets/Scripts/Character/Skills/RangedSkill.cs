@@ -3,7 +3,6 @@ using System.Collections;
 
 public abstract class RangedSkill : Skill
 {
-    private GameObject AttackPrefab;
     protected abstract float MovementSpeed { get; }
 
     public RangedSkill()

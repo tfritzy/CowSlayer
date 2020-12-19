@@ -10,6 +10,11 @@ public class Body
 
     public Body(Transform self)
     {
+        if (self == null)
+        {
+            throw new System.ArgumentNullException("Every character must have a body. It must be named 'Body'");
+        }
+
         Transform = self;
         this.OffHand = self.Find("LeftHand")?.gameObject;
         this.MainHand = self.Find("RightHand")?.gameObject;

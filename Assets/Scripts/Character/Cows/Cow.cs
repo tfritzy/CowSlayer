@@ -65,7 +65,7 @@ public abstract class Cow : Character
             this.MovementSpeed *= 1.3f;
             this.TargetFindRadius *= 2;
             this.transform.localScale *= 2;
-            this.AttackRange *= 1.5f;
+            this.MeleeAttackRange *= 1.5f;
         }
     }
 
@@ -82,7 +82,7 @@ public abstract class Cow : Character
             return;
         }
 
-        if ((Target.transform.position - this.transform.position).magnitude > AttackRange * .8f)
+        if ((Target.transform.position - this.transform.position).magnitude > MeleeAttackRange * .8f)
         {
             this.targetPosition = Target.transform.position;
         } else
