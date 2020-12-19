@@ -8,8 +8,10 @@ public abstract class Character : MonoBehaviour, Interactable
     public int Damage;
     public float AttackSpeed;
     public WornItemsGroup WornItems;
-    protected float TimeBetweenAttacks {
-        get {
+    protected float TimeBetweenAttacks
+    {
+        get
+        {
             return 1 / Mathf.Pow(AttackSpeed, .6f);
         }
     }
@@ -22,6 +24,15 @@ public abstract class Character : MonoBehaviour, Interactable
     public Allegiance Allegiance;
     public HashSet<Allegiance> Enemies;
     public Body Body;
+    public int MaxMana => 100;
+    private int _mana;
+    public virtual int Mana
+    {
+        get { return _mana; }
+        set { _mana = value; }
+    }
+    public abstract float ManaRegenPerMinute { get; }
+
     protected Healthbar Healthbar;
     protected bool IsDead;
 
@@ -34,7 +45,8 @@ public abstract class Character : MonoBehaviour, Interactable
         this.IsDead = false;
         this.WornItems = new WornItemsGroup("Equipped Items", this);
         this.SetInitialStats();
-        this.MaxHealth = Health;
+        this.MaxHealth = Health; // TODO: is this a bug?
+        this.Mana = this.MaxMana;
     }
 
     void Start()
@@ -47,13 +59,14 @@ public abstract class Character : MonoBehaviour, Interactable
         CheckForTarget();
         PrimaryAttack();
         SetVelocity();
+        RegenerateMana();
     }
 
-    void Update() 
+    void Update()
     {
         UpdateLoop();
     }
-    
+
     public virtual void PrimaryAttack()
     {
         if (IsDead)
@@ -74,14 +87,15 @@ public abstract class Character : MonoBehaviour, Interactable
         float distanceToTarget = Vector3.Distance(Target.transform.position, this.transform.position);
         if (distanceToTarget <= GetAttackRange(PrimarySkill))
         {
-            AttackTargetingDetails targetingDetails = new AttackTargetingDetails {
+            AttackTargetingDetails targetingDetails = new AttackTargetingDetails
+            {
                 Target = Target.GetComponent<Character>(),
                 TargetPosition = Target.transform.position,
                 TravelDirection = Target.transform.position - this.transform.position
             };
 
             PrimarySkill.Attack(this, targetingDetails);
-        } 
+        }
         else
         {
             if (distanceToTarget > TargetFindRadius)
@@ -93,21 +107,26 @@ public abstract class Character : MonoBehaviour, Interactable
 
     protected float timeBetweenTargetChecks = .5f;
     protected float lastTargetCheckTime;
-    protected void CheckForTarget(){
-        if (Time.time + lastTargetCheckTime > timeBetweenTargetChecks){
+    protected void CheckForTarget()
+    {
+        if (Time.time + lastTargetCheckTime > timeBetweenTargetChecks)
+        {
             this.Target = this.FindTarget();
             lastTargetCheckTime = Time.time;
         }
     }
 
     public float TargetFindRadius;
-    protected GameObject FindTarget() {
+    protected GameObject FindTarget()
+    {
         Collider[] nearby = Physics.OverlapSphere(this.transform.position, TargetFindRadius);
         GameObject closest = null;
         float closestDist = float.MaxValue;
-        foreach (Collider collider in nearby){
+        foreach (Collider collider in nearby)
+        {
             Character character = collider.GetComponent<Character>();
-            if (character == null){
+            if (character == null)
+            {
                 continue;
             }
             if (this.Enemies.Contains(character.Allegiance))
@@ -130,10 +149,20 @@ public abstract class Character : MonoBehaviour, Interactable
     }
 
     protected abstract void SetVelocity();
-    protected virtual void OnDeath() 
+    protected virtual void OnDeath()
     {
         Destroy(this.Healthbar.gameObject);
         Destroy(this.gameObject.gameObject);
+    }
+
+    private float lastManaRegenTime;
+    protected void RegenerateMana()
+    {
+        if (Time.time > lastManaRegenTime + (60f / ManaRegenPerMinute))
+        {
+            Mana += 1;
+            lastManaRegenTime = Time.time;
+        }
     }
 
     public void TakeDamage(int amount, Character attacker)
@@ -186,7 +215,8 @@ public abstract class Character : MonoBehaviour, Interactable
         if (skill is MeleeSkill)
         {
             return MeleeAttackRange;
-        } else
+        }
+        else
         {
             return RangedAttackRange;
         }

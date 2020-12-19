@@ -5,6 +5,7 @@ using System;
 public class WimpyCow : Cow
 {
     public override CowType CowType => CowType.WimpyCow;
+    public override float ManaRegenPerMinute => 50f;
 
     public override void Initialize()
     {

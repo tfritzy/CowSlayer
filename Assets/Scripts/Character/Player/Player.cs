@@ -9,6 +9,8 @@ public class Player : Character
     public float MovementSpeed;
     public ItemGroup Inventory;
     public int Gold;
+    public override float ManaRegenPerMinute => 100f;
+
     private GameObject playerInventoryUI;
 
     private Joystick joystick { get { return Constants.Persistant.Joystick; } }
@@ -16,6 +18,7 @@ public class Player : Character
     private const float dashDuration = .3f;
     private float dashStartTime;
     private Vector3 dashDirection;
+
     public int Level
     {
         get
@@ -25,6 +28,16 @@ public class Player : Character
         set
         {
             GameState.Data.PlayerLevel = value;
+        }
+    }
+
+    public override int Mana
+    {
+        get => base.Mana;
+        set
+        {
+            base.Mana = value;
+            Constants.Persistant.ManaBall.SetFillScale((float)Mana / (float)MaxMana);
         }
     }
 
@@ -61,16 +74,17 @@ public class Player : Character
         base.UpdateLoop();
     }
 
-    public override void Initialize() {
+    public override void Initialize()
+    {
         base.Initialize();
         this.Allegiance = Allegiance.Player;
-        this.Enemies = new HashSet<Allegiance>() {Allegiance.Cows};
+        this.Enemies = new HashSet<Allegiance>() { Allegiance.Cows };
         this.rb = this.GetComponent<Rigidbody>();
         this.Inventory = new ChestItemGroup("Inventory");
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
-        this.PrimarySkill = new Spark();
+        this.PrimarySkill = new FireBall();
     }
 
     protected override void SetInitialStats()

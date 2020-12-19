@@ -79,22 +79,24 @@ public abstract class Cow : Character
                 this.CurrentState = CowState.Grazing;
                 this.targetPosition = FindNewGrazePosition();
             }
-            
+
             return;
         }
 
         if ((Target.transform.position - this.transform.position).magnitude > MeleeAttackRange * .8f)
         {
             this.targetPosition = Target.transform.position;
-        } else
+        }
+        else
         {
             targetPosition = this.transform.position;
         }
-        
+
         base.PrimaryAttack();
     }
 
-    public override void Initialize() {
+    public override void Initialize()
+    {
         this.Allegiance = Allegiance.Cows;
         this.Enemies = new HashSet<Allegiance>() { Allegiance.Player };
         this.rb = this.GetComponent<Rigidbody>();
@@ -102,6 +104,7 @@ public abstract class Cow : Character
         this.name = this.Name;
         this.targetPosition = FindNewGrazePosition();
         this.Zone = int.Parse(transform.parent.name.Split('_')[1]);
+        this.PrimarySkill = new Whack();
         base.Initialize();
     }
 

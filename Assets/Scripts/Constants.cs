@@ -30,11 +30,13 @@ public static class Constants
         public const string AreaSpawns = "AreaSpawns";
     }
 
-    public static class Layers {
+    public static class Layers
+    {
         public const int Character = 1 << 8;
     }
 
-    public static class Tags {
+    public static class Tags
+    {
         public const string Player = "Player";
         public const string InteractableUI = "InteractableUI";
     }
@@ -107,7 +109,7 @@ public static class Constants
                 }
 
                 return _emptyDrop;
-            }   
+            }
         }
 
         private static GameObject _deathScreenUI;
@@ -199,8 +201,24 @@ public static class Constants
             }
         }
 
-        public static Player PlayerScript {
-            get {
+        private static XPBar _manaBall;
+        public static XPBar ManaBall
+        {
+            get
+            {
+                if (_manaBall == null)
+                {
+                    _manaBall = Constants.Persistant.InteractableUI.transform.Find("Mana").GetComponent<XPBar>();
+                }
+
+                return _manaBall;
+            }
+        }
+
+        public static Player PlayerScript
+        {
+            get
+            {
                 return Player.GetComponent<Player>();
             }
         }
@@ -245,20 +263,23 @@ public static class Constants
         }
 
         private static Camera _camera;
-        public static Camera Camera {
-            get {
-                if (_camera == null){
+        public static Camera Camera
+        {
+            get
+            {
+                if (_camera == null)
+                {
                     _camera = Camera.main;
                 }
 
                 return _camera;
             }
         }
-        
+
         private static Transform _healthUIParent;
         public static Transform HealthUIParent
         {
-            get 
+            get
             {
                 if (_healthUIParent == null)
                 {
@@ -284,7 +305,7 @@ public static class Constants
         private static Transform _interactableUI;
         public static Transform InteractableUI
         {
-            get 
+            get
             {
                 if (_interactableUI == null)
                 {

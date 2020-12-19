@@ -5,15 +5,17 @@ using System;
 public class Dummy : Cow
 {
     public override CowType CowType => CowType.WimpyCow;
+
     public Allegiance EnemyOverride;
     public Allegiance AllegianceOverride;
+    public override float ManaRegenPerMinute => 50f;
 
     public override void Initialize()
     {
         this.Name = "Dummy " + Guid.NewGuid().ToString("N").Substring(0, 8);
         this.DropTable = new WimpyCowDropTable();
         base.Initialize();
-        this.Enemies = new System.Collections.Generic.HashSet<Allegiance> {EnemyOverride}; 
+        this.Enemies = new System.Collections.Generic.HashSet<Allegiance> { EnemyOverride };
         this.Allegiance = AllegianceOverride;
     }
 

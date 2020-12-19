@@ -7,6 +7,7 @@ public abstract class Skill
     public abstract float Cooldown { get; }
     public abstract bool CanAttackWhileMoving { get; }
     public float LastAttackTime;
+    public abstract int ManaCost { get; }
 
     protected GameObject AttackPrefab;
 
@@ -20,30 +21,17 @@ public abstract class Skill
         }
     }
 
-    public virtual void Attack(Character attacker, AttackTargetingDetails targetingDetails)
+    public virtual bool Attack(Character attacker, AttackTargetingDetails targetingDetails)
     {
-        LastAttackTime = Time.time;
-    }
-<<<<<<< HEAD
-=======
-    public abstract float Cooldown { get; }
-    public abstract bool CanAttackWhileMoving { get; }
-    public abstract float DamagePercentIncrease { get; }
-    public float LastAttackTime;
-    protected abstract string AttackPrefabName { get; }
-
-    private GameObject attackPrefab;
-    protected GameObject AttackPrefab
-    {
-        get
+        if (attacker.Mana < ManaCost)
         {
-            if (attackPrefab == null)
-            {
-                attackPrefab = Resources.Load<GameObject>($"Prefabs/Objects/Skills/{AttackPrefabName}");
-            }
-
-            return attackPrefab;
+            return false;
         }
+
+        LastAttackTime = Time.time;
+        attacker.Mana -= ManaCost;
+
+        return true;
     }
 
     public virtual void DealDamage(Character attacker, Character target)
