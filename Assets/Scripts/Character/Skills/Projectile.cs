@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour 
+public class Projectile : MonoBehaviour
 {
     public delegate void DamageEnemy(Character attacker, Character target);
     private DamageEnemy damageEnemyHandler;
@@ -12,13 +12,16 @@ public class Projectile : MonoBehaviour
     {
         this.damageEnemyHandler = damageEnemyHandler;
         this.attacker = attacker;
+
+        TriggerAllParticleSystems(transform.Find("Explosion"), false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         Character otherCharacter = other.GetComponent<Character>();
-        
-        if (otherCharacter == null){
+
+        if (otherCharacter == null)
+        {
             return;
         }
 
@@ -41,11 +44,24 @@ public class Projectile : MonoBehaviour
     private void PlayExplosion()
     {
         Transform explosions = transform.Find("Explosion");
-        foreach (ParticleSystem ps in explosions.GetComponentsInChildren<ParticleSystem>())
-        {
-            ps.Play();
-        }
+        TriggerAllParticleSystems(explosions, true);
         explosions.parent = null;
         Destroy(explosions.gameObject, 1f);
+    }
+
+    private void TriggerAllParticleSystems(Transform transform, bool start)
+    {
+        transform.GetComponent<ParticleSystem>()?.Stop();
+        foreach (ParticleSystem ps in transform.GetComponentsInChildren<ParticleSystem>())
+        {
+            if (start)
+            {
+                ps.Play();
+            }
+            else
+            {
+                ps.Stop();
+            }
+        }
     }
 }
