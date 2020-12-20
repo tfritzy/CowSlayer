@@ -51,6 +51,11 @@ public class Projectile : MonoBehaviour
 
     private void TriggerAllParticleSystems(Transform transform, bool start)
     {
+        if (transform == null)
+        {
+            throw new ArgumentNullException("You need to pass a transform to trigger the particle systems in it.");
+        }
+
         transform.GetComponent<ParticleSystem>()?.Stop();
         foreach (ParticleSystem ps in transform.GetComponentsInChildren<ParticleSystem>())
         {

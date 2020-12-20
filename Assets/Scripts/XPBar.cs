@@ -12,6 +12,17 @@ public class XPBar : MonoBehaviour
     public void SetFillScale(float newFillPercentage)
     {
         this.FillPercentage = newFillPercentage;
+
+        if (this.FillPercentage > 1)
+        {
+            this.FillPercentage = 1;
+        }
+
+        if (this.FillPercentage < 0)
+        {
+            this.FillPercentage = 0;
+        }
+
         if (FillXDirection)
         {
             this.FillBar.localScale = new Vector3(this.FillPercentage, 1f, 1f);

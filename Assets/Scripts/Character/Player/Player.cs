@@ -12,7 +12,6 @@ public class Player : Character
     public override float ManaRegenPerMinute => 100f;
 
     private GameObject playerInventoryUI;
-
     private Joystick joystick { get { return Constants.Persistant.Joystick; } }
     private bool isDashing;
     private const float dashDuration = .3f;
@@ -38,6 +37,16 @@ public class Player : Character
         {
             base.Mana = value;
             Constants.Persistant.ManaBall.SetFillScale((float)Mana / (float)MaxMana);
+        }
+    }
+
+    public override int Health
+    {
+        get => base.Health;
+        set
+        {
+            base.Health = value;
+            Constants.Persistant.HealthBall.SetFillScale((float)Health / (float)MaxHealth);
         }
     }
 
@@ -157,6 +166,46 @@ public class Player : Character
                 dashDirection = joystick.Direction;
             }
         }
+    }
+
+    public void DrinkHealthPotion()
+    {
+        Debug.Log("Drinking health potion");
+
+        if (Health == MaxHealth)
+        {
+            Debug.Log("Don't need to drink potion. At full health.");
+            return;
+        }
+
+        HealthPotion potion = (HealthPotion)this.Inventory.FindItem<HealthPotion>();
+        if (potion == null)
+        {
+            Debug.Log("Player out of potions");
+            return;
+        }
+
+        potion.ApplyEffects(this);
+    }
+
+    public void DrinkManaPotion()
+    {
+        Debug.Log("Drinking mana potion");
+
+        if (Mana == MaxMana)
+        {
+            Debug.Log("Don't need to drink potion. At full mana.");
+            return;
+        }
+
+        ManaPotion potion = (ManaPotion)this.Inventory.FindItem<ManaPotion>();
+        if (potion == null)
+        {
+            Debug.Log("Player out of potions");
+            return;
+        }
+
+        potion.ApplyEffects(this);
     }
 
     public void OpenInventory(ItemGroup transferTarget = null)

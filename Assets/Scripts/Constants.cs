@@ -208,10 +208,24 @@ public static class Constants
             {
                 if (_manaBall == null)
                 {
-                    _manaBall = Constants.Persistant.InteractableUI.transform.Find("Mana").GetComponent<XPBar>();
+                    _manaBall = Constants.Persistant.InteractableUI.transform.Find("ManaResourceGlobe").GetComponent<XPBar>();
                 }
 
                 return _manaBall;
+            }
+        }
+
+        private static XPBar _healthBall;
+        public static XPBar HealthBall
+        {
+            get
+            {
+                if (_healthBall == null)
+                {
+                    _healthBall = Constants.Persistant.InteractableUI.transform.Find("HealthResourceGlobe").GetComponent<XPBar>();
+                }
+
+                return _healthBall;
             }
         }
 

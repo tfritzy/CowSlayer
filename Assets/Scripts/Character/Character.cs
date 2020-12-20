@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour, Interactable
 {
-    public int Health;
-    protected int MaxHealth;
+    public virtual int Health { get { return _health; } set { _health = value; } }
+    public int MaxHealth { get; protected set; }
     public int Damage;
     public float AttackSpeed;
     public WornItemsGroup WornItems;
@@ -35,6 +35,7 @@ public abstract class Character : MonoBehaviour, Interactable
 
     protected Healthbar Healthbar;
     protected bool IsDead;
+    protected int _health;
 
     public virtual void Initialize()
     {
@@ -84,7 +85,7 @@ public abstract class Character : MonoBehaviour, Interactable
             return;
         }
 
-        float distanceToTarget = Vector3.Distance(Target.transform.position, this.transform.position);
+        float distanceToTarget = GetDistBetweenColliders(Target.GetComponent<Collider>(), this.GetComponent<Collider>());
         if (distanceToTarget <= GetAttackRange(PrimarySkill))
         {
             AttackTargetingDetails targetingDetails = new AttackTargetingDetails
@@ -223,4 +224,11 @@ public abstract class Character : MonoBehaviour, Interactable
     }
 
     protected abstract void SetInitialStats();
+
+    private float GetDistBetweenColliders(Collider c1, Collider c2)
+    {
+        Vector3 closestC1 = c1.ClosestPoint(c2.transform.position);
+        Vector3 closestC2 = c2.ClosestPoint(c1.transform.position);
+        return Vector3.Distance(closestC1, closestC2);
+    }
 }

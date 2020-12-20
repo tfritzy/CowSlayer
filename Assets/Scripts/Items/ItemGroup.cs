@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +18,7 @@ public abstract class ItemGroup
     public ItemGroup(string Name)
     {
         this.Items = new Item[MaxSize];
-        for(int i = 0; i < this.MaxSize; i++)
+        for (int i = 0; i < this.MaxSize; i++)
         {
             this.Items[i] = null;
         }
@@ -25,7 +26,8 @@ public abstract class ItemGroup
         this.GroupName = Name;
     }
 
-    public bool IsFull(){
+    public bool IsFull()
+    {
         return numItemsContained == MaxSize;
     }
 
@@ -34,8 +36,10 @@ public abstract class ItemGroup
     protected virtual int FindTargetSlot(Item item)
     {
         int firstOpenSlot = 0;
-        for (int i = 0; i < MaxSize; i++){
-            if(this.Items[i] == null){
+        for (int i = 0; i < MaxSize; i++)
+        {
+            if (this.Items[i] == null)
+            {
                 firstOpenSlot = i;
                 break;
             }
@@ -107,26 +111,47 @@ public abstract class ItemGroup
 
     public Item GetItem(string itemId)
     {
-        foreach (Item item in Items){
-            if (item?.Id == itemId){
+        foreach (Item item in Items)
+        {
+            if (item?.Id == itemId)
+            {
                 return item;
             }
         }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds the item of the specified type, if any.
+    /// </summary>
+    public Item FindItem<T>()
+    {
+        foreach (Item item in Items)
+        {
+            if (item is T)
+            {
+                return item;
+            }
+        }
+
         return null;
     }
 
     public virtual void TransferItem(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false)
     {
-        if (targetItemGroup.IsFull()){
+        if (targetItemGroup.IsFull())
+        {
             return;
         }
 
         Item item = this.GetItem(itemId);
 
-        if (!targetItemGroup.CanHoldItem(item)){
+        if (!targetItemGroup.CanHoldItem(item))
+        {
             return;
         }
-        
+
         int targetSlot = targetItemGroup.FindTargetSlot(item);
         if (targetItemGroup.Items[targetSlot] != null)
         {
@@ -160,7 +185,7 @@ public abstract class ItemGroup
             Constants.Persistant.InteractableCanvas.GetComponent<RectTransform>().rect.width * .5f,
             Constants.Persistant.InteractableCanvas.GetComponent<RectTransform>().rect.height * menuHeight
         );
-        chestUI = GameObject.Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/{UIPrefabName}"), 
+        chestUI = GameObject.Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/{UIPrefabName}"),
             uiPosition, new Quaternion(), Constants.Persistant.InteractableUI.transform);
         GameObject backdrop = chestUI.transform.Find("Backdrop").gameObject;
         Transform background = backdrop.transform.Find("Background");
@@ -187,7 +212,8 @@ public abstract class ItemGroup
             button.transform.Find("Icon").GetComponent<Image>().color = Color.clear;
             button.transform.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.Highlight;
             button.GetComponent<ChestButton>().SetItem(null);
-        } else
+        }
+        else
         {
             button.transform.Find("Icon").GetComponent<Image>().sprite = item.GetIcon();
             button.transform.Find("Icon").GetComponent<Image>().color = Color.white;
