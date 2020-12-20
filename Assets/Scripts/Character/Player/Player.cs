@@ -90,6 +90,7 @@ public class Player : Character
         this.Enemies = new HashSet<Allegiance>() { Allegiance.Cows };
         this.rb = this.GetComponent<Rigidbody>();
         this.Inventory = new ChestItemGroup("Inventory");
+        this.Inventory.AddItems(new List<Item> { new SmallManaPotion(), new SmallHealthPotion() });
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
@@ -98,7 +99,8 @@ public class Player : Character
 
     protected override void SetInitialStats()
     {
-        this.Health = 100;
+        this.MaxHealth = 100;
+        this.MaxMana = 100;
         this.Damage = 1;
         this.AttackSpeed = 1f;
         this.MeleeAttackRange = 3f;
@@ -168,6 +170,19 @@ public class Player : Character
         }
     }
 
+    public void DrinkPotion<TPotion>()
+    {
+        Potion potion = (Potion)this.Inventory.FindItem<TPotion>();
+        if (potion == null)
+        {
+            Debug.Log($"Player doesn't have any {typeof(TPotion)} potions");
+            return;
+        }
+
+        potion.ApplyEffects(this);
+        this.Inventory.RemoveItem(potion.Id);
+    }
+
     public void DrinkHealthPotion()
     {
         Debug.Log("Drinking health potion");
@@ -178,14 +193,7 @@ public class Player : Character
             return;
         }
 
-        HealthPotion potion = (HealthPotion)this.Inventory.FindItem<HealthPotion>();
-        if (potion == null)
-        {
-            Debug.Log("Player out of potions");
-            return;
-        }
-
-        potion.ApplyEffects(this);
+        DrinkPotion<HealthPotion>();
     }
 
     public void DrinkManaPotion()
@@ -198,14 +206,7 @@ public class Player : Character
             return;
         }
 
-        // ManaPotion potion = (ManaPotion)this.Inventory.FindItem<ManaPotion>();
-        // if (potion == null)
-        // {
-        //     Debug.Log("Player out of potions");
-        //     return;
-        // }
-
-        // potion.ApplyEffects(this);
+        DrinkPotion<ManaPotion>();
     }
 
     public void OpenInventory(ItemGroup transferTarget = null)

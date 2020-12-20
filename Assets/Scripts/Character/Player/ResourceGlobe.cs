@@ -27,17 +27,9 @@ public abstract class ResourceGlobe : MonoBehaviour
     }
 
     /// <summary>
-    /// What to do when this button is clicked.
-    /// </summary>
-    public virtual void ButtonInteract()
-    {
-        DrinkPotion();
-    }
-
-    /// <summary>
     /// Drinks the potion of the corresponding resource type.
     /// </summary>
-    protected abstract void DrinkPotion();
+    public abstract void DrinkPotion();
 
     /// <summary>
     /// The percentage of resources left on the character for this resource type.

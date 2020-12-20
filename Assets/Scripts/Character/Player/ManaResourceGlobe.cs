@@ -5,8 +5,8 @@
         return ((float)Constants.Persistant.PlayerScript.Mana / (float)Constants.Persistant.PlayerScript.MaxMana) * 100;
     }
 
-    protected override void DrinkPotion()
+    public override void DrinkPotion()
     {
-        Constants.Persistant.PlayerScript.DrinkHealthPotion();
+        Constants.Persistant.PlayerScript.DrinkManaPotion();
     }
 }

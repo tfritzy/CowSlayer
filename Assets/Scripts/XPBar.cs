@@ -6,7 +6,6 @@ public class XPBar : MonoBehaviour
 {
     public float FillPercentage;
     public Transform FillBar;
-    private float scale;
     public bool FillXDirection = true;
 
     public void SetFillScale(float newFillPercentage)
@@ -31,6 +30,5 @@ public class XPBar : MonoBehaviour
         {
             this.FillBar.localScale = new Vector3(1f, this.FillPercentage, 1f);
         }
-
     }
 }

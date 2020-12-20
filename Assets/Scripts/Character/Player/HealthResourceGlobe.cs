@@ -5,7 +5,7 @@
         return ((float)Constants.Persistant.PlayerScript.Health / (float)Constants.Persistant.PlayerScript.MaxHealth) * 100;
     }
 
-    protected override void DrinkPotion()
+    public override void DrinkPotion()
     {
         Constants.Persistant.PlayerScript.DrinkHealthPotion();
     }

@@ -9,7 +9,6 @@ public class WimpyCow : Cow
 
     public override void Initialize()
     {
-
         this.Name = "Wimpy Cow";
         this.DropTable = new WimpyCowDropTable();
         base.Initialize();
@@ -17,8 +16,7 @@ public class WimpyCow : Cow
 
     protected override void SetInitialStats()
     {
-        this.Health = 5;
-        this.MaxHealth = Health;
+        this.MaxHealth = 5;
         this.Damage = 2;
         this.AttackSpeed = 1;
         this.TargetFindRadius = 5f;

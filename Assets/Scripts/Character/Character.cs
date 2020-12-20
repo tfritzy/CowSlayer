@@ -3,7 +3,24 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour, Interactable
 {
-    public virtual int Health { get { return _health; } set { _health = value; } }
+    public virtual int Health 
+    { 
+        get { return _health; } 
+        set 
+        { 
+            _health = value; 
+            if (_health > MaxHealth)
+            {
+                _health = MaxHealth;
+            }
+
+            if (_health < 0)
+            {
+                _health = 0;
+            }
+        } 
+    }
+
     public int MaxHealth { get; protected set; }
     public int Damage;
     public float AttackSpeed;
@@ -24,12 +41,24 @@ public abstract class Character : MonoBehaviour, Interactable
     public Allegiance Allegiance;
     public HashSet<Allegiance> Enemies;
     public Body Body;
-    public int MaxMana => 100;
+    public int MaxMana;
     private int _mana;
     public virtual int Mana
     {
         get { return _mana; }
-        set { _mana = value; }
+        set 
+        { 
+            _mana = value;
+            if (_mana > MaxMana)
+            {
+                _mana = MaxMana;
+            }
+
+            if (_mana < 0)
+            {
+                _mana = 0;
+            }
+        }
     }
     public abstract float ManaRegenPerMinute { get; }
 
@@ -46,7 +75,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.IsDead = false;
         this.WornItems = new WornItemsGroup("Equipped Items", this);
         this.SetInitialStats();
-        this.MaxHealth = Health; // TODO: is this a bug?
+        this.Health = this.MaxHealth;
         this.Mana = this.MaxMana;
     }
 
