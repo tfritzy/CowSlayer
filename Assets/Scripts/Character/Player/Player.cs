@@ -198,14 +198,14 @@ public class Player : Character
             return;
         }
 
-        ManaPotion potion = (ManaPotion)this.Inventory.FindItem<ManaPotion>();
-        if (potion == null)
-        {
-            Debug.Log("Player out of potions");
-            return;
-        }
+        // ManaPotion potion = (ManaPotion)this.Inventory.FindItem<ManaPotion>();
+        // if (potion == null)
+        // {
+        //     Debug.Log("Player out of potions");
+        //     return;
+        // }
 
-        potion.ApplyEffects(this);
+        // potion.ApplyEffects(this);
     }
 
     public void OpenInventory(ItemGroup transferTarget = null)
