@@ -24,7 +24,7 @@ public class WornItemsGroup : ItemGroup
     {
         ItemWearLocations.SlotType slot = ((EquipableItem)item).PlaceWorn;
         int index = 0;
-        while(Items[ItemWearLocations.Slots[slot][index]] != null)
+        while (Items[ItemWearLocations.Slots[slot][index]] != null)
         {
             if (index == ItemWearLocations.Slots[slot].Length - 1)
             {
@@ -36,9 +36,9 @@ public class WornItemsGroup : ItemGroup
         return ItemWearLocations.Slots[slot][index];
     }
 
-    public override void TransferItemTo(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false)
+    public override void TransferItemTo(ItemGroup targetItemGroup, string itemId, int quantity, bool hasTransferBeenConfirmed = false)
     {
-        targetItemGroup.AddItem(RemoveItem(itemId));
+        targetItemGroup.AddItem(RemoveItem(itemId, quantity));
     }
 
     public override void AddItem(Item item)
@@ -47,9 +47,9 @@ public class WornItemsGroup : ItemGroup
         ((EquipableItem)item).OnEquip(Bearer);
     }
 
-    public override Item RemoveItem(int slotIndex)
+    public override Item RemoveItem(int slotIndex, int quantity)
     {
-        Item item = base.RemoveItem(slotIndex);
+        Item item = base.RemoveItem(slotIndex, quantity);
         ((EquipableItem)item).OnUnequip(Bearer);
         return item;
     }

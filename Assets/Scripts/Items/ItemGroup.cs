@@ -9,7 +9,7 @@ public abstract class ItemGroup
     public abstract int MaxSize { get; }
     public abstract string UIPrefabName { get; }
     public string GroupName;
-    public virtual bool RequiresRecieveConfirmation => false;
+    public virtual bool RequiresReceiveConfirmation => false;
     protected Item[] Items;
     public int numItemsContained;
     private List<GameObject> ButtonInsts;
@@ -91,13 +91,13 @@ public abstract class ItemGroup
         }
     }
 
-    public Item RemoveItem(string itemId, int quantity = 1)
+    public Item RemoveItem(string itemId, int quantity)
     {
         int itemPosition = FindSlotOfItem(itemId);
         return RemoveItem(itemPosition, quantity);
     }
 
-    public virtual Item RemoveItem(int slotIndex, int quantity = 1)
+    public virtual Item RemoveItem(int slotIndex, int quantity)
     {
         Item item = this.Items[slotIndex];
 
@@ -105,15 +105,10 @@ public abstract class ItemGroup
         {
             this.Items[slotIndex] = null;
             numItemsContained -= 1;
-        } else
-        {
-            Item newStack = item.SplitStack(quantity);
-            newStack.Quantity = item.Quantity - quantity;
         }
-
-        if (item.Quantity <= 0)
+        else
         {
-            
+            this.Items[slotIndex].Quantity -= quantity;
         }
 
         if (IsMenuOpen())
@@ -153,7 +148,7 @@ public abstract class ItemGroup
         return null;
     }
 
-    public virtual void TransferItemTo(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false, int quantity = 1)
+    public virtual void TransferItemTo(ItemGroup targetItemGroup, string itemId, int quantity, bool hasTransferBeenConfirmed = false)
     {
         if (targetItemGroup.IsFull())
         {
@@ -173,13 +168,27 @@ public abstract class ItemGroup
             return;
         }
 
-        if (targetItemGroup.RequiresRecieveConfirmation && hasTransferBeenConfirmed == false)
+        if (targetItemGroup.RequiresReceiveConfirmation && hasTransferBeenConfirmed == false)
         {
-            targetItemGroup.OpenRecieveConfirmationMenu(item);
+            targetItemGroup.OpenReceiveConfirmationMenu(item);
             return;
         }
 
-        targetItemGroup.AddItem(RemoveItem(itemId, quantity));
+        if (quantity == item.Quantity)
+        {
+            targetItemGroup.AddItem(RemoveItem(targetSlot, quantity));
+        }
+        else
+        {
+            Item newItem = item.SplitStack(quantity);
+
+            if (IsMenuOpen())
+            {
+                SetButtonValues(ButtonInsts[this.FindSlotOfItem(item.Id)], item);
+            }
+
+            targetItemGroup.AddItem(newItem);
+        }
     }
 
     public bool IsMenuOpen()
@@ -226,6 +235,7 @@ public abstract class ItemGroup
             button.transform.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.LightBase;
             button.transform.Find("Icon").GetComponent<Image>().color = Color.clear;
             button.transform.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.Highlight;
+            button.transform.Find("Quantity").GetComponent<Text>().text = string.Empty;
             button.GetComponent<ChestButton>().SetItem(null);
         }
         else
@@ -234,6 +244,7 @@ public abstract class ItemGroup
             button.transform.Find("Icon").GetComponent<Image>().color = Color.white;
             button.transform.Find("Background").GetComponent<Image>().color = item.GetDarkRarityColor();
             button.transform.Find("Outline").GetComponent<Image>().color = item.GetRarityColor();
+            button.transform.Find("Quantity").GetComponent<Text>().text = item.Quantity > 1 ? item.Quantity.ToString() : string.Empty;
             button.GetComponent<ChestButton>().SourceItemGroup = this;
             button.GetComponent<ChestButton>().SetItem(item);
         }
@@ -242,7 +253,7 @@ public abstract class ItemGroup
         button.GetComponent<ChestButton>().TargetItemGroup = this.TransferTarget;
     }
 
-    public virtual void OpenRecieveConfirmationMenu(Item item)
+    public virtual void OpenReceiveConfirmationMenu(Item item)
     {
         throw new System.NotImplementedException();
     }

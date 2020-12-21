@@ -107,6 +107,7 @@ public class Player : Character
         this.RangedAttackRange = 12f;
         this.TargetFindRadius = 10f;
         this.MovementSpeed = 6f;
+        this.Gold = 100;
     }
 
     protected override void SetVelocity()
@@ -180,7 +181,7 @@ public class Player : Character
         }
 
         potion.ApplyEffects(this);
-        this.Inventory.RemoveItem(potion.Id);
+        this.Inventory.RemoveItem(potion.Id, 1);
     }
 
     public void DrinkHealthPotion()

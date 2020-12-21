@@ -25,7 +25,7 @@ public abstract class Item
     /// </summary>
     public Item()
     {
-        this.Id = this.Name + Guid.NewGuid().ToString("N");
+        this.Id = GenerateId();
         Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Drops}/{Name.Replace(" ", "")}");
         this.SecondaryEffects = GenerateSecondaryEffects();
         this.PrimaryEffect = PrimaryEffectPrefab;
@@ -60,9 +60,19 @@ public abstract class Item
         return Name;
     }
 
-    public Item SplitStack()
+    public Item SplitStack(int newQuantity)
     {
-        // TODO: Split stack and adjust quantities.
+        Item newStack = this.Duplicate();
+        newStack.Quantity = newQuantity;
+        this.Quantity -= newQuantity;
+        return newStack;
+    }
+
+    public Item Duplicate()
+    {
+        Item newItem = (Item)this.MemberwiseClone();
+        newItem.Id = GenerateId();
+        return newItem;
     }
 
     public Sprite GetIcon()
@@ -98,12 +108,12 @@ public abstract class Item
         }
     }
 
-    public virtual void OnEquip(Character bearer) 
+    public virtual void OnEquip(Character bearer)
     {
         bearer.RecalculateItemEffects();
     }
 
-    public virtual void OnUnequip(Character bearer) 
+    public virtual void OnUnequip(Character bearer)
     {
         bearer.RecalculateItemEffects();
     }
@@ -157,4 +167,9 @@ public abstract class Item
             ColorExtensions.Create(184, 108, 248) // Light Purple
         }
     };
+
+    private string GenerateId()
+    {
+        return $"{Name}_{Guid.NewGuid().ToString("N")}";
+    }
 }

@@ -21,7 +21,7 @@ public class ChestButton : MonoBehaviour
             return;
         }
 
-        if (Time.time > holdTimeForDetails + startPressTime 
+        if (Time.time > holdTimeForDetails + startPressTime
             && areDetailsOpen == false)
         {
             ShowDetails();
@@ -71,8 +71,8 @@ public class ChestButton : MonoBehaviour
         {
             throw new NullReferenceException("SourceItemGroup must have a value to call this method");
         }
-        
-        SourceItemGroup.TransferItemTo(TargetItemGroup, Item.Id);
+
+        SourceItemGroup.TransferItemTo(TargetItemGroup, Item.Id, Item.Quantity);
         isSelected = false;
     }
 
@@ -96,7 +96,8 @@ public class ChestButton : MonoBehaviour
         if (Input.touchCount > 0)
         {
             return Input.GetTouch(0).position;
-        } else
+        }
+        else
         {
             return Input.mousePosition;
         }

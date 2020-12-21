@@ -7,7 +7,7 @@ public class ShopItemGroup : ItemGroup
     private HashSet<string> PurchasedItems;
     public override int MaxSize => 20;
     public override string UIPrefabName => "ChestUI";
-    public override bool RequiresRecieveConfirmation => true;
+    public override bool RequiresReceiveConfirmation => true;
 
     private GameObject currentlyOpenConfirmationWindow;
 
@@ -16,11 +16,11 @@ public class ShopItemGroup : ItemGroup
         PurchasedItems = new HashSet<string>();
     }
 
-    public override void TransferItemTo(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false)
+    public override void TransferItemTo(ItemGroup targetItemGroup, string itemId, int quantity, bool hasTransferBeenConfirmed = false)
     {
         if (PurchasedItems.Contains(itemId))
         {
-            base.TransferItemTo(targetItemGroup, itemId);
+            base.TransferItemTo(targetItemGroup, itemId, quantity);
             PurchasedItems.Remove(itemId);
         }
         else
@@ -48,17 +48,17 @@ public class ShopItemGroup : ItemGroup
         {
             Constants.Persistant.PlayerScript.Gold -= item.Price;
             PurchasedItems.Add(item.Id);
-            TransferItemTo(Constants.Persistant.PlayerScript.Inventory, item.Id);
+            TransferItemTo(Constants.Persistant.PlayerScript.Inventory, item.Id, 1);
         }
     }
 
     public void SellItem(Item item)
     {
         Constants.Persistant.PlayerScript.Gold += item.Price;
-        Constants.Persistant.PlayerScript.Inventory.TransferItemTo(this, item.Id, hasTransferBeenConfirmed: true);
+        Constants.Persistant.PlayerScript.Inventory.TransferItemTo(this, item.Id, hasTransferBeenConfirmed: true, quantity: 1);
     }
 
-    public override void OpenRecieveConfirmationMenu(Item item)
+    public override void OpenReceiveConfirmationMenu(Item item)
     {
         if (currentlyOpenConfirmationWindow != null)
         {
