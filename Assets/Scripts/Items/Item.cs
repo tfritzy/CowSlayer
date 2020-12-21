@@ -16,31 +16,8 @@ public abstract class Item
     protected abstract List<ItemEffect> SecondaryEffectPool { get; }
     protected abstract int NumSecondaryEffects { get; }
     public List<ItemEffect> SecondaryEffects;
-    public virtual bool IsInfiniteInShop => false;
-
-    protected readonly Dictionary<ItemRarity, Color> RarityColors = new Dictionary<ItemRarity, Color>
-    {
-        {
-            ItemRarity.Common,
-            ColorExtensions.Create(209, 209, 209)  // Grey
-        },
-        {
-            ItemRarity.Uncommon,
-            ColorExtensions.Create(145, 243, 140) // Light Green
-        },
-        {
-            ItemRarity.Rare,
-            ColorExtensions.Create(131, 182, 253) // Light blue
-        },
-        {
-            ItemRarity.Exquisite,
-            ColorExtensions.Create(253, 205, 84) // Light Orange
-        },
-        {
-            ItemRarity.Legendary,
-            ColorExtensions.Create(184, 108, 248) // Light Purple
-        }
-    };
+    public int Quantity;
+    public virtual bool Stacks => false;
 
     /// <summary>
     /// Creates a new instance of this item. If effects are not passed, new effects will
@@ -81,6 +58,11 @@ public abstract class Item
     public override string ToString()
     {
         return Name;
+    }
+
+    public Item SplitStack()
+    {
+        // TODO: Split stack and adjust quantities.
     }
 
     public Sprite GetIcon()
@@ -151,4 +133,28 @@ public abstract class Item
 
         return itemDetails;
     }
+
+    protected readonly Dictionary<ItemRarity, Color> RarityColors = new Dictionary<ItemRarity, Color>
+    {
+        {
+            ItemRarity.Common,
+            ColorExtensions.Create(209, 209, 209)  // Grey
+        },
+        {
+            ItemRarity.Uncommon,
+            ColorExtensions.Create(145, 243, 140) // Light Green
+        },
+        {
+            ItemRarity.Rare,
+            ColorExtensions.Create(131, 182, 253) // Light blue
+        },
+        {
+            ItemRarity.Exquisite,
+            ColorExtensions.Create(253, 205, 84) // Light Orange
+        },
+        {
+            ItemRarity.Legendary,
+            ColorExtensions.Create(184, 108, 248) // Light Purple
+        }
+    };
 }

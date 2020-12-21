@@ -91,21 +91,36 @@ public abstract class ItemGroup
         }
     }
 
-    public Item RemoveItem(string itemId)
+    public Item RemoveItem(string itemId, int quantity = 1)
     {
         int itemPosition = FindSlotOfItem(itemId);
-        return RemoveItem(itemPosition);
+        return RemoveItem(itemPosition, quantity);
     }
 
-    public virtual Item RemoveItem(int slotIndex)
+    public virtual Item RemoveItem(int slotIndex, int quantity = 1)
     {
         Item item = this.Items[slotIndex];
-        this.Items[slotIndex] = null;
-        numItemsContained -= 1;
+
+        if (quantity >= item.Quantity)
+        {
+            this.Items[slotIndex] = null;
+            numItemsContained -= 1;
+        } else
+        {
+            Item newStack = item.SplitStack(quantity);
+            newStack.Quantity = item.Quantity - quantity;
+        }
+
+        if (item.Quantity <= 0)
+        {
+            
+        }
+
         if (IsMenuOpen())
         {
             SetButtonValues(ButtonInsts[slotIndex], null);
         }
+
         return item;
     }
 
@@ -138,7 +153,7 @@ public abstract class ItemGroup
         return null;
     }
 
-    public virtual void TransferItem(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false)
+    public virtual void TransferItemTo(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false, int quantity = 1)
     {
         if (targetItemGroup.IsFull())
         {
@@ -164,7 +179,7 @@ public abstract class ItemGroup
             return;
         }
 
-        targetItemGroup.AddItem(RemoveItem(itemId));
+        targetItemGroup.AddItem(RemoveItem(itemId, quantity));
     }
 
     public bool IsMenuOpen()

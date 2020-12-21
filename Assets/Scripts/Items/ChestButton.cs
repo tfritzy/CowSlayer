@@ -72,7 +72,7 @@ public class ChestButton : MonoBehaviour
             throw new NullReferenceException("SourceItemGroup must have a value to call this method");
         }
         
-        SourceItemGroup.TransferItem(TargetItemGroup, Item.Id);
+        SourceItemGroup.TransferItemTo(TargetItemGroup, Item.Id);
         isSelected = false;
     }
 

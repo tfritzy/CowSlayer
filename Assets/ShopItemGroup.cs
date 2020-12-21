@@ -5,7 +5,6 @@ using UnityEngine;
 public class ShopItemGroup : ItemGroup
 {
     private HashSet<string> PurchasedItems;
-    private GameObject PurchaseItemMenu;
     public override int MaxSize => 20;
     public override string UIPrefabName => "ChestUI";
     public override bool RequiresRecieveConfirmation => true;
@@ -17,11 +16,11 @@ public class ShopItemGroup : ItemGroup
         PurchasedItems = new HashSet<string>();
     }
 
-    public override void TransferItem(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false)
+    public override void TransferItemTo(ItemGroup targetItemGroup, string itemId, bool hasTransferBeenConfirmed = false)
     {
         if (PurchasedItems.Contains(itemId))
         {
-            base.TransferItem(targetItemGroup, itemId);
+            base.TransferItemTo(targetItemGroup, itemId);
             PurchasedItems.Remove(itemId);
         }
         else
@@ -49,14 +48,14 @@ public class ShopItemGroup : ItemGroup
         {
             Constants.Persistant.PlayerScript.Gold -= item.Price;
             PurchasedItems.Add(item.Id);
-            TransferItem(Constants.Persistant.PlayerScript.Inventory, item.Id);
+            TransferItemTo(Constants.Persistant.PlayerScript.Inventory, item.Id);
         }
     }
 
     public void SellItem(Item item)
     {
         Constants.Persistant.PlayerScript.Gold += item.Price;
-        Constants.Persistant.PlayerScript.Inventory.TransferItem(this, item.Id, hasTransferBeenConfirmed: true);
+        Constants.Persistant.PlayerScript.Inventory.TransferItemTo(this, item.Id, hasTransferBeenConfirmed: true);
     }
 
     public override void OpenRecieveConfirmationMenu(Item item)
