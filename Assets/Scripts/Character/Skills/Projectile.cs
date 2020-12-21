@@ -7,13 +7,17 @@ public class Projectile : MonoBehaviour
     private DamageEnemy damageEnemyHandler;
     private Character attacker;
     private const string trailGroupName = "Trail";
+    private const string leftoverGround = "LeftoverGroundParticles";
+    private Transform explosionChild;
 
     public void Initialize(DamageEnemy damageEnemyHandler, Character attacker)
     {
         this.damageEnemyHandler = damageEnemyHandler;
         this.attacker = attacker;
 
-        TriggerAllParticleSystems(transform.Find("Explosion"), false);
+        explosionChild = transform.Find("Explosion");
+        TriggerAllParticleSystems(explosionChild, false);
+        TriggerAllParticleSystems(transform.Find(leftoverGround), false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -29,6 +33,7 @@ public class Projectile : MonoBehaviour
         {
             damageEnemyHandler(attacker, otherCharacter);
             DetachParticles(transform.Find(trailGroupName));
+            TriggerGroundParticles();
             PlayExplosion();
             Destroy(this.gameObject);
         }
@@ -37,26 +42,47 @@ public class Projectile : MonoBehaviour
     private void DetachParticles(Transform particleGroup)
     {
         particleGroup.parent = null;
-        particleGroup.GetComponent<ParticleSystem>().Stop();
+        TriggerAllParticleSystems(particleGroup, false);
         Destroy(particleGroup.gameObject, 1f);
     }
 
     private void PlayExplosion()
     {
-        Transform explosions = transform.Find("Explosion");
-        TriggerAllParticleSystems(explosions, true);
-        explosions.parent = null;
-        Destroy(explosions.gameObject, 1f);
+        TriggerAllParticleSystems(explosionChild, true);
+        explosionChild.parent = null;
+        Destroy(explosionChild.gameObject, 1f);
+    }
+
+    private void TriggerGroundParticles()
+    {
+        GameObject groundParticles = transform.Find(leftoverGround).gameObject;
+        groundParticles.transform.parent = null;
+        Destroy(groundParticles, 4f);
+
+        if (groundParticles == null)
+        {
+            return;
+        }
+
+        groundParticles.GetComponent<ParticleSystem>().Play();
+        for (int i = 0; i < UnityEngine.Random.Range(4, 6); i++)
+        {
+            Vector3 position = groundParticles.transform.position;
+            position += new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), 0, UnityEngine.Random.Range(-0.3f, 0.3f));
+            GameObject gp = Instantiate(groundParticles, position, new Quaternion(), groundParticles.transform);
+            TriggerAllParticleSystems(gp.transform, true);
+        }
     }
 
     private void TriggerAllParticleSystems(Transform transform, bool start)
     {
         if (transform == null)
         {
-            throw new ArgumentNullException("You need to pass a transform to trigger the particle systems in it.");
+            return;
         }
 
-        transform.GetComponent<ParticleSystem>()?.Stop();
+        transform.gameObject.TryGetComponent<ParticleSystem>(out ParticleSystem parentPS);
+        parentPS?.Stop();
         foreach (ParticleSystem ps in transform.GetComponentsInChildren<ParticleSystem>())
         {
             if (start)

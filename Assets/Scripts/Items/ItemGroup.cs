@@ -176,7 +176,7 @@ public abstract class ItemGroup
 
         if (quantity == item.Quantity)
         {
-            targetItemGroup.AddItem(RemoveItem(targetSlot, quantity));
+            targetItemGroup.AddItem(RemoveItem(item.Id, quantity));
         }
         else
         {
