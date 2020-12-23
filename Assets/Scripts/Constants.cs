@@ -39,6 +39,7 @@ public static class Constants
     {
         public const string Player = "Player";
         public const string InteractableUI = "InteractableUI";
+        public const string Ground = "Ground";
     }
 
     public static class Prefabs

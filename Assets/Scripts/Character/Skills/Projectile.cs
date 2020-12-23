@@ -9,11 +9,16 @@ public class Projectile : MonoBehaviour
     private const string trailGroupName = "Trail";
     private const string leftoverGround = "LeftoverGroundParticles";
     private Transform explosionChild;
+    private bool explodesOnGroundContact;
 
-    public void Initialize(DamageEnemy damageEnemyHandler, Character attacker)
+    public void Initialize(
+        DamageEnemy damageEnemyHandler,
+        Character attacker,
+        bool explodesOnGroundContact = false)
     {
         this.damageEnemyHandler = damageEnemyHandler;
         this.attacker = attacker;
+        this.explodesOnGroundContact = explodesOnGroundContact;
 
         explosionChild = transform.Find("Explosion");
         TriggerAllParticleSystems(explosionChild, false);
@@ -22,6 +27,11 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (explodesOnGroundContact && other.CompareTag(Constants.Tags.Ground))
+        {
+            this.OnHitTarget(null);
+        }
+
         Character otherCharacter = other.GetComponent<Character>();
 
         if (otherCharacter == null)
@@ -31,12 +41,17 @@ public class Projectile : MonoBehaviour
 
         if (attacker.Enemies.Contains(otherCharacter.Allegiance))
         {
-            damageEnemyHandler(attacker, otherCharacter);
-            DetachParticles(transform.Find(trailGroupName));
-            TriggerGroundParticles();
-            PlayExplosion();
-            Destroy(this.gameObject);
+            this.OnHitTarget(otherCharacter);
         }
+    }
+
+    private void OnHitTarget(Character target)
+    {
+        damageEnemyHandler(attacker, target);
+        DetachParticles(transform.Find(trailGroupName));
+        TriggerGroundParticles();
+        PlayExplosion();
+        Destroy(this.gameObject);
     }
 
     private void DetachParticles(Transform particleGroup)
@@ -55,7 +70,12 @@ public class Projectile : MonoBehaviour
 
     private void TriggerGroundParticles()
     {
-        GameObject groundParticles = transform.Find(leftoverGround).gameObject;
+        GameObject groundParticles = transform.Find(leftoverGround)?.gameObject;
+        if (groundParticles == null)
+        {
+            return;
+        }
+
         groundParticles.transform.parent = null;
         Destroy(groundParticles, 4f);
 

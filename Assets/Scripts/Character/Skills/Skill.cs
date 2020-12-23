@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public abstract class Skill
 {
@@ -37,6 +38,21 @@ public abstract class Skill
     public virtual void DealDamage(Character attacker, Character target)
     {
         target.TakeDamage(CalculateDamage(attacker), attacker);
+    }
+
+    public virtual void Explode(Character attacker, Vector3 position, float radius)
+    {
+        Collider[] hits = Physics.OverlapSphere(position, radius);
+        foreach (Collider hit in hits)
+        {
+            if (hit.TryGetComponent<Character>(out Character character))
+            {
+                if (attacker.Enemies.Contains(character.Allegiance))
+                {
+                    character.TakeDamage(CalculateDamage(attacker), attacker);
+                }
+            }
+        }
     }
 
     public virtual int CalculateDamage(Character attacker)
