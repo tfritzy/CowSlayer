@@ -43,7 +43,15 @@ public abstract class Skill
 
     public virtual bool IsCollisionTarget(Character attacker, GameObject collision)
     {
-        return collision.TryGetComponent<Character>(out _);
+        if (collision.TryGetComponent<Character>(out Character character))
+        {
+            if (attacker.Enemies.Contains(character.Allegiance))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public virtual void Explode(Character attacker, Vector3 position)

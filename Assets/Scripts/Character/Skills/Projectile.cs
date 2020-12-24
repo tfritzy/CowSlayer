@@ -42,7 +42,6 @@ public class Projectile : MonoBehaviour
         {
             damageEnemy(attacker, other.GetComponent<Character>(), this.gameObject);
             DetachParticles(transform.Find(trailGroupName));
-            TriggerGroundParticles();
             PlayExplosion();
             createGroundEffects(attacker, this.transform.position);
             Destroy(this.gameObject);
@@ -61,32 +60,6 @@ public class Projectile : MonoBehaviour
         TriggerAllParticleSystems(explosionChild, true);
         explosionChild.parent = null;
         Destroy(explosionChild.gameObject, 10f);
-    }
-
-    private void TriggerGroundParticles()
-    {
-        GameObject groundParticles = transform.Find(leftoverGround)?.gameObject;
-        if (groundParticles == null)
-        {
-            return;
-        }
-
-        groundParticles.transform.parent = null;
-        Destroy(groundParticles, 4f);
-
-        if (groundParticles == null)
-        {
-            return;
-        }
-
-        groundParticles.GetComponent<ParticleSystem>().Play();
-        for (int i = 0; i < UnityEngine.Random.Range(4, 6); i++)
-        {
-            Vector3 position = groundParticles.transform.position;
-            position += new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), 0, UnityEngine.Random.Range(-0.3f, 0.3f));
-            GameObject gp = Instantiate(groundParticles, position, new Quaternion(), groundParticles.transform);
-            TriggerAllParticleSystems(gp.transform, true);
-        }
     }
 
     private void TriggerAllParticleSystems(Transform transform, bool start)

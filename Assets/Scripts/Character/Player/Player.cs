@@ -94,7 +94,7 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
-        this.PrimarySkill = new Meteor();
+        this.PrimarySkill = new FireBall();
     }
 
     protected override void SetInitialStats()

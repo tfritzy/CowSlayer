@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Meteor : RangedSkill
 {
-    public float GroundFireCount => 8;
+    public int GroundFireCount => 8;
     public int GroundFireDamage => 1;
     public float GroundFireDuration => 2f;
     public override string Name => "Meteor";
@@ -23,7 +23,7 @@ public class Meteor : RangedSkill
 
     protected override void CreateGroundEffects(Character attacker, Vector3 position)
     {
-        List<GameObject> fires = SpawnObjectsInCircle(Constants.Prefabs.GroundFire, 8, position, (float)GroundFireCount / 8f);
+        List<GameObject> fires = SpawnObjectsInCircle(Constants.Prefabs.GroundFire, GroundFireCount, position, (float)GroundFireCount / 6f);
         foreach (GameObject fire in fires)
         {
             fire.GetComponent<GroundFire>().Setup(GroundFireDamage, GroundFireDuration, attacker);
