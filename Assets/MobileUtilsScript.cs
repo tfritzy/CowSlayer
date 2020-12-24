@@ -6,9 +6,11 @@ public class MobileUtilsScript : MonoBehaviour
     private int FramesPerSec;
     private float frequency = 1.0f;
     private string fps;
+    private GUIStyle style = new GUIStyle();
 
     void Start()
     {
+        style.fontSize = 25;
         StartCoroutine(FPS());
     }
 
@@ -30,6 +32,6 @@ public class MobileUtilsScript : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width - 100, 10, 150, 20), fps);
+        GUI.Label(new Rect(Screen.width - 100, 10, 250, 40), fps, style);
     }
 }

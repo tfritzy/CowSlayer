@@ -214,7 +214,7 @@ public static class Constants
             {
                 if (_xpBar == null)
                 {
-                    _xpBar = Constants.Persistant.Canvas.transform.Find("XPBar").GetComponent<XPBar>();
+                    _xpBar = Constants.Persistant.InteractableUI.transform.Find("XPBar").GetComponent<XPBar>();
                 }
 
                 return _xpBar;
