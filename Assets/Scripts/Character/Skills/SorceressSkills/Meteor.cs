@@ -4,16 +4,29 @@ using UnityEngine;
 
 public class Meteor : RangedSkill
 {
+    public float GroundFireCount => 8;
+    public int GroundFireDamage => 1;
+    public float GroundFireDuration => 2f;
     public override string Name => "Meteor";
     public override float Cooldown => 3f;
     public override bool CanAttackWhileMoving => false;
     public override int ManaCost => 30;
+
     protected override float MovementSpeed => 35f;
-    protected override Vector3 ProjectileStartPositionOffset => new Vector3(-30f, 30f, 0);
+    protected override Vector3 ProjectileStartPositionOffset => new Vector3(0f, 30f, -10f);
     protected override float ExplosionRadius => 3f;
 
     public override bool IsCollisionTarget(Character attacker, GameObject collision)
     {
         return collision.CompareTag(Constants.Tags.Ground);
+    }
+
+    protected override void CreateGroundEffects(Character attacker, Vector3 position)
+    {
+        List<GameObject> fires = SpawnObjectsInCircle(Constants.Prefabs.GroundFire, 8, position, (float)GroundFireCount / 8f);
+        foreach (GameObject fire in fires)
+        {
+            fire.GetComponent<GroundFire>().Setup(GroundFireDamage, GroundFireDuration, attacker);
+        }
     }
 }

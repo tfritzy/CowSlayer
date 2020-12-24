@@ -24134,6 +24134,11 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4823272771950324449, guid: 8a4aceaf2957c044480166b429f4c7d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11400002, guid: 8a4aceaf2957c044480166b429f4c7d0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8a4aceaf2957c044480166b429f4c7d0, type: 3}
@@ -24150,6 +24155,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7620643641299552132}
     m_Modifications:
+    - target: {fileID: 100000, guid: 1c7ddd67f1276d849aaf93ebaea00fe0, type: 3}
+      propertyPath: m_Name
+      value: FirePool
+      objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 1c7ddd67f1276d849aaf93ebaea00fe0, type: 3}
       propertyPath: m_Name
       value: LeftoverGroundParticles

@@ -15,6 +15,11 @@ public static class Constants
         }
     }
 
+    public static class WorldProperties
+    {
+        public const float GroundLevel = 0f;
+    }
+
     public static class FilePaths
     {
         public const string Icons = "Icons";
@@ -169,6 +174,20 @@ public static class Constants
                     }
                 }
                 return _cowPrefabs;
+            }
+        }
+
+        private static GameObject _groundFire;
+        public static GameObject GroundFire
+        {
+            get
+            {
+                if (_groundFire == null)
+                {
+                    _groundFire = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/GroundFire");
+                }
+
+                return _groundFire;
             }
         }
     }

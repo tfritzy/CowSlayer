@@ -4,9 +4,11 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public delegate void DamageEnemy(Character attacker, Character target, GameObject projectile);
-    private DamageEnemy DamageEnemyHandler;
+    private DamageEnemy damageEnemy;
     public delegate bool IsCollisionTarget(Character attacker, GameObject collision);
-    private IsCollisionTarget IsCollisionTargetHandler;
+    private IsCollisionTarget isCollisionTarget;
+    public delegate void CreateGroundEffects(Character attacker, Vector3 position);
+    private CreateGroundEffects createGroundEffects;
     private Character attacker;
     private const string trailGroupName = "Trail";
     private const string leftoverGround = "LeftoverGroundParticles";
@@ -15,11 +17,13 @@ public class Projectile : MonoBehaviour
     public void Initialize(
         DamageEnemy damageEnemyHandler,
         IsCollisionTarget isCollisionTarget,
+        CreateGroundEffects createGroundEffects,
         Character attacker,
         bool explodesOnGroundContact = false)
     {
-        this.DamageEnemyHandler = damageEnemyHandler;
-        this.IsCollisionTargetHandler = isCollisionTarget;
+        this.damageEnemy = damageEnemyHandler;
+        this.isCollisionTarget = isCollisionTarget;
+        this.createGroundEffects = createGroundEffects;
         this.attacker = attacker;
 
         explosionChild = transform.Find("Explosion");
@@ -29,12 +33,18 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (IsCollisionTargetHandler(attacker, other.gameObject))
+        if (other?.gameObject == null)
         {
-            DamageEnemyHandler(attacker, other.GetComponent<Character>(), this.gameObject);
+            return;
+        }
+
+        if (isCollisionTarget(attacker, other.gameObject))
+        {
+            damageEnemy(attacker, other.GetComponent<Character>(), this.gameObject);
             DetachParticles(transform.Find(trailGroupName));
             TriggerGroundParticles();
             PlayExplosion();
+            createGroundEffects(attacker, this.transform.position);
             Destroy(this.gameObject);
         }
     }
@@ -50,7 +60,7 @@ public class Projectile : MonoBehaviour
     {
         TriggerAllParticleSystems(explosionChild, true);
         explosionChild.parent = null;
-        Destroy(explosionChild.gameObject, 1f);
+        Destroy(explosionChild.gameObject, 10f);
     }
 
     private void TriggerGroundParticles()

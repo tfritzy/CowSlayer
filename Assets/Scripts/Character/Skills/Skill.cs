@@ -10,7 +10,6 @@ public abstract class Skill
     public float LastAttackTime;
     public abstract int ManaCost { get; }
     protected virtual float ExplosionRadius => 0;
-
     protected GameObject AttackPrefab;
 
     public Skill()
@@ -70,5 +69,27 @@ public abstract class Skill
     public virtual int CalculateDamage(Character attacker)
     {
         return attacker.Damage;
+    }
+
+    protected virtual void CreateGroundEffects(Character attacker, Vector3 position) { }
+
+    protected List<GameObject> SpawnObjectsInCircle(
+        GameObject whatToSpawn,
+        int howManyToSpawn,
+        Vector3 position,
+        float spawnRadius,
+        float level = Constants.WorldProperties.GroundLevel)
+    {
+        List<GameObject> objectsCreated = new List<GameObject>();
+
+        for (int i = 0; i < howManyToSpawn; i++)
+        {
+            Vector3 randomness = Random.insideUnitCircle * spawnRadius;
+            Vector3 spawnPosition = new Vector3(position.x + randomness.x, level, position.z + randomness.y);
+
+            objectsCreated.Add(GameObject.Instantiate(whatToSpawn, spawnPosition, new Quaternion(), null));
+        }
+
+        return objectsCreated;
     }
 }
