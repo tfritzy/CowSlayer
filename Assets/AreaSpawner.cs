@@ -77,13 +77,15 @@ public class AreaSpawner : MonoBehaviour
     private void CleanCowList()
     {
         List<string> cowsToRemove = new List<string>();
-        foreach (string cowName in SpawnedCows.Keys){
-            if (SpawnedCows[cowName] == null){
+        foreach (string cowName in SpawnedCows.Keys)
+        {
+            if (SpawnedCows[cowName] == null)
+            {
                 cowsToRemove.Add(cowName);
             }
         }
 
-        foreach(string cowName in cowsToRemove)
+        foreach (string cowName in cowsToRemove)
         {
             SpawnedCows.Remove(cowName);
         }
@@ -105,7 +107,7 @@ public class AreaSpawner : MonoBehaviour
         {
             CowType type = WhatCowsSpawnInEachArea.ZoneGuardians[AreaType][AreaIndex];
             GameObject newCow = Instantiate(
-                Constants.Prefabs.CowPrefabs[type], 
+                Constants.Prefabs.CowPrefabs[type],
             AreaCenter,
             new Quaternion(),
             this.transform);

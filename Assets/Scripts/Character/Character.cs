@@ -3,12 +3,12 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour, Interactable
 {
-    public virtual int Health 
-    { 
-        get { return _health; } 
-        set 
-        { 
-            _health = value; 
+    public virtual int Health
+    {
+        get { return _health; }
+        set
+        {
+            _health = value;
             if (_health > MaxHealth)
             {
                 _health = MaxHealth;
@@ -18,7 +18,7 @@ public abstract class Character : MonoBehaviour, Interactable
             {
                 _health = 0;
             }
-        } 
+        }
     }
 
     public int MaxHealth { get; protected set; }
@@ -42,12 +42,13 @@ public abstract class Character : MonoBehaviour, Interactable
     public HashSet<Allegiance> Enemies;
     public Body Body;
     public int MaxMana;
+    public int Level;
     private int _mana;
     public virtual int Mana
     {
         get { return _mana; }
-        set 
-        { 
+        set
+        {
             _mana = value;
             if (_mana > MaxMana)
             {

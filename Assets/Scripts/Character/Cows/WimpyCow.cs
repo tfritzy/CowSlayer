@@ -16,13 +16,13 @@ public class WimpyCow : Cow
 
     protected override void SetInitialStats()
     {
-        this.MaxHealth = 5;
-        this.Damage = 2;
+        this.MaxHealth = 5 + Level;
+        this.Damage = 2 + Level / 2;
         this.AttackSpeed = 1;
         this.TargetFindRadius = 5f;
         this.MeleeAttackRange = 2f;
         this.MovementSpeed = 2f;
-        this.XPReward = 1;
+        this.XPReward = 1 + Level;
         this.PrimarySkill = new Whack();
         base.SetInitialStats();
     }
