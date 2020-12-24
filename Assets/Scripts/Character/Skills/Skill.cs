@@ -9,6 +9,7 @@ public abstract class Skill
     public abstract bool CanAttackWhileMoving { get; }
     public float LastAttackTime;
     public abstract int ManaCost { get; }
+    protected virtual float ExplosionRadius => 0;
 
     protected GameObject AttackPrefab;
 
@@ -35,14 +36,25 @@ public abstract class Skill
         return true;
     }
 
-    public virtual void DealDamage(Character attacker, Character target)
+    public virtual void DealDamage(Character attacker, Character target, GameObject projectile)
     {
-        target.TakeDamage(CalculateDamage(attacker), attacker);
+        target?.TakeDamage(CalculateDamage(attacker), attacker);
+        Explode(attacker, projectile.transform.position);
     }
 
-    public virtual void Explode(Character attacker, Vector3 position, float radius)
+    public virtual bool IsCollisionTarget(Character attacker, GameObject collision)
     {
-        Collider[] hits = Physics.OverlapSphere(position, radius);
+        return collision.TryGetComponent<Character>(out _);
+    }
+
+    public virtual void Explode(Character attacker, Vector3 position)
+    {
+        if (ExplosionRadius < .01f)
+        {
+            return;
+        }
+
+        Collider[] hits = Physics.OverlapSphere(position, ExplosionRadius);
         foreach (Collider hit in hits)
         {
             if (hit.TryGetComponent<Character>(out Character character))

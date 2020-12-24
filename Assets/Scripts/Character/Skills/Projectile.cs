@@ -3,22 +3,24 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public delegate void DamageEnemy(Character attacker, Character target);
-    private DamageEnemy damageEnemyHandler;
+    public delegate void DamageEnemy(Character attacker, Character target, GameObject projectile);
+    private DamageEnemy DamageEnemyHandler;
+    public delegate bool IsCollisionTarget(Character attacker, GameObject collision);
+    private IsCollisionTarget IsCollisionTargetHandler;
     private Character attacker;
     private const string trailGroupName = "Trail";
     private const string leftoverGround = "LeftoverGroundParticles";
     private Transform explosionChild;
-    private bool explodesOnGroundContact;
 
     public void Initialize(
         DamageEnemy damageEnemyHandler,
+        IsCollisionTarget isCollisionTarget,
         Character attacker,
         bool explodesOnGroundContact = false)
     {
-        this.damageEnemyHandler = damageEnemyHandler;
+        this.DamageEnemyHandler = damageEnemyHandler;
+        this.IsCollisionTargetHandler = isCollisionTarget;
         this.attacker = attacker;
-        this.explodesOnGroundContact = explodesOnGroundContact;
 
         explosionChild = transform.Find("Explosion");
         TriggerAllParticleSystems(explosionChild, false);
@@ -27,31 +29,14 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (explodesOnGroundContact && other.CompareTag(Constants.Tags.Ground))
+        if (IsCollisionTargetHandler(attacker, other.gameObject))
         {
-            this.OnHitTarget(null);
+            DamageEnemyHandler(attacker, other.GetComponent<Character>(), this.gameObject);
+            DetachParticles(transform.Find(trailGroupName));
+            TriggerGroundParticles();
+            PlayExplosion();
+            Destroy(this.gameObject);
         }
-
-        Character otherCharacter = other.GetComponent<Character>();
-
-        if (otherCharacter == null)
-        {
-            return;
-        }
-
-        if (attacker.Enemies.Contains(otherCharacter.Allegiance))
-        {
-            this.OnHitTarget(otherCharacter);
-        }
-    }
-
-    private void OnHitTarget(Character target)
-    {
-        damageEnemyHandler(attacker, target);
-        DetachParticles(transform.Find(trailGroupName));
-        TriggerGroundParticles();
-        PlayExplosion();
-        Destroy(this.gameObject);
     }
 
     private void DetachParticles(Transform particleGroup)

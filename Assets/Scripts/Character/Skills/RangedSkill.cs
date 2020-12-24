@@ -17,7 +17,7 @@ public abstract class RangedSkill : Skill
         GameObject projectile = GameObject.Instantiate(AttackPrefab, attacker.transform.position + ProjectileStartPositionOffset, new Quaternion(), null);
         Vector3 flyDirection = attackTargetingDetails.TravelDirection - ProjectileStartPositionOffset;
         projectile.GetComponent<Rigidbody>().velocity = flyDirection.normalized * MovementSpeed;
-        projectile.GetComponent<Projectile>().Initialize(DealDamage, attacker);
+        projectile.GetComponent<Projectile>().Initialize(DealDamage, IsCollisionTarget, attacker);
 
         return true;
     }
