@@ -63,6 +63,20 @@ public static class Constants
             }
         }
 
+        private static GameObject _damageNumber;
+        public static GameObject DamageNumber
+        {
+            get
+            {
+                if (_damageNumber == null)
+                {
+                    _damageNumber = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/DamageNumber");
+                }
+
+                return _damageNumber;
+            }
+        }
+
         private static GameObject _closeMenuButton;
         public static GameObject CloseMenuButton
         {

@@ -22,24 +22,13 @@ public class OnScreenNumber : MonoBehaviour
         }
     }
 
-    private Image _icon;
-    private Image iconNextToNumber
-    {
-        get
-        {
-            if (_icon == null)
-            {
-                _icon = transform.Find("Icon").GetComponent<Image>();
-            }
-
-            return _icon;
-        }
-    }
-
+    private Image iconNextToNumber;
     private float birthTime;
     private void Start()
     {
         birthTime = Time.time;
+        iconNextToNumber = transform.Find("Icon")?.GetComponent<Image>();
+        this.transform.position += (Vector3)(Random.insideUnitCircle / 2);
     }
 
     private void Update()
@@ -55,10 +44,13 @@ public class OnScreenNumber : MonoBehaviour
     {
         float alpha = (LifeSpan - (Time.time - birthTime)) / LifeSpan;
 
-        // Set Icon alpha
-        Color currentColor = iconNextToNumber.color;
-        currentColor.a = alpha;
-        iconNextToNumber.color = currentColor;
+        if (iconNextToNumber != null)
+        {
+            // Set Icon alpha
+            Color currentColor = iconNextToNumber.color;
+            currentColor.a = alpha;
+            iconNextToNumber.color = currentColor;
+        }
 
         // Set text alpha
         Color currentTextColor = text.color;
@@ -66,25 +58,40 @@ public class OnScreenNumber : MonoBehaviour
         text.color = currentTextColor;
     }
 
-    public void SetValue(int value, GameObject owner, Sprite icon){
+    public void SetValue(int value, GameObject owner, Sprite icon)
+    {
         this.Value = value;
         text.text = value.ToString();
         SetColor();
         this.transform.position = Constants.Persistant.Camera.WorldToScreenPoint(owner.transform.position);
         this.GetComponent<Rigidbody>().velocity = Vector3.up * 100;
-        iconNextToNumber.sprite = icon;
+
+        if (iconNextToNumber != null)
+        {
+            iconNextToNumber.sprite = icon;
+        }
     }
 
-    private void SetColor(){
-        if (Value > 1000){
+    private void SetColor()
+    {
+        if (Value > 1000)
+        {
             this.text.color = Color.magenta;
-        } else if (Value > 500){
+        }
+        else if (Value > 500)
+        {
             this.text.color = Color.red;
-        } else if (Value > 100){
+        }
+        else if (Value > 100)
+        {
             this.text.color = Color.yellow;
-        } else if (Value > 30){
+        }
+        else if (Value > 30)
+        {
             this.text.color = new Color(1f, .5f, 0);
-        } else {
+        }
+        else
+        {
             this.text.color = Color.white;
         }
     }
