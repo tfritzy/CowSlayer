@@ -25,8 +25,8 @@ public class SkillTreeButton : MonoBehaviour
 
         if (IsUnlocked())
         {
-            outline.color = Constants.UI.Colors.LightBase;
-            background.color = Constants.UI.Colors.Base;
+            outline.color = Constants.UI.Colors.VeryBrightBase;
+            background.color = Constants.UI.Colors.BrightBase;
             level.text = GameState.Data.SkillLevels[skillType].ToString();
         }
         else if (IsUnlockable())
@@ -56,29 +56,34 @@ public class SkillTreeButton : MonoBehaviour
     private bool IsUnlockable()
     {
         Skill skill = Constants.Skills[skillType];
-        bool isUnlockable = true;
-        foreach (SkillType type in skill.UnlockDependsOn.Keys)
+        foreach (SkillType type in skill.UnlockDependsOn)
         {
             GameState.Data.SkillLevels.TryGetValue(type, out int skillLevel);
 
-            if (skillLevel < skill.UnlockDependsOn[type])
+            if (skillLevel == 0)
             {
-                isUnlockable = false;
+                return false;
             }
         }
 
-        return isUnlockable;
+        return true;
     }
 
 
     public void Click()
     {
+        if (GameState.Data.UnspentSkillPoints <= 0)
+        {
+            return;
+        }
+
         if (GameState.Data.SkillLevels.ContainsKey(skillType) == false)
         {
             GameState.Data.SkillLevels[skillType] = 0;
         }
 
         GameState.Data.SkillLevels[skillType] += 1;
+        GameState.Data.UnspentSkillPoints -= 1;
 
         parent.RefreshButtonValues();
     }

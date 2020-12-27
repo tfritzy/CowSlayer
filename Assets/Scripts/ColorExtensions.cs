@@ -22,7 +22,7 @@ namespace Extensions
         public static Color Lighten(Color color)
         {
             float a = color.a;
-            color *= 2;
+            color *= 1.5f;
             color.a = a;
             return color;
         }

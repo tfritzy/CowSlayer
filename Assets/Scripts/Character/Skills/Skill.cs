@@ -11,8 +11,8 @@ public abstract class Skill
     public abstract int ManaCost { get; }
     protected virtual float ExplosionRadius => 0;
     protected GameObject AttackPrefab;
-    public virtual Dictionary<SkillType, int> UnlockDependsOn => new Dictionary<SkillType, int>();
-    public abstract SkillType Type {get;}
+    public virtual HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>();
+    public abstract SkillType Type { get; }
 
     public Sprite Icon {
         get {

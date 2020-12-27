@@ -7,5 +7,4 @@ public class Whack : MeleeSkill
     public override SkillType Type => SkillType.Whack;
 
     protected override string IconFilePath => $"{Constants.FilePaths.Icons}/DaggerIcon";
-    
 }

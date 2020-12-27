@@ -10,6 +10,10 @@ public abstract class SkillTree : MonoBehaviour
 
     void Start()
     {
+        transform.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.Base;
+        transform.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.BrightBase;
+
+        GameObject.Instantiate(Constants.Prefabs.CloseMenuButton, Constants.Persistant.InteractableUI);
         RefreshButtonValues();
     }
 
@@ -27,5 +31,7 @@ public abstract class SkillTree : MonoBehaviour
             buttons.Add(transform.Find($"SkillTreeSlot{i}"));
             buttons[i].GetComponent<SkillTreeButton>().Setup(Skills[i], this);
         }
+        
+        transform.Find("SkillPoints").GetComponent<Text>().text = $"Skill Points: {GameState.Data.UnspentSkillPoints}";
     }
 }

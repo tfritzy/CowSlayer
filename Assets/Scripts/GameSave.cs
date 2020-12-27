@@ -9,7 +9,9 @@ public class GameSave
     public int HighestZoneUnlocked;
     public int PlayerLevel;
     public int PlayerXP;
-    public string CharacterFaction => "FireSorcress";
+    public string CharacterFaction;
+    public int UnspentSkillPoints;
+    private Dictionary<SkillType, int> _skillTypes;
     public Dictionary<SkillType, int> SkillLevels{
         get {
             if (_skillTypes == null)
@@ -20,6 +22,4 @@ public class GameSave
             return _skillTypes;
         }
     }
-
-    private Dictionary<SkillType, int> _skillTypes;
 }

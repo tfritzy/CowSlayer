@@ -220,7 +220,7 @@ public class Player : Character
     private void ConfigureStatsMenu(Transform statsMenu)
     {
         statsMenu.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.LightBase;
-        statsMenu.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.Highlight;
+        statsMenu.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.BrightBase;
         statsMenu.Find("Gold").GetComponent<Text>().text = $"{this.Gold} Gold";
 
     }

@@ -9,7 +9,16 @@ public class GameState : MonoBehaviour
 
     public static void Load()
     {
-        _data = new GameSave();
+        // Initialize Test Data
+        _data = new GameSave()
+        {
+            CharacterFaction = "FireSorcress",
+            HighestZoneUnlocked = 0,
+            PlayerLevel = 1,
+            PlayerXP = 3,
+            UnspentSkillPoints = 2,
+        };
+
         _data.PlayerLevel = Mathf.Max(_data.PlayerLevel, 1);
     }
 

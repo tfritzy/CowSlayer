@@ -213,7 +213,7 @@ public abstract class ItemGroup
             uiPosition, new Quaternion(), Constants.Persistant.InteractableUI.transform);
         GameObject backdrop = chestUI.transform.Find("Backdrop").gameObject;
         Transform background = backdrop.transform.Find("Background");
-        background.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.Highlight;
+        background.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.BrightBase;
         background.GetComponent<Image>().color = Constants.UI.Colors.Base;
         this.TransferTarget = transferTarget;
         ButtonInsts = new List<GameObject>();
@@ -234,7 +234,7 @@ public abstract class ItemGroup
         {
             button.transform.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.LightBase;
             button.transform.Find("Icon").GetComponent<Image>().color = Color.clear;
-            button.transform.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.Highlight;
+            button.transform.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.BrightBase;
             button.transform.Find("Quantity").GetComponent<Text>().text = string.Empty;
             button.GetComponent<ChestButton>().SetItem(null);
         }

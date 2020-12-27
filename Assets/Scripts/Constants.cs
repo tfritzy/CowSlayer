@@ -9,9 +9,11 @@ public static class Constants
     {
         public static class Colors
         {
-            public readonly static Color Highlight = ColorExtensions.Create("74355E");
+            public readonly static Color VeryBrightBase = ColorExtensions.Create("a66790");
+            public readonly static Color BrightBase = ColorExtensions.Create("74355E");
             public readonly static Color Base = ColorExtensions.Create("3F2C45");
             public readonly static Color LightBase = ColorExtensions.Create("4E2E51");
+            public readonly static Color HighLight = ColorExtensions.Create("FFD700");
         }
     }
 
