@@ -7,12 +7,5 @@ using System.Threading.Tasks;
 
 public abstract class ZoneGuardian : Cow
 {
-    public int Zone;
-
-    protected override void OnDeath()
-    {
-
-        base.OnDeath();
-    }
 }
 

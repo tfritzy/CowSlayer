@@ -11,10 +11,19 @@ public class Meteor : RangedSkill
     public override float Cooldown => 3f;
     public override bool CanAttackWhileMoving => false;
     public override int ManaCost => 30;
+    public override SkillType Type => SkillType.Meteor;
 
     protected override float MovementSpeed => 35f;
     protected override Vector3 ProjectileStartPositionOffset => new Vector3(0f, 30f, -10f);
     protected override float ExplosionRadius => 3f;
+    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/DaggerIcon";
+    public override Dictionary<SkillType, int> UnlockDependsOn => new Dictionary<SkillType, int>()
+    {
+        {
+            SkillType.Fireball,
+            3
+        },
+    };
 
     public override bool IsCollisionTarget(Character attacker, GameObject collision)
     {

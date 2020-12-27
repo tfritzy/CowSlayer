@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.9339623, g: 0.18062477, b: 0.18062477, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -139,7 +140,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7376854730432665323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2d8481ea42b7e445a1b99052f04154d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c7d80fcec96e7f4ba09cfcba51175ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7376854732139921811
@@ -202,6 +203,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.6862745, g: 0.10196079, b: 0.07058824, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -18,7 +18,7 @@ public class Player : Character
     private float dashStartTime;
     private Vector3 dashDirection;
 
-    public int Level
+    public override int Level
     {
         get
         {

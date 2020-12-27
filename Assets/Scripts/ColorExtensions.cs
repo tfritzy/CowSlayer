@@ -18,5 +18,13 @@ namespace Extensions
         {
             return new Color(r / 255f, g / 255f, b / 255f);
         }
+
+        public static Color Lighten(Color color)
+        {
+            float a = color.a;
+            color *= 2;
+            color.a = a;
+            return color;
+        }
     }
 }

@@ -15,6 +15,33 @@ public static class Constants
         }
     }
 
+    private static Dictionary<SkillType, Skill> _skills;
+    public static Dictionary<SkillType, Skill> Skills
+    {
+        get {
+            if (_skills == null)
+            {
+                _skills = new Dictionary<SkillType, Skill>()
+                {
+                    {
+                        SkillType.Firebolt,
+                        new FireBolt()
+                    },
+                    {
+                        SkillType.Fireball,
+                        new FireBall()
+                    },
+                    {
+                        SkillType.Meteor,
+                        new Meteor()
+                    }
+                };
+            }
+
+            return _skills;
+        }
+    }
+
     public static class WorldProperties
     {
         public const float GroundLevel = 0f;

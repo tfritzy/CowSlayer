@@ -11,6 +11,21 @@ public abstract class Skill
     public abstract int ManaCost { get; }
     protected virtual float ExplosionRadius => 0;
     protected GameObject AttackPrefab;
+    public virtual Dictionary<SkillType, int> UnlockDependsOn => new Dictionary<SkillType, int>();
+    public abstract SkillType Type {get;}
+
+    public Sprite Icon {
+        get {
+            if (_icon == null)
+            {
+                _icon = Resources.Load<Sprite>(IconFilePath);
+            }
+
+            return _icon;
+        }
+    }
+    protected abstract string IconFilePath {get;}
+    private Sprite _icon;
 
     public Skill()
     {

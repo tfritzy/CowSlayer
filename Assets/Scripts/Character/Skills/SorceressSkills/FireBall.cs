@@ -11,9 +11,11 @@ public class FireBall : RangedSkill
     public override float Cooldown => 2f;
     public override bool CanAttackWhileMoving => false;
     public override int ManaCost => 20;
+    public override SkillType Type => SkillType.Fireball;
 
     protected override float MovementSpeed => 14f;
     protected override float ExplosionRadius => 1f;
+    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/DaggerIcon";
 
     protected override void CreateGroundEffects(Character attacker, Vector3 position)
     {

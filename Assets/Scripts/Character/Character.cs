@@ -42,7 +42,7 @@ public abstract class Character : MonoBehaviour, Interactable
     public HashSet<Allegiance> Enemies;
     public Body Body;
     public int MaxMana;
-    public int Level;
+    public virtual int Level { get; set; }
     private int _mana;
     public virtual int Mana
     {
