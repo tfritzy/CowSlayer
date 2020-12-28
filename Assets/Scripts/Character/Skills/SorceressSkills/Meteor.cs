@@ -19,7 +19,7 @@ public class Meteor : RangedSkill
     protected override string IconFilePath => $"{Constants.FilePaths.Icons}/DaggerIcon";
     public override HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>()
     {
-        SkillType.Fireball,       
+        SkillType.Firebolt,       
     };
 
     public override bool IsCollisionTarget(Character attacker, GameObject collision)

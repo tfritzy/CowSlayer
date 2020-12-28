@@ -31,7 +31,10 @@ public class GroundFire : PersistantAreaEffect
     {
         if (gameObject.TryGetComponent<Character>(out Character character))
         {
-            character.TakeDamage(Damage, Attacker);
+            if (Attacker.Enemies.Contains(character.Allegiance))
+            {
+                character.TakeDamage(Damage, Attacker);
+            }
         }
     }
 }

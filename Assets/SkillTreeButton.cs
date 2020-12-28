@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SkillTreeButton : MonoBehaviour
 {
     public SkillType skillType;
+    public int ButtonIndex;
 
     private SkillTree parent;
     private Image background;
@@ -12,10 +13,11 @@ public class SkillTreeButton : MonoBehaviour
     private Image icon;
     private Text level;
 
-    public void Setup(SkillType skillType, SkillTree parent)
+    public void Setup(SkillType skillType, SkillTree parent, int buttonIndex)
     {
         this.skillType = skillType;
         this.parent = parent;
+        this.ButtonIndex = buttonIndex;
         background = transform.Find("Background").GetComponent<Image>();
         outline = transform.Find("Outline").GetComponent<Image>();
         icon = transform.Find("Icon").GetComponent<Image>();
@@ -37,6 +39,24 @@ public class SkillTreeButton : MonoBehaviour
         {
             outline.color = Color.grey;
             background.color = ColorExtensions.Lighten(Color.black);
+        }
+
+        foreach (SkillType sourceType in Constants.Skills[skillType].UnlockDependsOn)
+        {
+            // TODO: Remove this dependency on parent data.
+            Transform sourceButton = parent.GetComponent<SkillTree>().Buttons[sourceType];
+
+            int sourceIndex = sourceButton.GetComponent<SkillTreeButton>().ButtonIndex;
+            Transform link = parent.transform.Find($"Link {sourceIndex}-{ButtonIndex}");
+
+            if (IsUnlocked())
+            {
+                link.GetComponent<Image>().color = Color.yellow;
+            } else
+            {
+                link.GetComponent<Image>().color = Color.grey;
+            }
+            
         }
     }
 

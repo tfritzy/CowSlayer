@@ -216,7 +216,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 48853174}
-        m_MethodName: OpenInventory
+        m_MethodName: OpenSkillsMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -849,7 +849,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 179295647}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2d8481ea42b7e445a1b99052f04154d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c7d80fcec96e7f4ba09cfcba51175ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &179295650
@@ -17606,17 +17606,17 @@ Canvas:
   m_GameObject: {fileID: 883663920}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 963194227}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 260253459
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &883663925
 RectTransform:
@@ -18374,7 +18374,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.024, y: 0.97}
   m_AnchorMax: {x: 0.9812591, y: 0.984}
-  m_AnchoredPosition: {x: -1.97, y: -22.55}
+  m_AnchoredPosition: {x: -1.9700012, y: -22.55}
   m_SizeDelta: {x: -12.02, y: 47.31}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1259580324
@@ -21851,7 +21851,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.024, y: 0.97}
   m_AnchorMax: {x: 0.9812591, y: 0.984}
-  m_AnchoredPosition: {x: -1.97, y: -22.55}
+  m_AnchoredPosition: {x: -1.9700012, y: -22.55}
   m_SizeDelta: {x: -12.02, y: 33.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1985604903

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public abstract class SkillTree : MonoBehaviour
 {
-    protected virtual List<SkillType> Skills {get;}
-    private List<Transform> buttons;
+    protected virtual List<SkillType> Skills { get; }
+    public Dictionary<SkillType, Transform> Buttons;
 
     void Start()
     {
@@ -17,21 +17,15 @@ public abstract class SkillTree : MonoBehaviour
         RefreshButtonValues();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void RefreshButtonValues()
     {
-        buttons = new List<Transform>();
+        Buttons = new Dictionary<SkillType, Transform>();
         for (int i = 0; i < Skills.Count; i++)
         {
-            buttons.Add(transform.Find($"SkillTreeSlot{i}"));
-            buttons[i].GetComponent<SkillTreeButton>().Setup(Skills[i], this);
+            Buttons[Skills[i]] = transform.Find($"SkillTreeSlot{i}");
+            Buttons[Skills[i]].GetComponent<SkillTreeButton>().Setup(Skills[i], this, i);
         }
-        
+
         transform.Find("SkillPoints").GetComponent<Text>().text = $"Skill Points: {GameState.Data.UnspentSkillPoints}";
     }
 }
