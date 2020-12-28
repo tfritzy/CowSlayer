@@ -94,7 +94,8 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
-        this.PrimarySkill = new FireBall();
+        this.PrimarySkill = Constants.Skills[GameState.Data.PrimarySkill];
+        this.SecondarySkill = Constants.Skills[GameState.Data.SecondarySkill];
     }
 
     protected override void SetInitialStats()
@@ -238,6 +239,18 @@ public class Player : Character
         this.transform.position = Constants.Persistant.SpawnPoint;
         this.Health = MaxHealth;
         this.IsDead = false;
+    }
+
+    public void SetAbility(int index, SkillType skill)
+    {
+        if (index == 0)
+        {
+            PrimarySkill = Constants.Skills[skill];
+        }
+        else
+        {
+            SecondarySkill = Constants.Skills[skill];
+        }
     }
 
     private void ShowDeathScreen()

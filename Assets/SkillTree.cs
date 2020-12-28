@@ -15,6 +15,7 @@ public abstract class SkillTree : MonoBehaviour
 
         GameObject.Instantiate(Constants.Prefabs.CloseMenuButton, Constants.Persistant.InteractableUI);
         RefreshButtonValues();
+        FormatAbilitySelectButtons();
     }
 
     public void RefreshButtonValues()
@@ -23,9 +24,60 @@ public abstract class SkillTree : MonoBehaviour
         for (int i = 0; i < Skills.Count; i++)
         {
             Buttons[Skills[i]] = transform.Find($"SkillTreeSlot{i}");
-            Buttons[Skills[i]].GetComponent<SkillTreeButton>().Setup(Skills[i], this, i);
+            SkillTreeButton button = Buttons[Skills[i]].GetComponent<SkillTreeButton>();
+            button.Setup(Skills[i], this, i);
+
+            foreach (SkillType sourceType in Constants.Skills[button.SkillType].UnlockDependsOn)
+            {
+                Transform sourceButton = Buttons[sourceType];
+                int sourceIndex = sourceButton.GetComponent<SkillTreeButton>().ButtonIndex;
+                Transform link = transform.Find($"Link {sourceIndex}-{i}");
+
+                if (button.IsUnlocked())
+                {
+                    link.GetComponent<Image>().color = Constants.UI.Colors.HighLight;
+                }
+                else if (button.IsUnlockable())
+                {
+                    link.GetComponent<Image>().color = Constants.UI.Colors.VeryBrightBase;
+                }
+                else
+                {
+                    link.GetComponent<Image>().color = Color.grey;
+                }
+            }
         }
 
         transform.Find("SkillPoints").GetComponent<Text>().text = $"Skill Points: {GameState.Data.UnspentSkillPoints}";
+    }
+
+    public void SetSelectingAbility(int abilityIndex)
+    {
+        foreach (Transform button in Buttons.Values)
+        {
+            if (button.GetComponent<SkillTreeButton>().IsUnlocked())
+            {
+                button.GetComponent<SkillTreeButton>().SetSelectingAbility(true, abilityIndex);
+            }
+        }
+    }
+
+    public void StopSelectingAbility()
+    {
+        foreach (Transform button in Buttons.Values)
+        {
+            button.GetComponent<SkillTreeButton>().SetSelectingAbility(false, 0);
+        }
+    }
+
+    private void FormatAbilitySelectButtons()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            Transform button = transform.Find($"AbilitySelect{i}");
+            button.Find("Icon").GetComponent<Image>().color = Constants.UI.Colors.HighLight;
+            button.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.BrightBase;
+            button.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.BrightBase;
+        }
     }
 }

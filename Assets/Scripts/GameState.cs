@@ -17,6 +17,8 @@ public class GameState : MonoBehaviour
             PlayerLevel = 1,
             PlayerXP = 3,
             UnspentSkillPoints = 2,
+            PrimarySkill = SkillType.Firebolt,
+            SecondarySkill = SkillType.Meteor,
         };
 
         _data.PlayerLevel = Mathf.Max(_data.PlayerLevel, 1);

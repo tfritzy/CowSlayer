@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class SkillTreeButton : MonoBehaviour
 {
-    public SkillType skillType;
+    public SkillType SkillType;
     public int ButtonIndex;
 
     private SkillTree parent;
@@ -13,9 +13,19 @@ public class SkillTreeButton : MonoBehaviour
     private Image icon;
     private Text level;
 
+    void Update()
+    {
+        if (IsSelectingAbility && icon != null)
+        {
+            Color lerpedColor = Color.Lerp(Color.white, Color.white / 2, Mathf.PingPong(Time.time, 1));
+            icon.color = lerpedColor;
+            outline.color = lerpedColor;
+        }
+    }
+
     public void Setup(SkillType skillType, SkillTree parent, int buttonIndex)
     {
-        this.skillType = skillType;
+        this.SkillType = skillType;
         this.parent = parent;
         this.ButtonIndex = buttonIndex;
         background = transform.Find("Background").GetComponent<Image>();
@@ -25,44 +35,26 @@ public class SkillTreeButton : MonoBehaviour
         level.text = "";
         icon.sprite = Constants.Skills[skillType].Icon;
 
-        if (IsUnlocked())
-        {
-            outline.color = Constants.UI.Colors.VeryBrightBase;
-            background.color = Constants.UI.Colors.BrightBase;
-            level.text = GameState.Data.SkillLevels[skillType].ToString();
-        }
-        else if (IsUnlockable())
-        {
-            background.color = ColorExtensions.Lighten(Color.blue);
-            outline.color = Color.blue;
-        } else 
-        {
-            outline.color = Color.grey;
-            background.color = ColorExtensions.Lighten(Color.black);
-        }
+        this.IsSelectingAbility = false;
+        SetupColors();
+    }
 
-        foreach (SkillType sourceType in Constants.Skills[skillType].UnlockDependsOn)
+
+    private bool IsSelectingAbility;
+    private int selectingIndex;
+    public void SetSelectingAbility(bool starting, int abilityIndex)
+    {
+        IsSelectingAbility = starting;
+
+        if (IsSelectingAbility == false)
         {
-            // TODO: Remove this dependency on parent data.
-            Transform sourceButton = parent.GetComponent<SkillTree>().Buttons[sourceType];
-
-            int sourceIndex = sourceButton.GetComponent<SkillTreeButton>().ButtonIndex;
-            Transform link = parent.transform.Find($"Link {sourceIndex}-{ButtonIndex}");
-
-            if (IsUnlocked())
-            {
-                link.GetComponent<Image>().color = Color.yellow;
-            } else
-            {
-                link.GetComponent<Image>().color = Color.grey;
-            }
-            
+            SetupColors();
         }
     }
 
-    private bool IsUnlocked()
+    public bool IsUnlocked()
     {
-        if (GameState.Data.SkillLevels.TryGetValue(skillType, out int skillLevel))
+        if (GameState.Data.SkillLevels.TryGetValue(SkillType, out int skillLevel))
         {
             if (skillLevel > 0)
             {
@@ -73,9 +65,9 @@ public class SkillTreeButton : MonoBehaviour
         return false;
     }
 
-    private bool IsUnlockable()
+    public bool IsUnlockable()
     {
-        Skill skill = Constants.Skills[skillType];
+        Skill skill = Constants.Skills[SkillType];
         foreach (SkillType type in skill.UnlockDependsOn)
         {
             GameState.Data.SkillLevels.TryGetValue(type, out int skillLevel);
@@ -89,22 +81,62 @@ public class SkillTreeButton : MonoBehaviour
         return true;
     }
 
-
     public void Click()
+    {
+        if (IsSelectingAbility)
+        {
+            SelectAbility();
+        }
+        else
+        {
+            UpgradeSkill();
+        }
+    }
+
+    private void SelectAbility()
+    {
+        Constants.Persistant.PlayerScript.SetAbility(selectingIndex, SkillType);
+        parent.StopSelectingAbility();
+    }
+
+    private void UpgradeSkill()
     {
         if (GameState.Data.UnspentSkillPoints <= 0)
         {
             return;
         }
 
-        if (GameState.Data.SkillLevels.ContainsKey(skillType) == false)
+        if (GameState.Data.SkillLevels.ContainsKey(SkillType) == false)
         {
-            GameState.Data.SkillLevels[skillType] = 0;
+            GameState.Data.SkillLevels[SkillType] = 0;
         }
 
-        GameState.Data.SkillLevels[skillType] += 1;
+        GameState.Data.SkillLevels[SkillType] += 1;
         GameState.Data.UnspentSkillPoints -= 1;
 
         parent.RefreshButtonValues();
+    }
+
+    private void SetupColors()
+    {
+        if (IsUnlocked())
+        {
+            icon.color = Constants.UI.Colors.HighLight;
+            outline.color = Constants.UI.Colors.HighLight;
+            background.color = Constants.UI.Colors.BrightBase;
+            level.text = GameState.Data.SkillLevels[SkillType].ToString();
+        }
+        else if (IsUnlockable())
+        {
+            icon.color = Constants.UI.Colors.VeryBrightBase;
+            outline.color = Constants.UI.Colors.VeryBrightBase;
+            background.color = Constants.UI.Colors.BrightBase;
+        }
+        else
+        {
+            icon.color = Color.grey;
+            outline.color = Color.grey;
+            background.color = new Color(0.25f, 0.25f, 0.25f, 1);
+        }
     }
 }

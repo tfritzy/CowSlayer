@@ -16,7 +16,7 @@ public class Meteor : RangedSkill
     protected override float MovementSpeed => 35f;
     protected override Vector3 ProjectileStartPositionOffset => new Vector3(0f, 30f, -10f);
     protected override float ExplosionRadius => 3f;
-    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/DaggerIcon";
+    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/Meteor";
     public override HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>()
     {
         SkillType.Firebolt,       

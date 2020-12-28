@@ -36,6 +36,7 @@ public abstract class Character : MonoBehaviour, Interactable
     public float MeleeAttackRange;
     public float RangedAttackRange;
     public Skill PrimarySkill;
+    public Skill SecondarySkill;
     public GameObject Target;
     public string Name;
     public Allegiance Allegiance;

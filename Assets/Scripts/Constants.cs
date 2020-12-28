@@ -13,7 +13,7 @@ public static class Constants
             public readonly static Color BrightBase = ColorExtensions.Create("74355E");
             public readonly static Color Base = ColorExtensions.Create("3F2C45");
             public readonly static Color LightBase = ColorExtensions.Create("4E2E51");
-            public readonly static Color HighLight = ColorExtensions.Create("FFD700");
+            public readonly static Color HighLight = ColorExtensions.Create("ECB000");
         }
     }
 

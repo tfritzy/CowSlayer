@@ -15,7 +15,7 @@ public class FireBall : RangedSkill
 
     protected override float MovementSpeed => 14f;
     protected override float ExplosionRadius => 1f;
-    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/DaggerIcon";
+    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/FireBall";
 
     protected override void CreateGroundEffects(Character attacker, Vector3 position)
     {
