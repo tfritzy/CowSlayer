@@ -16,7 +16,7 @@ public class GameState : MonoBehaviour
             HighestZoneUnlocked = 0,
             PlayerLevel = 1,
             PlayerXP = 3,
-            UnspentSkillPoints = 2,
+            UnspentSkillPoints = 3,
             PrimarySkill = SkillType.Firebolt,
             SecondarySkill = SkillType.Meteor,
         };

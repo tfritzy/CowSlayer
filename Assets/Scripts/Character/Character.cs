@@ -81,7 +81,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Mana = this.MaxMana;
     }
 
-    void Start()
+    void Awake()
     {
         Initialize();
     }

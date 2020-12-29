@@ -223,7 +223,6 @@ public class Player : Character
         statsMenu.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.LightBase;
         statsMenu.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.BrightBase;
         statsMenu.Find("Gold").GetComponent<Text>().text = $"{this.Gold} Gold";
-
     }
 
     protected override void OnDeath()
@@ -251,6 +250,8 @@ public class Player : Character
         {
             SecondarySkill = Constants.Skills[skill];
         }
+
+        Constants.Persistant.AbilityButtons[index].FormatButton();
     }
 
     private void ShowDeathScreen()

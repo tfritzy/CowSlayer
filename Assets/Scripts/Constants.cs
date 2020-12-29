@@ -20,7 +20,8 @@ public static class Constants
     private static Dictionary<SkillType, Skill> _skills;
     public static Dictionary<SkillType, Skill> Skills
     {
-        get {
+        get
+        {
             if (_skills == null)
             {
                 _skills = new Dictionary<SkillType, Skill>()
@@ -47,6 +48,7 @@ public static class Constants
     public static class WorldProperties
     {
         public const float GroundLevel = 0f;
+        public const int PlayerAbilityCount = 2;
     }
 
     public static class FilePaths
@@ -247,6 +249,24 @@ public static class Constants
                     _player = GameObject.Find("Player");
                 }
                 return _player;
+            }
+        }
+
+        private static List<AbilityButton> _abilityButtons;
+        public static List<AbilityButton> AbilityButtons
+        {
+            get
+            {
+                if (_abilityButtons == null || _abilityButtons.Count == 0)
+                {
+                    _abilityButtons = new List<AbilityButton>();
+                    for (int i = 0; i < WorldProperties.PlayerAbilityCount; i++)
+                    {
+                        _abilityButtons.Add(Constants.Persistant.InteractableUI.Find($"Skill{i}").GetComponent<AbilityButton>());
+                    }
+                }
+
+                return _abilityButtons;
             }
         }
 

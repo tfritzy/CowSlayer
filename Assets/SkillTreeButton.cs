@@ -45,6 +45,7 @@ public class SkillTreeButton : MonoBehaviour
     public void SetSelectingAbility(bool starting, int abilityIndex)
     {
         IsSelectingAbility = starting;
+        selectingIndex = abilityIndex;
 
         if (IsSelectingAbility == false)
         {
@@ -95,12 +96,22 @@ public class SkillTreeButton : MonoBehaviour
 
     private void SelectAbility()
     {
+        if (IsUnlocked() == false)
+        {
+            return;
+        }
+
         Constants.Persistant.PlayerScript.SetAbility(selectingIndex, SkillType);
         parent.StopSelectingAbility();
     }
 
     private void UpgradeSkill()
     {
+        if (IsUnlockable() == false)
+        {
+            return;
+        }
+
         if (GameState.Data.UnspentSkillPoints <= 0)
         {
             return;

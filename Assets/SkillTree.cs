@@ -68,6 +68,8 @@ public abstract class SkillTree : MonoBehaviour
         {
             button.GetComponent<SkillTreeButton>().SetSelectingAbility(false, 0);
         }
+
+        FormatAbilitySelectButtons();
     }
 
     private void FormatAbilitySelectButtons()
@@ -76,8 +78,21 @@ public abstract class SkillTree : MonoBehaviour
         {
             Transform button = transform.Find($"AbilitySelect{i}");
             button.Find("Icon").GetComponent<Image>().color = Constants.UI.Colors.HighLight;
+            button.Find("Icon").GetComponent<Image>().sprite = GetSkillIcon(i);
             button.Find("Outline").GetComponent<Image>().color = Constants.UI.Colors.BrightBase;
             button.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.BrightBase;
+        }
+    }
+
+    private Sprite GetSkillIcon(int abilityIndex)
+    {
+        if (abilityIndex == 0)
+        {
+            return Constants.Persistant.PlayerScript.PrimarySkill.Icon;
+        }
+        else
+        {
+            return Constants.Persistant.PlayerScript.SecondarySkill.Icon;
         }
     }
 }

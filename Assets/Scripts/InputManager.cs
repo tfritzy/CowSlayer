@@ -9,7 +9,8 @@ public class InputManager : MonoBehaviour
         ShootRayCast();
     }
 
-    private void ShootRayCast(){
+    private void ShootRayCast()
+    {
         Vector3? inputPos = null;
         if (Input.GetMouseButtonDown(0))
         {
@@ -23,10 +24,10 @@ public class InputManager : MonoBehaviour
         {
             return;
         }
-        
-        Ray ray = Camera.main.ScreenPointToRay (inputPos.Value);
+
+        Ray ray = Camera.main.ScreenPointToRay(inputPos.Value);
         RaycastHit hit;
-        if(Physics.Raycast (ray, out hit, 100f, Constants.Layers.Character))
+        if (Physics.Raycast(ray, out hit, 100f, Constants.Layers.Character))
         {
             hit.collider.gameObject.GetComponent<Interactable>().Interact();
         }
