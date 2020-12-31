@@ -101,23 +101,34 @@ public abstract class Character : MonoBehaviour, Interactable
 
     public virtual void PrimaryAttack()
     {
+        PerformAttack(PrimarySkill);
+    }
+
+    /// <summary>
+    /// Tries to attack the target with the given skill. Returns true if successful, false otherwise.
+    /// </summary>
+    protected bool PerformAttack(Skill skill)
+    {
         if (IsDead)
         {
-            return;
+            return false;
         }
 
-        if (Target == null || Time.time - PrimarySkill.LastAttackTime < PrimarySkill.Cooldown)
+        if (Target == null || Time.time - skill.LastAttackTime < skill.Cooldown)
         {
-            return;
+            return false;
         }
 
-        if (!PrimarySkill.CanAttackWhileMoving && this.GetComponent<Rigidbody>().velocity.magnitude > .1f)
+        // Allow secondary skill to attack while moving.
+        if (!skill.CanAttackWhileMoving && 
+            this.GetComponent<Rigidbody>().velocity.magnitude > .1f &&
+            skill != SecondarySkill)
         {
-            return;
+            return false;
         }
 
         float distanceToTarget = GetDistBetweenColliders(Target.GetComponent<Collider>(), this.GetComponent<Collider>());
-        if (distanceToTarget <= GetAttackRange(PrimarySkill))
+        if (distanceToTarget <= GetAttackRange(skill))
         {
             AttackTargetingDetails targetingDetails = new AttackTargetingDetails
             {
@@ -126,7 +137,8 @@ public abstract class Character : MonoBehaviour, Interactable
                 TravelDirection = Target.transform.position - this.transform.position
             };
 
-            PrimarySkill.Attack(this, targetingDetails);
+            skill.Attack(this, targetingDetails);
+            return true;
         }
         else
         {
@@ -135,6 +147,8 @@ public abstract class Character : MonoBehaviour, Interactable
                 Target = null;
             }
         }
+
+        return false;
     }
 
     protected float timeBetweenTargetChecks = .5f;

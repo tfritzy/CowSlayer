@@ -115,4 +115,9 @@ public abstract class Skill
 
         return objectsCreated;
     }
+
+    public float RemainingCooldown()
+    {
+        return Mathf.Max(0, Cooldown - (Time.time - LastAttackTime));
+    }
 }

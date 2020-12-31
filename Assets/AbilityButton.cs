@@ -10,6 +10,7 @@ public class AbilityButton : MonoBehaviour
     private Image outline;
     private Image icon;
     private Text text;
+    private Skill skill;
 
     // Start is called before the first frame update
     void Start()
@@ -18,13 +19,26 @@ public class AbilityButton : MonoBehaviour
         outline = transform.Find("Outline").GetComponent<Image>();
         icon = transform.Find("Icon").GetComponent<Image>();
         text = transform.Find("Text").GetComponent<Text>();
+        skill = AbilityIndex == 0 ? 
+                    Constants.Persistant.PlayerScript.PrimarySkill : 
+                    Constants.Persistant.PlayerScript.SecondarySkill;
         FormatButton();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        float cooldown = skill.RemainingCooldown();
+        if (cooldown > 0)
+        {
+            text.text = cooldown.ToString("N1");
+            icon.color = Color.grey;
+        }
+        else 
+        {
+            icon.color = Constants.UI.Colors.HighLight;
+            text.text = "";
+        }
     }
 
     public void FormatButton()

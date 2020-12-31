@@ -80,6 +80,7 @@ public class Player : Character
     protected override void UpdateLoop()
     {
         SetDashStatus();
+        PerformSecondaryAttack();
         base.UpdateLoop();
     }
 
@@ -122,6 +123,19 @@ public class Player : Character
             rb.velocity = GetInput() * MovementSpeed;
         }
         SetRotationWithVelocity();
+    }
+
+    private void PerformSecondaryAttack()
+    {
+        if (IsSecondaryInputGiven())
+        {
+            PerformAttack(SecondarySkill);
+        }
+    }
+
+    private bool IsSecondaryInputGiven()
+    {
+        return (Input.touchCount > 1 || Input.GetKey(KeyCode.Space));
     }
 
     private Vector3 GetInput()
