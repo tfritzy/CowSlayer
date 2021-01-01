@@ -79,6 +79,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.SetInitialStats();
         this.Health = this.MaxHealth;
         this.Mana = this.MaxMana;
+        this.initialRotation = Body.Transform.rotation;
     }
 
     void Awake()
@@ -120,7 +121,7 @@ public abstract class Character : MonoBehaviour, Interactable
         }
 
         // Allow secondary skill to attack while moving.
-        if (!skill.CanAttackWhileMoving && 
+        if (!skill.CanAttackWhileMoving &&
             this.GetComponent<Rigidbody>().velocity.magnitude > .1f &&
             skill != SecondarySkill)
         {
@@ -238,6 +239,7 @@ public abstract class Character : MonoBehaviour, Interactable
         Debug.Log($"Clicked on {this.Name}");
     }
 
+    private Quaternion initialRotation;
     protected void SetRotationWithVelocity()
     {
         Vector3 relativePos = this.GetComponent<Rigidbody>().velocity;
@@ -246,7 +248,7 @@ public abstract class Character : MonoBehaviour, Interactable
             return;
         }
         Quaternion lookRotation = Quaternion.LookRotation(relativePos, Vector3.up);
-        Body.Transform.rotation = lookRotation;
+        Body.Transform.rotation = lookRotation * initialRotation;
     }
 
     public void RecalculateItemEffects()
