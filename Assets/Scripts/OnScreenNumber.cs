@@ -63,7 +63,8 @@ public class OnScreenNumber : MonoBehaviour
         this.Value = value;
         text.text = value.ToString();
         SetColor();
-        this.transform.position = Constants.Persistant.Camera.WorldToScreenPoint(owner.transform.position);
+        this.transform.position = Constants.Persistant.Camera.WorldToScreenPoint(
+            owner.transform.position + (Vector3)Random.insideUnitCircle / 10);
         this.GetComponent<Rigidbody>().velocity = Vector3.up * 100;
 
         if (iconNextToNumber != null)
