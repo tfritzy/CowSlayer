@@ -2,9 +2,9 @@ using UnityEngine;
 
 public abstract class MeleeSkill : Skill
 {
-    public override bool Attack(Character attacker, AttackTargetingDetails attackTargetingDetails)
+    public override bool Activate(Character attacker, AttackTargetingDetails attackTargetingDetails)
     {
-        if (base.Attack(attacker, attackTargetingDetails) == false)
+        if (base.Activate(attacker, attackTargetingDetails) == false)
         {
             return false;
         }

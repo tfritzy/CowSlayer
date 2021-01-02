@@ -12,21 +12,21 @@ public class Meteor : RangedSkill
     public override bool CanAttackWhileMoving => false;
     public override int ManaCost => 30;
     public override SkillType Type => SkillType.Meteor;
-
-    protected override float MovementSpeed => 35f;
-    protected override Vector3 ProjectileStartPositionOffset => new Vector3(0f, 30f, -10f);
-    protected override float ExplosionRadius => 3f;
-    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/Meteor";
+    public override bool IsPassive => false;
     public override HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>()
     {
-        SkillType.Firebolt,       
+        SkillType.Firebolt,
     };
-
+    public override float DamageModifier => 4f + 0.5f * Level;
     public override bool IsCollisionTarget(Character attacker, GameObject collision)
     {
         return collision.CompareTag(Constants.Tags.Ground);
     }
 
+    protected override float MovementSpeed => 35f;
+    protected override Vector3 ProjectileStartPositionOffset => new Vector3(0f, 30f, -10f);
+    protected override float ExplosionRadius => 3f;
+    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/Meteor";
     protected override void CreateGroundEffects(Character attacker, Vector3 position)
     {
         List<GameObject> fires = SpawnObjectsInCircle(Constants.Prefabs.GroundFire, GroundFireCount, position, (float)GroundFireCount / 6f);

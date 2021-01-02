@@ -5,5 +5,5 @@ using UnityEngine;
 public class SmallManaPotion : ManaPotion
 {
     public override string Name => "Small Mana Potion";
-    protected override ItemEffect PrimaryEffectPrefab => new SmallManaRestore();
+    protected override Effect PrimaryEffectPrefab => new SmallManaRestore();
 }

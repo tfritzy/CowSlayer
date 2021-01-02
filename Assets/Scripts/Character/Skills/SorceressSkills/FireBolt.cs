@@ -5,7 +5,8 @@ public class FireBolt : RangedSkill
     public override bool CanAttackWhileMoving => false;
     public override int ManaCost => 5;
     public override SkillType Type => SkillType.Firebolt;
-
+    public override bool IsPassive => false;
+    public override float DamageModifier => 2f + 0.20f * Level;
     protected override float MovementSpeed => 14f;
     protected override string IconFilePath => $"{Constants.FilePaths.Icons}/FireBolt";
 }

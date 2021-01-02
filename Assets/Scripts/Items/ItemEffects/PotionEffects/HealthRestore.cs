@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class HealthRestore : ItemEffect
+public abstract class HealthRestore : Effect
 {
     public abstract int Value { get; }
 

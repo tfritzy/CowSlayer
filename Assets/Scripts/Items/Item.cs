@@ -11,11 +11,11 @@ public abstract class Item
     public string Id;
     public GameObject Prefab;
     public virtual int Price => 10;
-    public ItemEffect PrimaryEffect;
-    protected abstract ItemEffect PrimaryEffectPrefab { get; }
-    protected abstract List<ItemEffect> SecondaryEffectPool { get; }
+    public Effect PrimaryEffect;
+    protected abstract Effect PrimaryEffectPrefab { get; }
+    protected abstract List<Effect> SecondaryEffectPool { get; }
     protected abstract int NumSecondaryEffects { get; }
-    public List<ItemEffect> SecondaryEffects;
+    public List<Effect> SecondaryEffects;
     public int Quantity;
     public virtual bool Stacks => false;
 
@@ -31,15 +31,15 @@ public abstract class Item
         this.PrimaryEffect = PrimaryEffectPrefab;
     }
 
-    protected List<ItemEffect> GenerateSecondaryEffects()
+    protected List<Effect> GenerateSecondaryEffects()
     {
         if (NumSecondaryEffects == 0)
         {
             return null;
         }
 
-        List<ItemEffect> effects = new List<ItemEffect>();
-        List<ItemEffect> effectPoolCopy = new List<ItemEffect>(this.SecondaryEffectPool);
+        List<Effect> effects = new List<Effect>();
+        List<Effect> effectPoolCopy = new List<Effect>(this.SecondaryEffectPool);
         for (int i = 0; i < Math.Min(NumSecondaryEffects, SecondaryEffectPool.Count); i++)
         {
             int rollIndex = UnityEngine.Random.Range(0, effectPoolCopy.Count);
@@ -102,7 +102,7 @@ public abstract class Item
             return;
         }
 
-        foreach (ItemEffect effect in SecondaryEffects)
+        foreach (Effect effect in SecondaryEffects)
         {
             effect.Apply(character);
         }

@@ -5,6 +5,7 @@ public class Whack : MeleeSkill
     public override bool CanAttackWhileMoving => false;
     public override int ManaCost => 0;
     public override SkillType Type => SkillType.Whack;
-
+    public override bool IsPassive => false;
+    public override float DamageModifier => 1f;
     protected override string IconFilePath => $"{Constants.FilePaths.Icons}/DaggerIcon";
 }

@@ -8,7 +8,8 @@ public class FireSorcress : Player
     {
         SkillType.Firebolt,
         SkillType.Fireball,
-        SkillType.Meteor
+        SkillType.Meteor,
+        SkillType.Attunement
     };
 
 }

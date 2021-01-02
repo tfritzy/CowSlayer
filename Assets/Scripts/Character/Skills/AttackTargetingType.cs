@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttackTargetingDetails
 {
-    public Vector3 TargetPosition;
+    public Vector3? TargetPosition;
     public Character Target;
-    public Vector3 TravelDirection;
+    public Vector3? TravelDirection;
 }

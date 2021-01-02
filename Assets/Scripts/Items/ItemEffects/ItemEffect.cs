@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class ItemEffect
+public abstract class Effect
 {
     public abstract string Name { get; }
     public abstract string Description { get; }

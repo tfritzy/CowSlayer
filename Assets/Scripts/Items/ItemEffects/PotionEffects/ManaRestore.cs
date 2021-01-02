@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class ManaRestore : ItemEffect
+public abstract class ManaRestore : Effect
 {
     public abstract int Value { get; }
 

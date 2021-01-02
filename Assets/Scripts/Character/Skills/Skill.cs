@@ -13,9 +13,21 @@ public abstract class Skill
     protected GameObject AttackPrefab;
     public virtual HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>();
     public abstract SkillType Type { get; }
+    public abstract bool IsPassive { get; }
+    public abstract float DamageModifier { get; }
 
-    public Sprite Icon {
-        get {
+    public int Level
+    {
+        get
+        {
+            return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 0;
+        }
+    }
+
+    public Sprite Icon
+    {
+        get
+        {
             if (_icon == null)
             {
                 _icon = Resources.Load<Sprite>(IconFilePath);
@@ -24,7 +36,7 @@ public abstract class Skill
             return _icon;
         }
     }
-    protected abstract string IconFilePath {get;}
+    protected abstract string IconFilePath { get; }
     private Sprite _icon;
 
     public Skill()
@@ -37,9 +49,19 @@ public abstract class Skill
         }
     }
 
-    public virtual bool Attack(Character attacker, AttackTargetingDetails targetingDetails)
+    public virtual bool Activate(Character attacker, AttackTargetingDetails targetingDetails)
     {
         if (attacker.Mana < ManaCost)
+        {
+            return false;
+        }
+
+        if (Time.time - LastAttackTime < Cooldown)
+        {
+            return false;
+        }
+
+        if (Level == 0)
         {
             return false;
         }
@@ -119,5 +141,20 @@ public abstract class Skill
     public float RemainingCooldown()
     {
         return Mathf.Max(0, Cooldown - (Time.time - LastAttackTime));
+    }
+
+    public override int GetHashCode()
+    {
+        return Name.GetHashCode();
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is Skill == false)
+        {
+            return false;
+        }
+
+        return Name == ((Skill)obj).Name;
     }
 }

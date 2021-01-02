@@ -37,8 +37,24 @@ public static class Constants
                     {
                         SkillType.Meteor,
                         new Meteor()
+                    },
+                    {
+                        SkillType.Attunement,
+                        new Attunement()
+                    },
+                    {
+                        SkillType.Whack,
+                        new Whack()
                     }
                 };
+
+                foreach (SkillType type in Enum.GetValues(typeof(SkillType)))
+                {
+                    if (_skills.ContainsKey(type) == false)
+                    {
+                        throw new Exception($"You forgot to add the skill {type} to Constants.Skills");
+                    }
+                }
             }
 
             return _skills;

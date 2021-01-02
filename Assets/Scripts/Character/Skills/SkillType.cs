@@ -1,7 +1,8 @@
-public enum SkillType 
+public enum SkillType
 {
     Fireball,
     Firebolt,
     Meteor,
+    Attunement,
     Whack
 }

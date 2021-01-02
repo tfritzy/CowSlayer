@@ -64,6 +64,21 @@ public abstract class Character : MonoBehaviour, Interactable
     }
     public abstract float ManaRegenPerMinute { get; }
 
+    private HashSet<PassiveSkill> _passiveSkills;
+    public HashSet<PassiveSkill> PassiveSkills
+    {
+        get
+        {
+            if (_passiveSkills == null)
+            {
+                _passiveSkills = new HashSet<PassiveSkill>();
+            }
+
+            return _passiveSkills;
+        }
+        set { _passiveSkills = value; }
+    }
+
     protected Healthbar Healthbar;
     protected bool IsDead;
     protected int _health;
@@ -93,6 +108,7 @@ public abstract class Character : MonoBehaviour, Interactable
         PrimaryAttack();
         SetVelocity();
         RegenerateMana();
+        ApplyPassiveEffects();
     }
 
     void Update()
@@ -110,12 +126,12 @@ public abstract class Character : MonoBehaviour, Interactable
     /// </summary>
     protected bool PerformAttack(Skill skill)
     {
-        if (IsDead)
+        if (IsDead || Target == null)
         {
             return false;
         }
 
-        if (Target == null || Time.time - skill.LastAttackTime < skill.Cooldown)
+        if (Time.time < skill.LastAttackTime + skill.Cooldown)
         {
             return false;
         }
@@ -131,14 +147,7 @@ public abstract class Character : MonoBehaviour, Interactable
         float distanceToTarget = GetDistBetweenColliders(Target.GetComponent<Collider>(), this.GetComponent<Collider>());
         if (distanceToTarget <= GetAttackRange(skill))
         {
-            AttackTargetingDetails targetingDetails = new AttackTargetingDetails
-            {
-                Target = Target.GetComponent<Character>(),
-                TargetPosition = Target.transform.position,
-                TravelDirection = Target.transform.position - this.transform.position
-            };
-
-            skill.Attack(this, targetingDetails);
+            skill.Activate(this, BuildAttackTargetingDetails());
             return true;
         }
         else
@@ -150,6 +159,29 @@ public abstract class Character : MonoBehaviour, Interactable
         }
 
         return false;
+    }
+
+    private void ApplyPassiveEffects()
+    {
+        foreach (PassiveSkill passiveSkill in PassiveSkills)
+        {
+            if (Time.time < passiveSkill.LastAttackTime + passiveSkill.Cooldown)
+            {
+                continue;
+            }
+
+            passiveSkill.Activate(this, BuildAttackTargetingDetails());
+        }
+    }
+
+    private AttackTargetingDetails BuildAttackTargetingDetails()
+    {
+        return new AttackTargetingDetails
+        {
+            Target = Target?.GetComponent<Character>(),
+            TargetPosition = Target?.transform.position,
+            TravelDirection = Target?.transform.position - this.transform.position
+        };
     }
 
     protected float timeBetweenTargetChecks = .5f;
