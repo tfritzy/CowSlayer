@@ -45,6 +45,10 @@ public static class Constants
                     {
                         SkillType.Whack,
                         new Whack()
+                    },
+                    {
+                        SkillType.FlameSprite,
+                        new FlameSprite()
                     }
                 };
 
