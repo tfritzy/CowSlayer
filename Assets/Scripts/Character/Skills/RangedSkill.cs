@@ -12,11 +12,16 @@ public abstract class RangedSkill : Skill
             return false;
         }
 
-        GameObject projectile = GameObject.Instantiate(AttackPrefab, attacker.transform.position + ProjectileStartPositionOffset, new Quaternion(), null);
-        Vector3 flyDirection = attackTargetingDetails.TravelDirection.Value - ProjectileStartPositionOffset;
-        projectile.GetComponent<Rigidbody>().velocity = flyDirection.normalized * MovementSpeed;
-        projectile.GetComponent<Projectile>().Initialize(DealDamage, IsCollisionTarget, CreateGroundEffects, attacker);
+        CreatePrefab(attackTargetingDetails);
 
         return true;
+    }
+
+    protected override void CreatePrefab(AttackTargetingDetails attackTargetingDetails)
+    {
+        GameObject projectile = GameObject.Instantiate(Prefab, attackTargetingDetails.Attacker.transform.position + ProjectileStartPositionOffset, new Quaternion(), null);
+        Vector3 flyDirection = attackTargetingDetails.TravelDirection.Value - ProjectileStartPositionOffset;
+        projectile.GetComponent<Rigidbody>().velocity = flyDirection.normalized * MovementSpeed;
+        projectile.GetComponent<Projectile>().Initialize(DealDamage, IsCollisionTarget, CreateGroundEffects, attackTargetingDetails.Attacker);
     }
 }

@@ -12,9 +12,10 @@ public abstract class PassiveSkill : Skill
             return false;
         }
 
-        ApplyEffect();
+        ApplyEffect(targetingDetails);
         return true;
     }
 
-    public abstract void ApplyEffect();
+    public abstract void ApplyEffect(AttackTargetingDetails targetingDetails);
+
 }

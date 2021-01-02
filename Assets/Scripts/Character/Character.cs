@@ -178,6 +178,7 @@ public abstract class Character : MonoBehaviour, Interactable
     {
         return new AttackTargetingDetails
         {
+            Attacker = this,
             Target = Target?.GetComponent<Character>(),
             TargetPosition = Target?.transform.position,
             TravelDirection = Target?.transform.position - this.transform.position

@@ -10,7 +10,7 @@ public abstract class Skill
     public float LastAttackTime;
     public abstract int ManaCost { get; }
     protected virtual float ExplosionRadius => 0;
-    protected GameObject AttackPrefab;
+    protected GameObject Prefab;
     public virtual HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>();
     public abstract SkillType Type { get; }
     public abstract bool IsPassive { get; }
@@ -38,12 +38,13 @@ public abstract class Skill
     }
     protected abstract string IconFilePath { get; }
     private Sprite _icon;
+    protected abstract void CreatePrefab(AttackTargetingDetails attackTargetingDetails);
 
     public Skill()
     {
-        AttackPrefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/{Name}");
+        Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/{Name}");
 
-        if (AttackPrefab == null)
+        if (Prefab == null)
         {
             throw new System.ArgumentNullException($"Missing prefab {Constants.FilePaths.Prefabs.Skills}/{Name}");
         }
