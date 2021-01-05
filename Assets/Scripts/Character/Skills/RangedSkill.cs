@@ -20,8 +20,6 @@ public abstract class RangedSkill : Skill
     protected override void CreatePrefab(AttackTargetingDetails attackTargetingDetails)
     {
         GameObject projectile = GameObject.Instantiate(Prefab, attackTargetingDetails.Attacker.transform.position + ProjectileStartPositionOffset, new Quaternion(), null);
-        Vector3 flyDirection = attackTargetingDetails.TravelDirection.Value - ProjectileStartPositionOffset;
-        projectile.GetComponent<Rigidbody>().velocity = flyDirection.normalized * MovementSpeed;
-        projectile.GetComponent<Projectile>().Initialize(DealDamage, IsCollisionTarget, CreateGroundEffects, attackTargetingDetails.Attacker);
+        DirectProjectile(projectile, attackTargetingDetails, MovementSpeed);
     }
 }

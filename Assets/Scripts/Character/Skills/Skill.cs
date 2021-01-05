@@ -158,4 +158,11 @@ public abstract class Skill
 
         return Name == ((Skill)obj).Name;
     }
+
+    protected void DirectProjectile(GameObject projectile, AttackTargetingDetails attackTargetingDetails, float speed)
+    {
+        Vector3 flyDirection = attackTargetingDetails.Target.transform.position - projectile.transform.position;
+        projectile.GetComponent<Rigidbody>().velocity = flyDirection.normalized * speed;
+        projectile.GetComponent<Projectile>().Initialize(DealDamage, IsCollisionTarget, CreateGroundEffects, attackTargetingDetails.Attacker);
+    }
 }

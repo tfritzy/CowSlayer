@@ -29,6 +29,7 @@ public class Projectile : MonoBehaviour
         explosionChild = transform.Find("Explosion");
         TriggerAllParticleSystems(explosionChild, false);
         TriggerAllParticleSystems(transform.Find(leftoverGround), false);
+        Destroy(this.gameObject, 10f);
     }
 
     private void OnTriggerEnter(Collider other)
