@@ -5,26 +5,21 @@ using UnityEngine;
 public class GroundFire : PersistantAreaEffect
 {
     public int Damage;
-    public float Duration;
     public Character Attacker;
 
     protected override float MinTimeBetweenEffectApplications => 1f;
 
-    public void Setup(int damage, float duration, Character owner)
+    public void Setup(int damage, float duration, Character owner, float timeBeforeStart = 0f)
     {
         this.Damage = damage;
         this.Duration = duration;
         this.Attacker = owner;
+        this.TimeBeforeStart = timeBeforeStart;
 
         foreach (ParticleSystem ps in this.GetComponentsInChildren<ParticleSystem>())
         {
             ps.Stop();
-            var main = ps.main;
-            main.duration = Duration;
-            ps.Play();
         }
-
-        Destroy(this.gameObject, Duration + 1f);
     }
 
     protected override void ApplyEffect(GameObject gameObject)
@@ -35,6 +30,19 @@ public class GroundFire : PersistantAreaEffect
             {
                 character.TakeDamage(Damage, Attacker);
             }
+        }
+    }
+
+    protected override void Begin()
+    {
+        base.Begin();
+
+        foreach (ParticleSystem ps in this.GetComponentsInChildren<ParticleSystem>())
+        {
+            ps.Stop();
+            var main = ps.main;
+            main.duration = Duration;
+            ps.Play();
         }
     }
 }

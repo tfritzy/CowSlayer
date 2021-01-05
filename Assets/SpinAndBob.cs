@@ -8,13 +8,13 @@ public class SpinAndBob : MonoBehaviour
     public float AverageBobSpeed;
     public float BobHeight;
 
-    private Rigidbody rigidbody;
+    private Rigidbody rb;
     private Vector3 angularVelocity;
     private Vector3 position;
 
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         angularVelocity = Vector3.zero;
     }
 
@@ -25,12 +25,12 @@ public class SpinAndBob : MonoBehaviour
         if (Time.time > lastTickTime + tickSpeed)
         {
             angularVelocity.y = Mathf.Lerp(AverageSpinSpeed * .5f, AverageSpinSpeed * 1.5f, Time.time);
-            rigidbody.angularVelocity = angularVelocity;
+            rb.angularVelocity = angularVelocity;
 
             Vector3 diff = transform.parent.position - this.transform.position;
             Vector3 velocity = diff.normalized * diff.magnitude * 3;
             velocity.y = GetVerticalVelocity();
-            rigidbody.velocity = velocity;
+            rb.velocity = velocity;
             lastTickTime = Time.time;
         }
     }

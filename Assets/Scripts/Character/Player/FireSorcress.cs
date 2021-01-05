@@ -10,7 +10,8 @@ public class FireSorcress : Player
         SkillType.Fireball,
         SkillType.Meteor,
         SkillType.Attunement,
-        SkillType.FlameSprite
+        SkillType.FlameSprite,
+        SkillType.FireWave
     };
 
 }

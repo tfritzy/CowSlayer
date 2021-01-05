@@ -13,8 +13,8 @@ public abstract class Skill
     protected GameObject Prefab;
     public virtual HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>();
     public abstract SkillType Type { get; }
-    public abstract bool IsPassive { get; }
     public abstract float DamageModifier { get; }
+    protected string IconFilePath => $"{Constants.FilePaths.Icons}/{Name}";
 
     public int Level
     {
@@ -36,7 +36,6 @@ public abstract class Skill
             return _icon;
         }
     }
-    protected abstract string IconFilePath { get; }
     private Sprite _icon;
     protected abstract void CreatePrefab(AttackTargetingDetails attackTargetingDetails);
 
@@ -63,6 +62,11 @@ public abstract class Skill
         }
 
         if (Level == 0)
+        {
+            return false;
+        }
+
+        if (!CanAttackWhileMoving && targetingDetails.Attacker.GetComponent<Rigidbody>().velocity.magnitude > .1f)
         {
             return false;
         }
@@ -114,7 +118,7 @@ public abstract class Skill
 
     public virtual int CalculateDamage(Character attacker)
     {
-        return attacker.Damage;
+        return (int)((float)attacker.Damage * DamageModifier);
     }
 
     protected virtual void CreateGroundEffects(Character attacker, Vector3 position) { }

@@ -7,9 +7,7 @@ public class FlameSprite : PassiveSkill
     public override bool CanAttackWhileMoving => true;
     public override int ManaCost => 0;
     public override SkillType Type => SkillType.FlameSprite;
-    public override bool IsPassive => true;
-    public override float DamageModifier => 1f;
-    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/FlameSprite";
+    public override float DamageModifier => 1f + Level * .25f;
     private GameObject SpriteBody;
     private string SpriteBodyPath = $"{Constants.FilePaths.Prefabs.Skills}/FlameSpriteBody";
 

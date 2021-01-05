@@ -5,5 +5,6 @@ public enum SkillType
     Meteor,
     Attunement,
     FlameSprite,
+    FireWave,
     Whack
 }

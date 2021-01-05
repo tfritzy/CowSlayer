@@ -12,11 +12,9 @@ public class FireBall : RangedSkill
     public override bool CanAttackWhileMoving => false;
     public override int ManaCost => 20;
     public override SkillType Type => SkillType.Fireball;
-    public override bool IsPassive => false;
     public override float DamageModifier => 3f + 0.25f * Level;
-    protected override float MovementSpeed => 14f;
+    protected override float ProjectileSpeed => 14f;
     protected override float ExplosionRadius => 1f;
-    protected override string IconFilePath => $"{Constants.FilePaths.Icons}/FireBall";
 
     protected override void CreateGroundEffects(Character attacker, Vector3 position)
     {

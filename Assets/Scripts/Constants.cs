@@ -49,6 +49,10 @@ public static class Constants
                     {
                         SkillType.FlameSprite,
                         new FlameSprite()
+                    },
+                    {
+                        SkillType.FireWave,
+                        new FireWave()
                     }
                 };
 
