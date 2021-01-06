@@ -83,6 +83,20 @@ public abstract class Character : MonoBehaviour, Interactable
     protected bool IsDead;
     protected int _health;
 
+    private AnimationState _animationState;
+    public AnimationState CurrentAnimation
+    {
+        get
+        {
+            return _animationState;
+        }
+        set
+        {
+            _animationState = value;
+            this.Body.Animator.SetInteger("Animation_State", (int)_animationState);
+        }
+    }
+
     public virtual void Initialize()
     {
         this.Healthbar = Instantiate(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.UI}/Healthbar"), Vector3.zero,

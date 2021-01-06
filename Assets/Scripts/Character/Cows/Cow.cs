@@ -48,7 +48,13 @@ public abstract class Cow : Character
         if (diffVector.magnitude < .1f)
         {
             this.rb.velocity = Vector3.zero;
+            this.targetPosition = this.transform.position;
+            this.CurrentAnimation = AnimationState.Idle;
             return;
+        }
+        else
+        {
+            this.CurrentAnimation = AnimationState.Walking;
         }
 
         this.rb.velocity = diffVector.normalized * MovementSpeed;

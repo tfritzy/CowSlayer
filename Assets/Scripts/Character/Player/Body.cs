@@ -7,6 +7,7 @@ public class Body
     public GameObject OffHand;
     public GameObject MainHand;
     public Transform Transform;
+    public Animator Animator;
 
     public Body(Transform self)
     {
@@ -18,6 +19,7 @@ public class Body
         Transform = self;
         this.OffHand = self.Find("LeftHand")?.gameObject;
         this.MainHand = self.Find("RightHand")?.gameObject;
+        this.Animator = self.GetComponent<Animator>();
     }
 }
 
