@@ -1,6 +1,6 @@
 public abstract class PassiveSkill : Skill
 {
-    public PassiveSkill()
+    public PassiveSkill(Character owner) : base(owner)
     {
         Constants.Persistant.PlayerScript.PassiveSkills.Add(this);
     }

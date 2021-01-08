@@ -14,6 +14,8 @@ public class FireWave : RangedSkill
     protected override float ProjectileSpeed => 0.5f;
     private const float DistBetweenFires = 0.25f;
 
+    public FireWave(Character owner) : base(owner) { }
+
     protected override void CreatePrefab(AttackTargetingDetails attackTargetingDetails)
     {
         GameObject fireWave = GameObject.Instantiate(Prefab, attackTargetingDetails.Attacker.transform.position, new Quaternion());
@@ -31,11 +33,11 @@ public class FireWave : RangedSkill
                 position,
                 new Quaternion(),
                 fireWave.transform);
-                
+
             fire.GetComponent<GroundFire>()
                 .Setup(
-                    CalculateDamage(attackTargetingDetails.Attacker), 
-                    FireDuration, 
+                    CalculateDamage(attackTargetingDetails.Attacker),
+                    FireDuration,
                     attackTargetingDetails.Attacker,
                     i * .03f);
         }

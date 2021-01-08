@@ -6,4 +6,7 @@ public class Whack : MeleeSkill
     public override int ManaCost => 0;
     public override SkillType Type => SkillType.Whack;
     public override float DamageModifier => 1f;
+
+    public Whack(Character owner) : base(owner) { }
+
 }

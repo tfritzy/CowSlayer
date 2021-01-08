@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-
-public class WimpyCow : Cow
+﻿public class WimpyCow : Cow
 {
     public override CowType CowType => CowType.WimpyCow;
     public override float ManaRegenPerMinute => 50f;
@@ -18,12 +14,12 @@ public class WimpyCow : Cow
     {
         this.MaxHealth = 5 + Level;
         this.Damage = 2 + Level / 2;
-        this.AttackSpeed = 1;
+        this.AttackSpeed = 10;
         this.TargetFindRadius = 5f;
         this.MeleeAttackRange = 2f;
         this.MovementSpeed = 2f;
         this.XPReward = 1 + Level;
-        this.PrimarySkill = new Whack();
+        this.PrimarySkill = new Whack(this);
         base.SetInitialStats();
     }
 }

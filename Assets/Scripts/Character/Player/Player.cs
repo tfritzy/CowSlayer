@@ -95,8 +95,8 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
-        this.PrimarySkill = Constants.Skills[GameState.Data.PrimarySkill];
-        this.SecondarySkill = Constants.Skills[GameState.Data.SecondarySkill];
+        this.PrimarySkill = Constants.CreateSkill(GameState.Data.PrimarySkill, this);
+        this.SecondarySkill = Constants.CreateSkill(GameState.Data.SecondarySkill, this);
     }
 
     protected override void SetInitialStats()
@@ -258,11 +258,11 @@ public class Player : Character
     {
         if (index == 0)
         {
-            PrimarySkill = Constants.Skills[skill];
+            PrimarySkill = Constants.CreateSkill(skill, this);
         }
         else
         {
-            SecondarySkill = Constants.Skills[skill];
+            SecondarySkill = Constants.CreateSkill(skill, this);
         }
 
         Constants.Persistant.AbilityButtons[index].FormatButton();

@@ -28,31 +28,31 @@ public static class Constants
                 {
                     {
                         SkillType.Firebolt,
-                        new FireBolt()
+                        new FireBolt(null)
                     },
                     {
                         SkillType.Fireball,
-                        new FireBall()
+                        new FireBall(null)
                     },
                     {
                         SkillType.Meteor,
-                        new Meteor()
+                        new Meteor(null)
                     },
                     {
                         SkillType.Attunement,
-                        new Attunement()
+                        new Attunement(null)
                     },
                     {
                         SkillType.Whack,
-                        new Whack()
+                        new Whack(null)
                     },
                     {
                         SkillType.FlameSprite,
-                        new FlameSprite()
+                        new FlameSprite(null)
                     },
                     {
                         SkillType.FireWave,
-                        new FireWave()
+                        new FireWave(null)
                     }
                 };
 
@@ -66,6 +66,29 @@ public static class Constants
             }
 
             return _skills;
+        }
+    }
+
+    public static Skill CreateSkill(SkillType skillType, Character owner)
+    {
+        switch (skillType)
+        {
+            case (SkillType.Firebolt):
+                return new FireBolt(owner);
+            case (SkillType.Fireball):
+                return new FireBall(owner);
+            case (SkillType.Meteor):
+                return new Meteor(owner);
+            case (SkillType.Attunement):
+                return new Meteor(owner);
+            case (SkillType.Whack):
+                return new Whack(owner);
+            case (SkillType.FlameSprite):
+                return new FlameSprite(owner);
+            case (SkillType.FireWave):
+                return new FireWave(owner);
+            default:
+                throw new ArgumentException($"Unknown skill passed: {skillType}");
         }
     }
 

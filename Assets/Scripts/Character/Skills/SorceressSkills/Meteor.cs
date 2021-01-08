@@ -25,6 +25,9 @@ public class Meteor : RangedSkill
     protected override float ProjectileSpeed => 35f;
     protected override Vector3 ProjectileStartPositionOffset => new Vector3(0f, 30f, -10f);
     protected override float ExplosionRadius => 3f;
+
+    public Meteor(Character owner) : base(owner) { }
+
     protected override void CreateGroundEffects(Character attacker, Vector3 position)
     {
         List<GameObject> fires = SpawnObjectsInCircle(Constants.Prefabs.GroundFire, GroundFireCount, position, (float)GroundFireCount / 6f);

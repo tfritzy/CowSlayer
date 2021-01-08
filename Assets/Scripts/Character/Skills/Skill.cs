@@ -14,13 +14,22 @@ public abstract class Skill
     public virtual HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>();
     public abstract SkillType Type { get; }
     public abstract float DamageModifier { get; }
+    public Character Owner { get; }
     protected string IconFilePath => $"{Constants.FilePaths.Icons}/{Name}";
 
     public int Level
     {
         get
         {
-            return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 0;
+            if (Owner is Player)
+            {
+                return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 0;
+            }
+            else
+            {
+                return Owner.Level;
+            }
+
         }
     }
 
@@ -39,8 +48,9 @@ public abstract class Skill
     private Sprite _icon;
     protected abstract void CreatePrefab(AttackTargetingDetails attackTargetingDetails);
 
-    public Skill()
+    public Skill(Character owner)
     {
+        this.Owner = owner;
         Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/{Name}");
 
         if (Prefab == null)

@@ -45,6 +45,12 @@ public abstract class Cow : Character
     {
         Vector3 diffVector = this.targetPosition - this.transform.position;
         diffVector.y = 0;
+
+        if (CurrentState == CowState.Attacking && diffVector.magnitude < GetAttackRange(PrimarySkill))
+        {
+            return;
+        }
+
         if (diffVector.magnitude < .1f)
         {
             this.rb.velocity = Vector3.zero;
@@ -82,23 +88,26 @@ public abstract class Cow : Character
         {
             if (this.CurrentState == CowState.Attacking)
             {
+                this.Body.Animator.speed = 1;
                 this.CurrentState = CowState.Grazing;
+                this.CurrentAnimation = AnimationState.Idle;
                 this.targetPosition = FindNewGrazePosition();
             }
 
             return;
         }
 
-        if ((Target.transform.position - this.transform.position).magnitude > MeleeAttackRange * .8f)
+        if ((Target.transform.position - this.transform.position).magnitude > GetAttackRange(this.PrimarySkill))
         {
             this.targetPosition = Target.transform.position;
+            this.CurrentAnimation = AnimationState.Walking;
         }
         else
         {
             targetPosition = this.transform.position;
+            this.CurrentAnimation = AnimationState.Attacking;
+            base.PrimaryAttack();
         }
-
-        base.PrimaryAttack();
     }
 
     public override void Initialize()
@@ -110,8 +119,8 @@ public abstract class Cow : Character
         this.name = this.Name;
         this.targetPosition = FindNewGrazePosition();
         this.Zone = int.Parse(transform.parent.name.Split('_')[1]);
-        this.Level = this.Zone;
-        this.PrimarySkill = new Whack();
+        this.Level = this.Zone + 1;
+        this.PrimarySkill = new Whack(this);
         base.Initialize();
     }
 

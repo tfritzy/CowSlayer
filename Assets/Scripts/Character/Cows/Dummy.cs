@@ -29,14 +29,14 @@ public class Dummy : Cow
         this.RangedAttackRange = 2f;
         this.MeleeAttackRange = 10f;
         this.MovementSpeed = 0f;
-        this.PrimarySkill = new FireBolt();
+        this.PrimarySkill = new FireBolt(this);
     }
 
     public override void PrimaryAttack()
     {
         base.PrimaryAttack();
         float lastLastAttackTime = this.PrimarySkill.LastAttackTime;
-        this.PrimarySkill = new FireBolt();
+        this.PrimarySkill = new FireBolt(this);
         this.PrimarySkill.LastAttackTime = lastLastAttackTime;
     }
 }

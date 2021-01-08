@@ -29,7 +29,8 @@ public abstract class Character : MonoBehaviour, Interactable
     {
         get
         {
-            return 1 / Mathf.Pow(AttackSpeed, .6f);
+            // base is 1s, so if attackSpeed = 100%, timeBetweenAttacks == 1. if it's 200% it's .5s. 400% == .25s
+            return 1 / AttackSpeed;
         }
     }
     protected bool CanAttackWhileMoving => false;
@@ -83,7 +84,7 @@ public abstract class Character : MonoBehaviour, Interactable
     protected bool IsDead;
     protected int _health;
 
-    private AnimationState _animationState;
+    public AnimationState _animationState;
     public AnimationState CurrentAnimation
     {
         get
@@ -303,7 +304,7 @@ public abstract class Character : MonoBehaviour, Interactable
     }
 
 
-    private float GetAttackRange(Skill skill)
+    protected float GetAttackRange(Skill skill)
     {
         if (skill is MeleeSkill)
         {
