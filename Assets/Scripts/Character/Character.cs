@@ -20,7 +20,7 @@ public abstract class Character : MonoBehaviour, Interactable
             }
         }
     }
-
+    protected Rigidbody rb;
     public int MaxHealth { get; protected set; }
     public int Damage;
     public float AttackSpeed;
@@ -83,7 +83,7 @@ public abstract class Character : MonoBehaviour, Interactable
     protected Healthbar Healthbar;
     protected bool IsDead;
     protected int _health;
-
+    public float MovementSpeed;
     public AnimationState _animationState;
     public AnimationState CurrentAnimation
     {
@@ -110,6 +110,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Health = this.MaxHealth;
         this.Mana = this.MaxMana;
         this.initialRotation = Body.Transform.rotation;
+        this.rb = this.GetComponent<Rigidbody>();
     }
 
     void Awake()
@@ -120,8 +121,6 @@ public abstract class Character : MonoBehaviour, Interactable
     protected virtual void UpdateLoop()
     {
         CheckForTarget();
-        PrimaryAttack();
-        SetVelocity();
         RegenerateMana();
         ApplyPassiveEffects();
     }
@@ -241,7 +240,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Health = Mathf.Min(this.Health, this.MaxHealth);
     }
 
-    protected abstract void SetVelocity();
+    protected virtual void SetVelocity() {}
     protected virtual void OnDeath()
     {
         Destroy(this.Healthbar.gameObject);
@@ -288,12 +287,18 @@ public abstract class Character : MonoBehaviour, Interactable
     private Quaternion initialRotation;
     protected void SetRotationWithVelocity()
     {
-        Vector3 relativePos = this.GetComponent<Rigidbody>().velocity;
-        if (relativePos.magnitude < .1f)
+        if (rb.velocity.magnitude < .1f)
         {
             return;
         }
-        Quaternion lookRotation = Quaternion.LookRotation(relativePos, Vector3.up);
+
+        Quaternion lookRotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
+        Body.Transform.rotation = lookRotation * initialRotation;
+    }
+
+    protected void LookTowards(Vector3 spot)
+    {
+        Quaternion lookRotation = Quaternion.LookRotation(spot - this.transform.position, Vector3.up);
         Body.Transform.rotation = lookRotation * initialRotation;
     }
 
@@ -323,5 +328,11 @@ public abstract class Character : MonoBehaviour, Interactable
         Vector3 closestC1 = c1.ClosestPoint(c2.transform.position);
         Vector3 closestC2 = c2.ClosestPoint(c1.transform.position);
         return Vector3.Distance(closestC1, closestC2);
+    }
+
+    protected void MoveTowards(Vector3 targetPosition)
+    {
+        this.rb.velocity = (targetPosition - this.transform.position).normalized * MovementSpeed;
+        SetRotationWithVelocity();
     }
 }

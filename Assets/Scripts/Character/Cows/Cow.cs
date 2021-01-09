@@ -5,14 +5,12 @@ using Random = UnityEngine.Random;
 public abstract class Cow : Character
 {
     public CowState CurrentState;
-    public float MovementSpeed;
     public DropTable DropTable;
     public abstract CowType CowType { get; }
     public bool IsZoneGuardian;
     public int Zone;
     public int XPReward;
 
-    protected Rigidbody rb;
     public enum CowState
     {
         Grazing,
@@ -39,32 +37,6 @@ public abstract class Cow : Character
                 Graze();
                 break;
         }
-    }
-
-    protected override void SetVelocity()
-    {
-        Vector3 diffVector = this.targetPosition - this.transform.position;
-        diffVector.y = 0;
-
-        if (CurrentState == CowState.Attacking && diffVector.magnitude < GetAttackRange(PrimarySkill))
-        {
-            return;
-        }
-
-        if (diffVector.magnitude < .1f)
-        {
-            this.rb.velocity = Vector3.zero;
-            this.targetPosition = this.transform.position;
-            this.CurrentAnimation = AnimationState.Idle;
-            return;
-        }
-        else
-        {
-            this.CurrentAnimation = AnimationState.Walking;
-        }
-
-        this.rb.velocity = diffVector.normalized * MovementSpeed;
-        SetRotationWithVelocity();
     }
 
     protected override void SetInitialStats()
@@ -99,13 +71,14 @@ public abstract class Cow : Character
 
         if ((Target.transform.position - this.transform.position).magnitude > GetAttackRange(this.PrimarySkill))
         {
-            this.targetPosition = Target.transform.position;
             this.CurrentAnimation = AnimationState.Walking;
+            MoveTowards(Target.transform.position);
         }
         else
         {
             targetPosition = this.transform.position;
             this.CurrentAnimation = AnimationState.Attacking;
+            LookTowards(Target.transform.position);
             base.PrimaryAttack();
         }
     }
@@ -114,7 +87,6 @@ public abstract class Cow : Character
     {
         this.Allegiance = Allegiance.Cows;
         this.Enemies = new HashSet<Allegiance>() { Allegiance.Player };
-        this.rb = this.GetComponent<Rigidbody>();
         this.Name += Guid.NewGuid().ToString("N");
         this.name = this.Name;
         this.targetPosition = FindNewGrazePosition();
@@ -126,16 +98,29 @@ public abstract class Cow : Character
 
     private Vector3 targetPosition;
     private float lastGrazePositionTimeChange;
-    private const float timeBetweenGrazePositionChanges = 5f;
+    private float timeBetweenGrazePositionChanges;
     protected void Graze()
     {
         if (Time.time > lastGrazePositionTimeChange + timeBetweenGrazePositionChanges)
         {
+            timeBetweenGrazePositionChanges = Random.Range(2.5f, 7.5f);
             this.targetPosition = FindNewGrazePosition();
             lastGrazePositionTimeChange = Time.time;
         }
 
-        CheckForTarget();
+        Vector3 diffVector = targetPosition - this.transform.position;
+        if (diffVector.magnitude > .1f)
+        {
+            MoveTowards(targetPosition);
+            this.CurrentAnimation = AnimationState.Walking;
+        }
+        else
+        {
+            this.rb.velocity = Vector3.zero;
+            this.CurrentAnimation = AnimationState.Idle;
+            this.targetPosition = this.transform.position;
+        }
+
         if (Target != null)
         {
             this.CurrentState = CowState.Attacking;

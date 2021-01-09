@@ -86,9 +86,10 @@ MonoBehaviour:
   Name: 
   Allegiance: 0
   MaxMana: 0
+  MovementSpeed: 0
+  _animationState: 0
   TargetFindRadius: 0
   CurrentState: 0
-  MovementSpeed: 0
   IsZoneGuardian: 0
   Zone: 0
   XPReward: 0

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class Player : Character
 {
-    private Rigidbody rb;
-    public float MovementSpeed;
     public ItemGroup Inventory;
     public int Gold;
     public override float ManaRegenPerMinute => 100f;
@@ -80,7 +78,9 @@ public class Player : Character
     protected override void UpdateLoop()
     {
         SetDashStatus();
-        PerformSecondaryAttack();
+        PrimaryAttack();
+        SetVelocity();
+        SecondaryAttack();
         base.UpdateLoop();
     }
 
@@ -125,7 +125,7 @@ public class Player : Character
         SetRotationWithVelocity();
     }
 
-    private void PerformSecondaryAttack()
+    private void SecondaryAttack()
     {
         if (IsSecondaryInputGiven())
         {
