@@ -332,7 +332,16 @@ public abstract class Character : MonoBehaviour, Interactable
 
     protected void MoveTowards(Vector3 targetPosition)
     {
-        this.rb.velocity = (targetPosition - this.transform.position).normalized * MovementSpeed;
+        Vector3 diff = targetPosition - this.transform.position;
+        diff.y = 0;
+        this.rb.velocity = diff.normalized * MovementSpeed;
         SetRotationWithVelocity();
+    }
+
+    protected Vector3 GetVectorTo(Vector3 targetPos)
+    {
+        Vector3 diffVector = targetPos - this.transform.position;
+        diffVector.y = 0;
+        return diffVector;
     }
 }

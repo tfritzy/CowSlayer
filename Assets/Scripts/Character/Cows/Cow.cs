@@ -108,7 +108,7 @@ public abstract class Cow : Character
             lastGrazePositionTimeChange = Time.time;
         }
 
-        Vector3 diffVector = targetPosition - this.transform.position;
+        Vector3 diffVector = GetVectorTo(targetPosition);
         if (diffVector.magnitude > .1f)
         {
             MoveTowards(targetPosition);
