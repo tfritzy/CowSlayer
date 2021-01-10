@@ -79,7 +79,7 @@ public class Player : Character
     {
         base.UpdateLoop();
         SetDashStatus();
-        PrimaryAttack();
+        Attack();
         SetVelocity();
         SecondaryAttack();
     }

@@ -14,7 +14,7 @@
     {
         this.MaxHealth = 5 + Level;
         this.Damage = 2 + Level / 2;
-        this.AttackSpeed = 10;
+        this.AttackSpeed = 1;
         this.TargetFindRadius = 5f;
         this.MeleeAttackRange = 2f;
         this.MovementSpeed = 2f;

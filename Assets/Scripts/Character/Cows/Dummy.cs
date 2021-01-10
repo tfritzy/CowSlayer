@@ -32,9 +32,9 @@ public class Dummy : Cow
         this.PrimarySkill = new FireBolt(this);
     }
 
-    public override void PrimaryAttack()
+    public override void Attack()
     {
-        base.PrimaryAttack();
+        base.Attack();
         float lastLastAttackTime = this.PrimarySkill.LastAttackTime;
         this.PrimarySkill = new FireBolt(this);
         this.PrimarySkill.LastAttackTime = lastLastAttackTime;

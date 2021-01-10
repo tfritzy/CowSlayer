@@ -31,7 +31,7 @@ public abstract class Cow : Character
                 Graze();
                 break;
             case CowState.Attacking:
-                PrimaryAttack();
+                AttackLoop();
                 break;
             default:
                 Graze();
@@ -48,13 +48,15 @@ public abstract class Cow : Character
             this.Damage *= 2;
             this.MovementSpeed *= 1.3f;
             this.TargetFindRadius *= 2;
-            this.transform.localScale *= 2;
+            this.Body.Transform.localScale *= 2;
             this.MeleeAttackRange *= 1.5f;
             this.RangedAttackRange *= 1.5f;
+            this.gameObject.name = "ZoneGuardian " + Zone;
         }
     }
 
-    public override void PrimaryAttack()
+    private bool IsWithinAttackRange = false;
+    public virtual void AttackLoop()
     {
         if (Target == null)
         {
@@ -69,17 +71,24 @@ public abstract class Cow : Character
             return;
         }
 
-        if ((Target.transform.position - this.transform.position).magnitude > GetAttackRange(this.PrimarySkill))
+
+        float dist = GetDistBetweenColliders(Target.Body.BoxCollider, Body.BoxCollider);
+        if (!IsWithinAttackRange && dist > GetAttackRange(this.PrimarySkill))
         {
             this.CurrentAnimation = AnimationState.Walking;
             MoveTowards(Target.transform.position);
+            IsWithinAttackRange = true;
         }
         else
         {
             targetPosition = this.transform.position;
             this.CurrentAnimation = AnimationState.Attacking;
             LookTowards(Target.transform.position);
-            base.PrimaryAttack();
+        }
+
+        if (dist > GetAttackRange(this.PrimarySkill) * 1.2f)
+        {
+            IsWithinAttackRange = false;
         }
     }
 

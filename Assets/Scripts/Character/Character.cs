@@ -135,7 +135,7 @@ public abstract class Character : MonoBehaviour, Interactable
         UpdateLoop();
     }
 
-    public virtual void PrimaryAttack()
+    public virtual void Attack()
     {
         PerformAttack(PrimarySkill);
     }
@@ -157,7 +157,7 @@ public abstract class Character : MonoBehaviour, Interactable
 
         // Allow secondary skill to attack while moving.
         if (!skill.CanAttackWhileMoving &&
-            this.GetComponent<Rigidbody>().velocity.magnitude > .1f &&
+            this.GetComponent<Rigidbody>().velocity.magnitude > .2f &&
             skill != SecondarySkill)
         {
             return false;
@@ -331,7 +331,7 @@ public abstract class Character : MonoBehaviour, Interactable
 
     protected abstract void SetInitialStats();
 
-    private float GetDistBetweenColliders(Collider c1, Collider c2)
+    protected float GetDistBetweenColliders(Collider c1, Collider c2)
     {
         Vector3 closestC1 = c1.ClosestPoint(c2.transform.position);
         Vector3 closestC2 = c2.ClosestPoint(c1.transform.position);
