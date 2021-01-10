@@ -60,22 +60,17 @@ public abstract class Skill
 
     public virtual bool Activate(Character attacker, AttackTargetingDetails targetingDetails)
     {
+        if (Level == 0)
+        {
+            return false;
+        }
+
         if (attacker.Mana < ManaCost)
         {
             return false;
         }
 
         if (Time.time - LastAttackTime < Cooldown)
-        {
-            return false;
-        }
-
-        if (Level == 0)
-        {
-            return false;
-        }
-
-        if (!CanAttackWhileMoving && targetingDetails.Attacker.GetComponent<Rigidbody>().velocity.magnitude > .1f)
         {
             return false;
         }

@@ -55,7 +55,7 @@ public abstract class Cow : Character
         }
     }
 
-    private bool IsWithinAttackRange = false;
+    private bool IsWithinAttackRange;
     public virtual void AttackLoop()
     {
         if (Target == null)

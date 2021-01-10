@@ -12,7 +12,7 @@ public class FireWave : RangedSkill
     public float Width => 1f + Level * 0.1f;
     public float FireDuration => 1f + Level * 0.25f;
     protected override float ProjectileSpeed => 0.5f;
-    private const float DistBetweenFires = 0.25f;
+    private const float DistBetweenFires = 0.4f;
 
     public FireWave(Character owner) : base(owner) { }
 

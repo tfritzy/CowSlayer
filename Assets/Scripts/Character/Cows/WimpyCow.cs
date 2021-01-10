@@ -16,7 +16,7 @@
         this.Damage = 2 + Level / 2;
         this.AttackSpeed = 1;
         this.TargetFindRadius = 5f;
-        this.MeleeAttackRange = 2f;
+        this.MeleeAttackRange = .5f;
         this.MovementSpeed = 2f;
         this.XPReward = 1 + Level;
         this.PrimarySkill = new Whack(this);

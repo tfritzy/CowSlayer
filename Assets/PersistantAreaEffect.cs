@@ -10,7 +10,7 @@ public abstract class PersistantAreaEffect : MonoBehaviour
     protected abstract float MinTimeBetweenEffectApplications { get; }
     protected Dictionary<GameObject, float> recentHits;
     protected abstract void ApplyEffect(GameObject gameObject);
-    private float birthTime; 
+    private float birthTime;
 
     void Update()
     {
@@ -51,6 +51,6 @@ public abstract class PersistantAreaEffect : MonoBehaviour
     {
         Enabled = true;
         recentHits = new Dictionary<GameObject, float>();
-        Destroy(this.gameObject, Duration);
+        Destroy(this.gameObject, Duration + .1f);
     }
 }

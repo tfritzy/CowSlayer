@@ -24,7 +24,12 @@ public class GroundFire : PersistantAreaEffect
 
     protected override void ApplyEffect(GameObject gameObject)
     {
-        if (gameObject.TryGetComponent<Character>(out Character character))
+        if (gameObject.transform.parent == null)
+        {
+            return;
+        }
+
+        if (gameObject.transform.parent.TryGetComponent<Character>(out Character character))
         {
             if (Attacker.Enemies.Contains(character.Allegiance))
             {
