@@ -21,15 +21,14 @@ public abstract class Skill
     {
         get
         {
-            if (Owner is Player)
-            {
-                return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 0;
-            }
-            else
+            if (Owner is Cow)
             {
                 return Owner.Level;
             }
-
+            else
+            {
+                return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 0;
+            }
         }
     }
 
@@ -95,7 +94,13 @@ public abstract class Skill
 
     public virtual bool IsCollisionTarget(Character attacker, GameObject collision)
     {
-        if (collision.TryGetComponent<Character>(out Character character))
+        if (collision.transform.parent == null)
+        {
+            return false;
+        }
+
+        // Get Character from parent because collider is always on the body object.
+        if (collision.transform.parent.TryGetComponent<Character>(out Character character))
         {
             if (attacker.Enemies.Contains(character.Allegiance))
             {

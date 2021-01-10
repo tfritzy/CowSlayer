@@ -19,6 +19,7 @@ public class AreaSpawner : MonoBehaviour
         SpawnedCows = new Dictionary<string, Cow>();
         SpawnableCows = LoadSpawnableCows();
         AreaCenter = transform.position;
+        AreaCenter.y = Constants.WorldProperties.GroundLevel;
 
         SpawnCowsToMax();
         SpawnZoneGuardianIfNeeded();
@@ -60,16 +61,20 @@ public class AreaSpawner : MonoBehaviour
 
     private void SpawnACow()
     {
-        Vector3 position = new Vector3(
-            Random.Range(-SpawnableAreaSize.x / 2, SpawnableAreaSize.x / 2),
-            0f,
-            Random.Range(-SpawnableAreaSize.y / 2, SpawnableAreaSize.y / 2));
-
         GameObject cow = Instantiate(
             SpawnableCows[Random.Range(0, SpawnableCows.Count)],
-            position + AreaCenter,
+            Vector3.zero,
             new Quaternion(),
             this.transform);
+
+        Vector3 position = new Vector3(
+            Random.Range(-SpawnableAreaSize.x / 2, SpawnableAreaSize.x / 2),
+            Constants.WorldProperties.GroundLevel,
+            Random.Range(-SpawnableAreaSize.y / 2, SpawnableAreaSize.y / 2))
+            + AreaCenter;
+
+        cow.transform.position = position;
+
         cow.GetComponent<Cow>().Initialize();
         SpawnedCows.Add(cow.name, cow.GetComponent<Cow>());
     }

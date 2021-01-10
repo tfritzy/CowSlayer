@@ -38,7 +38,7 @@ public abstract class Character : MonoBehaviour, Interactable
     public float RangedAttackRange;
     public Skill PrimarySkill;
     public Skill SecondarySkill;
-    public GameObject Target;
+    public Character Target;
     public string Name;
     public Allegiance Allegiance;
     public HashSet<Allegiance> Enemies;
@@ -111,6 +111,11 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Mana = this.MaxMana;
         this.initialRotation = Body.Transform.rotation;
         this.rb = this.GetComponent<Rigidbody>();
+        this.rb.constraints =
+            RigidbodyConstraints.FreezePositionY |
+            RigidbodyConstraints.FreezeRotation;
+
+
     }
 
     void Awake()
@@ -158,7 +163,7 @@ public abstract class Character : MonoBehaviour, Interactable
             return false;
         }
 
-        float distanceToTarget = GetDistBetweenColliders(Target.GetComponent<Collider>(), this.GetComponent<Collider>());
+        float distanceToTarget = GetDistBetweenColliders(Target.Body.BoxCollider, this.Body.BoxCollider);
         if (distanceToTarget <= GetAttackRange(skill))
         {
             skill.Activate(this, BuildAttackTargetingDetails());
@@ -193,7 +198,7 @@ public abstract class Character : MonoBehaviour, Interactable
         return new AttackTargetingDetails
         {
             Attacker = this,
-            Target = Target?.GetComponent<Character>(),
+            Target = this.Target,
         };
     }
 
@@ -209,28 +214,31 @@ public abstract class Character : MonoBehaviour, Interactable
     }
 
     public float TargetFindRadius;
-    protected GameObject FindTarget()
+    protected Character FindTarget()
     {
         Collider[] nearby = Physics.OverlapSphere(this.transform.position, TargetFindRadius);
-        GameObject closest = null;
+        Character closest = null;
         float closestDist = float.MaxValue;
         foreach (Collider collider in nearby)
         {
-            Character character = collider.GetComponent<Character>();
+            // Get from parent because collider is always on body.
+            Character character = collider.transform.parent?.GetComponent<Character>();
             if (character == null)
             {
                 continue;
             }
+
             if (this.Enemies.Contains(character.Allegiance))
             {
                 float distance = Vector3.Distance(collider.transform.position, this.transform.position);
                 if (distance < closestDist)
                 {
-                    closest = collider.gameObject;
+                    closest = character;
                     closestDist = distance;
                 }
             }
         }
+
         return closest;
     }
 
@@ -240,7 +248,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Health = Mathf.Min(this.Health, this.MaxHealth);
     }
 
-    protected virtual void SetVelocity() {}
+    protected virtual void SetVelocity() { }
     protected virtual void OnDeath()
     {
         Destroy(this.Healthbar.gameObject);

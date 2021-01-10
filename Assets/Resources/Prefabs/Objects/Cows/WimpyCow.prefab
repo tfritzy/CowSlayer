@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!65 &4336592912882140957
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2421164239543682055}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1451716, y: 3.263567, z: 4.1968393}
-  m_Center: {x: -0.07258582, y: 1.0447245, z: 0.32153368}
 --- !u!95 &5820333593117692908
 Animator:
   serializedVersion: 3
@@ -32,6 +19,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &2009185261594728386
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2421164239543682055}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3877579, y: 3.4132023, z: 4.515869}
+  m_Center: {x: 0.0037309527, y: 1.1101906, z: 0.47691572}
 --- !u!1 &7798264967085344335
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 7798264967085344333}
   - component: {fileID: 7798264967085344334}
   - component: {fileID: 7798264967085344332}
-  - component: {fileID: 7798264967085344323}
   m_Layer: 8
   m_Name: WimpyCow
   m_TagString: Untagged
@@ -109,19 +108,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!65 &7798264967085344323
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7798264967085344335}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1862869, y: 1.3118887, z: 1.7436246}
-  m_Center: {x: 0, y: 0.37236285, z: 0.15637153}
 --- !u!1001 &3267605473815984470
 PrefabInstance:
   m_ObjectHideFlags: 0

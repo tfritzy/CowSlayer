@@ -77,11 +77,11 @@ public class Player : Character
 
     protected override void UpdateLoop()
     {
+        base.UpdateLoop();
         SetDashStatus();
         PrimaryAttack();
         SetVelocity();
         SecondaryAttack();
-        base.UpdateLoop();
     }
 
     public override void Initialize()

@@ -41,7 +41,7 @@ public class Projectile : MonoBehaviour
 
         if (isCollisionTarget(attacker, other.gameObject))
         {
-            damageEnemy(attacker, other.GetComponent<Character>(), this.gameObject);
+            damageEnemy(attacker, other.transform.parent.GetComponent<Character>(), this.gameObject);
             DetachParticles(transform.Find(trailGroupName));
             PlayExplosion();
             createGroundEffects(attacker, this.transform.position);
