@@ -12,6 +12,7 @@ public class MobileUtilsScript : MonoBehaviour
     {
         style.fontSize = 25;
         StartCoroutine(FPS());
+        Application.targetFrameRate = 300;
     }
 
     private IEnumerator FPS()
@@ -32,6 +33,6 @@ public class MobileUtilsScript : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width - 100, 10, 250, 40), fps, style);
+        GUI.Label(new Rect(Screen.width - 300, 10, 250, 40), fps, style);
     }
 }

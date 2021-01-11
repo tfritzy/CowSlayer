@@ -22,7 +22,10 @@ public class Body
         this.MainHand = self.Find("RightHand")?.gameObject;
         this.Animator = self.GetComponent<Animator>();
         this.BoxCollider = self.GetComponent<BoxCollider>();
-        self.gameObject.AddComponent<PassCommandUp>();
+        if (self.gameObject.TryGetComponent<PassCommandUp>(out _) == false)
+        {
+            self.gameObject.AddComponent<PassCommandUp>();
+        }
     }
 }
 

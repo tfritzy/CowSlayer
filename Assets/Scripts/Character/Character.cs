@@ -95,6 +95,15 @@ public abstract class Character : MonoBehaviour, Interactable
         {
             _animationState = value;
             this.Body.Animator.SetInteger("Animation_State", (int)_animationState);
+
+            if (_animationState == AnimationState.Attacking)
+            {
+                this.Body.Animator.speed = 1 / TimeBetweenAttacks;
+            }
+            else
+            {
+                this.Body.Animator.speed = 1;
+            }
         }
     }
 
@@ -111,11 +120,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Mana = this.MaxMana;
         this.initialRotation = Body.Transform.rotation;
         this.rb = this.GetComponent<Rigidbody>();
-        this.rb.constraints =
-            RigidbodyConstraints.FreezePositionY |
-            RigidbodyConstraints.FreezeRotation;
-
-
+        SetRigidbodyConstraints();
     }
 
     void Awake()
@@ -146,11 +151,6 @@ public abstract class Character : MonoBehaviour, Interactable
     protected bool PerformAttack(Skill skill)
     {
         if (IsDead || Target == null)
-        {
-            return false;
-        }
-
-        if (Time.time < skill.LastAttackTime + skill.Cooldown)
         {
             return false;
         }
@@ -351,5 +351,12 @@ public abstract class Character : MonoBehaviour, Interactable
         Vector3 diffVector = targetPos - this.transform.position;
         diffVector.y = 0;
         return diffVector;
+    }
+
+    protected void SetRigidbodyConstraints()
+    {
+        this.rb.constraints =
+            RigidbodyConstraints.FreezePositionY |
+            RigidbodyConstraints.FreezeRotation;
     }
 }

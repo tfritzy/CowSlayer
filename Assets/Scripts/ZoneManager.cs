@@ -16,7 +16,14 @@ public class ZoneManager : MonoBehaviour
         Zones = new List<Zone>();
         for (int i = 0; i < NumZonesPerMap; i++)
         {
-            Zones.Add(new Zone(chunkParent.Find($"Zone_{i}")));
+            Transform zone = chunkParent.Find($"Zone_{i}");
+
+            if (zone == null)
+            {
+                break;
+            }
+
+            Zones.Add(new Zone(zone));
         }
 
         UnlockZones();

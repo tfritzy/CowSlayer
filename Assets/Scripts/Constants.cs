@@ -116,6 +116,7 @@ public static class Constants
     public static class Layers
     {
         public const int Character = 1 << 8;
+        public const int Ground = 1 << 9;
     }
 
     public static class Tags

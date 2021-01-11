@@ -113,9 +113,9 @@ public class AreaSpawner : MonoBehaviour
             CowType type = WhatCowsSpawnInEachArea.ZoneGuardians[AreaType][AreaIndex];
             GameObject newCow = Instantiate(
                 Constants.Prefabs.CowPrefabs[type],
-            AreaCenter,
-            new Quaternion(),
-            this.transform);
+                AreaCenter,
+                new Quaternion(),
+                this.transform);
             newCow.GetComponent<Cow>().Initialize();
             newCow.GetComponent<Cow>().PromoteToZoneGuardian();
         }

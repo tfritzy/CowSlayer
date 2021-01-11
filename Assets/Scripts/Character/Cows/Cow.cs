@@ -23,6 +23,11 @@ public abstract class Cow : Character
         base.UpdateLoop();
     }
 
+    public override void Attack()
+    {
+        base.PerformAttack(PrimarySkill);
+    }
+
     protected virtual void AIUpdate()
     {
         switch (this.CurrentState)
@@ -52,6 +57,9 @@ public abstract class Cow : Character
             this.MeleeAttackRange *= 1.5f;
             this.RangedAttackRange *= 1.5f;
             this.gameObject.name = "ZoneGuardian " + Zone;
+            Vector3 position = this.transform.position;
+            position.y = Constants.WorldProperties.GroundLevel;
+            this.transform.position = position;
         }
     }
 
@@ -62,7 +70,6 @@ public abstract class Cow : Character
         {
             if (this.CurrentState == CowState.Attacking)
             {
-                this.Body.Animator.speed = 1;
                 this.CurrentState = CowState.Grazing;
                 this.CurrentAnimation = AnimationState.Idle;
                 this.targetPosition = FindNewGrazePosition();
@@ -71,24 +78,25 @@ public abstract class Cow : Character
             return;
         }
 
-
         float dist = GetDistBetweenColliders(Target.Body.BoxCollider, Body.BoxCollider);
         if (!IsWithinAttackRange && dist > GetAttackRange(this.PrimarySkill))
         {
             this.CurrentAnimation = AnimationState.Walking;
             MoveTowards(Target.transform.position);
-            IsWithinAttackRange = true;
         }
         else
         {
             targetPosition = this.transform.position;
             this.CurrentAnimation = AnimationState.Attacking;
             LookTowards(Target.transform.position);
+            this.rb.constraints = RigidbodyConstraints.FreezeAll;
+            IsWithinAttackRange = true;
         }
 
-        if (dist > GetAttackRange(this.PrimarySkill) * 1.2f)
+        if (dist > GetAttackRange(this.PrimarySkill) * 1.1f)
         {
             IsWithinAttackRange = false;
+            SetRigidbodyConstraints();
         }
     }
 
@@ -164,5 +172,6 @@ public abstract class Cow : Character
     public void PromoteToZoneGuardian()
     {
         this.IsZoneGuardian = true;
+        this.SetInitialStats();
     }
 }
