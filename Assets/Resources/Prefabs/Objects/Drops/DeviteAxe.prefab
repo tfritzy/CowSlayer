@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3669161274911078101}
   - component: {fileID: 6218060280018939884}
   - component: {fileID: 8838132114362555088}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 5797444986737729531}
   - component: {fileID: 9185191517581482199}
   - component: {fileID: 3645653416116743359}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 6555672063009430457}
   - component: {fileID: 5344317088938412164}
   - component: {fileID: 6383355679894691727}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stone.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5731083422404561592}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DeviteAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}

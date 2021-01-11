@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5933326180500986197}
   - component: {fileID: 2716081964528925674}
   - component: {fileID: 2327390779995416843}
-  m_Layer: 0
-  m_Name: Iron Platelegs
+  m_Layer: 10
+  m_Name: IronPlatelegs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

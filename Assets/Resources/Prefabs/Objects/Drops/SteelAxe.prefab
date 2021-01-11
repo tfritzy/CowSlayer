@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3776542523944801285}
   - component: {fileID: 5821323866113051964}
   - component: {fileID: 8945513916778149888}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 7348792413279490054}
   - component: {fileID: 9155116055443982408}
   - component: {fileID: 8222507962783809014}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 8567672592037580604}
   - component: {fileID: 2586265553738070664}
   - component: {fileID: 198083690428919676}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5263412559291050088}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SteelAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -117,6 +117,7 @@ public static class Constants
     {
         public const int Character = 1 << 8;
         public const int Ground = 1 << 9;
+        public const int Drops = 1 << 10;
     }
 
     public static class Tags

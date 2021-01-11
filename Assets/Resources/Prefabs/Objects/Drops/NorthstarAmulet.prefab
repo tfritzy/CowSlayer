@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7566656485045541011}
   - component: {fileID: 2225965044793195052}
   - component: {fileID: 1952817139159640269}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: NorthstarAmulet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

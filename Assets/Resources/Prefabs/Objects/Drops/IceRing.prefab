@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8350356829929336630}
   - component: {fileID: 289483660131814793}
   - component: {fileID: 142294842320215912}
-  m_Layer: 0
-  m_Name: Ice Ring
+  m_Layer: 10
+  m_Name: IceRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

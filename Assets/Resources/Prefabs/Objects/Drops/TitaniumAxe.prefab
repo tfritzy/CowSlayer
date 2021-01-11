@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3620662212908032805}
   - component: {fileID: 6241614448383965724}
   - component: {fileID: 8823411422884843296}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 4624700240960742380}
   - component: {fileID: 7269568217814066900}
   - component: {fileID: 5808244180586819772}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 96950996548029918}
   - component: {fileID: 8333812578564792650}
   - component: {fileID: 2440296746773213527}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 5809923740120549899}
   - component: {fileID: 9199742025208007975}
   - component: {fileID: 3621916454480410959}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 8697171790797812857}
   - component: {fileID: 390072554478929225}
   - component: {fileID: 6085361001729026873}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stone.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5718640953916153672}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TitaniumAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}

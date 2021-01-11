@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5247697705948085318}
   - component: {fileID: 8047653162439054742}
   - component: {fileID: 4367294031456267491}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cone.000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 3128257414436080460}
   - component: {fileID: 8626815927107122824}
   - component: {fileID: 446153558268093239}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cone.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7891234111316088532}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LaraniteAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 7269766519506430600}
   - component: {fileID: 6834733107044036492}
   - component: {fileID: 7668649512189119993}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cone.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 8250318404660102039}
   - component: {fileID: 6733997010503664827}
   - component: {fileID: 1196932653621637331}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

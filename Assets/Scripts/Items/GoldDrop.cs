@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GoldDrop : Drop 
+public class GoldDrop : Drop
 {
     public int Value;
     public override bool HasAutoPickup => true;

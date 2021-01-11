@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6084313359929846365}
   - component: {fileID: 2560802517056620770}
   - component: {fileID: 2770901170420718083}
-  m_Layer: 0
-  m_Name: Gold Ring
+  m_Layer: 10
+  m_Name: GoldRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

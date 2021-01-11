@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1286223928989570125}
   - component: {fileID: 7367760660460599026}
   - component: {fileID: 7188432155212243987}
-  m_Layer: 0
-  m_Name: Horned Helm
+  m_Layer: 10
+  m_Name: HornedHelm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

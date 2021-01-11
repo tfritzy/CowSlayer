@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3415759778147161060}
   - component: {fileID: 6377424701846286683}
   - component: {fileID: 6736490347119731642}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LeatherBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}

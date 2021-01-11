@@ -21,6 +21,13 @@ public class DropContainer : MonoBehaviour
             GameObject dropIndicator = drop.GetDropIndicator();
             dropIndicator.GetComponent<DropIndicator>().SetOwner(transform);
         }
+
+        foreach (Transform child in transform)
+        {
+            SpeedBurstOnStart speed = child.gameObject.AddComponent<SpeedBurstOnStart>();
+            child.gameObject.AddComponent<Rigidbody>();
+            speed.Begin(Random.Range(4, 8));
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -41,13 +48,16 @@ public class DropContainer : MonoBehaviour
         }
 
         // Make all children fly towards the player.
-        foreach (Rigidbody child in this.transform.GetComponentsInChildren<Rigidbody>())
+        if (drop.HasAutoPickup)
         {
-            if (child.GetComponent<FlyTowardsObject>() == null)
+            foreach (Rigidbody child in this.transform.GetComponentsInChildren<Rigidbody>())
             {
-                FlyTowardsObject flyTowards = child.gameObject.AddComponent<FlyTowardsObject>();
-                flyTowards.SetTarget(other.gameObject, RewardPlayer);
-                child.useGravity = false;
+                if (child.GetComponent<FlyTowardsObject>() == null)
+                {
+                    FlyTowardsObject flyTowards = child.gameObject.AddComponent<FlyTowardsObject>();
+                    flyTowards.SetTarget(other.gameObject, RewardPlayer);
+                    child.useGravity = false;
+                }
             }
         }
     }
