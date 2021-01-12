@@ -16,6 +16,7 @@ public abstract class Skill
     public abstract float DamageModifier { get; }
     public Character Owner { get; }
     protected string IconFilePath => $"{Constants.FilePaths.Icons}/{Name}";
+    protected virtual bool ShowsDecal => false;
 
     public int Level
     {
@@ -178,5 +179,24 @@ public abstract class Skill
         Vector3 flyDirection = attackTargetingDetails.Target.transform.position - projectile.transform.position;
         projectile.GetComponent<Rigidbody>().velocity = flyDirection.normalized * speed;
         projectile.GetComponent<Projectile>().Initialize(DealDamage, IsCollisionTarget, CreateGroundEffects, attackTargetingDetails.Attacker);
+    }
+
+    protected virtual GameObject BuildDecal()
+    {
+        return null;
+    }
+
+    protected void PositionDecal(GameObject decal, Vector3 position)
+    {
+        Ray ray = new Ray(position, Vector3.down);
+        Physics.Raycast(ray, out RaycastHit hitInfo);
+
+        decal.transform.position = hitInfo.point;
+        decal.transform.forward = hitInfo.normal * -1f;
+        decal.transform.rotation = decal.transform.rotation * Quaternion.AngleAxis(Random.Range(0, 360), decal.transform.up);
+        decal.transform.parent = null;
+
+        // TODO Get right timing
+        GameObject.Destroy(decal, 5f);
     }
 }

@@ -109,6 +109,7 @@ public static class Constants
             public const string Drops = "Prefabs/Objects/Drops";
             public const string Cows = "Prefabs/Objects/Cows";
             public const string Skills = "Prefabs/Objects/Skills";
+            public const string AttackDecals = "Prefabs/Objects/AttackDecals";
         }
         public const string AreaSpawns = "AreaSpawns";
     }
@@ -129,6 +130,23 @@ public static class Constants
 
     public static class Prefabs
     {
+        public static class Decals
+        {
+            private static GameObject _arc;
+            public static GameObject Arc
+            {
+                get
+                {
+                    if (_arc == null)
+                    {
+                        _arc = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.AttackDecals}/Arc");
+                    }
+
+                    return _arc;
+                }
+            }
+        }
+
         private static GameObject _onScreenNumber;
         public static GameObject OnScreenNumber
         {

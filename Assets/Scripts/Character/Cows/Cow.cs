@@ -63,7 +63,7 @@ public abstract class Cow : Character
         }
     }
 
-    private bool IsWithinAttackRange;
+    private float AttackStartTime = float.MinValue;
     public virtual void AttackLoop()
     {
         if (Target == null)
@@ -79,24 +79,28 @@ public abstract class Cow : Character
         }
 
         float dist = GetDistBetweenColliders(Target.Body.BoxCollider, Body.BoxCollider);
-        if (!IsWithinAttackRange && dist > GetAttackRange(this.PrimarySkill))
+
+        if (dist <= GetAttackRange(this.PrimarySkill))
         {
-            this.CurrentAnimation = AnimationState.Walking;
-            MoveTowards(Target.transform.position);
-        }
-        else
-        {
+            if (AttackStartTime == float.MinValue || Time.time > AttackStartTime + TimeBetweenAttacks)
+            {
+                AttackStartTime = Time.time;
+            }
+
             targetPosition = this.transform.position;
             this.CurrentAnimation = AnimationState.Attacking;
             LookTowards(Target.transform.position);
             this.rb.constraints = RigidbodyConstraints.FreezeAll;
-            IsWithinAttackRange = true;
         }
-
-        if (dist > GetAttackRange(this.PrimarySkill) * 1.1f)
+        else
         {
-            IsWithinAttackRange = false;
-            SetRigidbodyConstraints();
+            if (Time.time > AttackStartTime + TimeBetweenAttacks)
+            {
+                this.CurrentAnimation = AnimationState.Walking;
+                MoveTowards(Target.transform.position);
+                SetRigidbodyConstraints();
+                AttackStartTime = float.MinValue;
+            }
         }
     }
 

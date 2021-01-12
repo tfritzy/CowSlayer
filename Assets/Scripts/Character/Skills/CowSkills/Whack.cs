@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class Whack : MeleeSkill
 {
     public override string Name => "Whack";
@@ -9,4 +11,10 @@ public class Whack : MeleeSkill
 
     public Whack(Character owner) : base(owner) { }
 
+    protected override GameObject BuildDecal()
+    {
+        GameObject decal = GameObject.Instantiate(Constants.Prefabs.Decals.Arc);
+        this.PositionDecal(decal, Owner.transform.forward);
+        return decal;
+    }
 }
