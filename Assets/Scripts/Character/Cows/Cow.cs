@@ -170,6 +170,11 @@ public abstract class Cow : Character
             dropContainer.GetComponent<DropContainer>().SetDrop(drop);
         }
 
+        GameObject bloodSplat = Instantiate(Constants.Prefabs.Decals.BloodSplat);
+        Helpers.PlaceDecalOnGround(this.transform.position, bloodSplat);
+        bloodSplat.transform.localScale *= this.Body.Transform.localScale.x;
+        bloodSplat.GetComponent<Decal>().Setup(8, 5);
+
         base.OnDeath();
     }
 

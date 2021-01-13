@@ -64,12 +64,8 @@ public abstract class PersistantAreaEffect : MonoBehaviour
             return;
         }
 
-        Ray ray = new Ray(this.transform.position, Vector3.down);
-        Physics.Raycast(ray, out RaycastHit hitInfo);
-        decal.transform.position = hitInfo.point;
-        decal.transform.forward = hitInfo.normal * -1f;
-        decal.transform.rotation = decal.transform.rotation * Quaternion.AngleAxis(Random.Range(0, 360), decal.transform.up);
-        decal.transform.parent = null;
+        Helpers.PlaceDecalOnGround(this.transform.position, decal);
+
         Destroy(decal, 5f);
     }
 }

@@ -185,18 +185,4 @@ public abstract class Skill
     {
         return null;
     }
-
-    protected void PositionDecal(GameObject decal, Vector3 position)
-    {
-        Ray ray = new Ray(position, Vector3.down);
-        Physics.Raycast(ray, out RaycastHit hitInfo);
-
-        decal.transform.position = hitInfo.point;
-        decal.transform.forward = hitInfo.normal * -1f;
-        decal.transform.rotation = decal.transform.rotation * Quaternion.AngleAxis(Random.Range(0, 360), decal.transform.up);
-        decal.transform.parent = null;
-
-        // TODO Get right timing
-        GameObject.Destroy(decal, 5f);
-    }
 }

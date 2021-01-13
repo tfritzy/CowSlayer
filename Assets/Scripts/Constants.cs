@@ -109,7 +109,7 @@ public static class Constants
             public const string Drops = "Prefabs/Objects/Drops";
             public const string Cows = "Prefabs/Objects/Cows";
             public const string Skills = "Prefabs/Objects/Skills";
-            public const string AttackDecals = "Prefabs/Objects/AttackDecals";
+            public const string Decals = "Prefabs/Objects/Decals";
         }
         public const string AreaSpawns = "AreaSpawns";
     }
@@ -139,10 +139,28 @@ public static class Constants
                 {
                     if (_arc == null)
                     {
-                        _arc = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.AttackDecals}/Arc");
+                        _arc = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Decals}/Arc");
                     }
 
                     return _arc;
+                }
+            }
+
+            private static List<GameObject> _bloodSplats;
+            public static GameObject BloodSplat
+            {
+                get
+                {
+                    if (_bloodSplats == null)
+                    {
+                        _bloodSplats = new List<GameObject>();
+                        for (int i = 0; i < 3; i++)
+                        {
+                            _bloodSplats.Add(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Decals}/BloodSplat" + i));
+                        }
+                    }
+
+                    return _bloodSplats[UnityEngine.Random.Range(0, _bloodSplats.Count)];
                 }
             }
         }
