@@ -7,8 +7,8 @@ public class WimpyCowDropTable : DropTable
     {
         DropChances = new Dictionary<Drop, int>
         {
-            { new GoldDrop(1, 3), 50 },
-            { new ItemDrop(new Stick()), 50 },
+            { new GoldDrop(1, 20), 90 },
+            { new ItemDrop(new Stick()), 10 },
         };
 
         base.SetValues();

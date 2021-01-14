@@ -24,9 +24,9 @@ public class DropContainer : MonoBehaviour
 
         foreach (Transform child in transform)
         {
-            SpeedBurstOnStart speed = child.gameObject.AddComponent<SpeedBurstOnStart>();
+            SpeedBurstOnStart speedBurst = child.gameObject.AddComponent<SpeedBurstOnStart>();
             child.gameObject.AddComponent<Rigidbody>();
-            speed.Begin(Random.Range(4, 8));
+            speedBurst.Begin(Random.Range(4, 8));
         }
     }
 
@@ -52,13 +52,11 @@ public class DropContainer : MonoBehaviour
         {
             foreach (Rigidbody child in this.transform.GetComponentsInChildren<Rigidbody>())
             {
-                if (child.GetComponent<FlyTowardsObject>() == null)
-                {
-                    FlyTowardsObject flyTowards = child.gameObject.AddComponent<FlyTowardsObject>();
-                    flyTowards.SetTarget(other.gameObject, RewardPlayer);
-                    child.useGravity = false;
-                }
+                FlyTowardsObject flyTowards = child.gameObject.AddComponent<FlyTowardsObject>();
+                flyTowards.SetTarget(other.gameObject, RewardPlayer);
+                child.useGravity = false;
             }
+            this.transform.DetachChildren();
         }
     }
 
@@ -70,7 +68,8 @@ public class DropContainer : MonoBehaviour
             return;
         }
 
-        drop.GiveDropToPlayer(Constants.Persistant.PlayerScript);
+        hasBeenRewardedAlready = true;
+
         GameObject textPopup = Instantiate(
             Constants.Prefabs.OnScreenNumber,
             Constants.Persistant.Camera.WorldToScreenPoint(Constants.Persistant.Player.transform.position),
@@ -78,14 +77,9 @@ public class DropContainer : MonoBehaviour
             Constants.Persistant.Canvas.transform);
         textPopup.GetComponent<OnScreenNumber>().SetValue(drop.Quantity, Constants.Persistant.Player, drop.Icon);
 
-        // Destroy all objects that are still in transit.
-        foreach (Rigidbody child in this.transform.GetComponentsInChildren<Rigidbody>())
-        {
-            Destroy(child.gameObject);
-        }
+        drop.GiveDropToPlayer(Constants.Persistant.PlayerScript);
 
-        hasBeenRewardedAlready = true;
-        Destroy(this.gameObject);
+        GameObject.Destroy(this.gameObject);
     }
 
     public void PickUp(Player player)
@@ -93,7 +87,7 @@ public class DropContainer : MonoBehaviour
         bool success = drop.GiveDropToPlayer(player);
         if (success)
         {
-            Destroy(this.gameObject);
+            GameObject.Destroy(this.gameObject);
         }
 
         lastPickupAttemptTime = Time.time;

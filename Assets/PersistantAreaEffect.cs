@@ -54,7 +54,7 @@ public abstract class PersistantAreaEffect : MonoBehaviour
         Enabled = true;
         recentHits = new Dictionary<GameObject, float>();
         PositionDecal(Decal);
-        Destroy(this.gameObject, Duration + .1f);
+        GameObject.Destroy(this.gameObject, Duration + .1f);
     }
 
     protected void PositionDecal(GameObject decal)
@@ -66,6 +66,6 @@ public abstract class PersistantAreaEffect : MonoBehaviour
 
         Helpers.PlaceDecalOnGround(this.transform.position, decal);
 
-        Destroy(decal, 5f);
+        GameObject.Destroy(decal, 5f);
     }
 }

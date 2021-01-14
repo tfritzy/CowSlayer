@@ -101,7 +101,7 @@ public static class Constants
     public static class FilePaths
     {
         public const string Icons = "Icons";
-        public const string GoldIcons = "Icons/Gold";
+
         public class Prefabs
         {
             public const string UI = "Prefabs/Objects/UI";
@@ -264,13 +264,13 @@ public static class Constants
         public class Gold
         {
             private static GameObject _smallGoldPile;
-            public static GameObject SmallGoldPile
+            public static GameObject GoldCoin
             {
                 get
                 {
                     if (_smallGoldPile == null)
                     {
-                        _smallGoldPile = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Gold}/SmallPile");
+                        _smallGoldPile = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Gold}/0");
                     }
                     return _smallGoldPile;
                 }

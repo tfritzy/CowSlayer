@@ -23,7 +23,7 @@ public class Healthbar : MonoBehaviour
     {
         if (Owner == null)
         {
-            Destroy(this.gameObject);
+            GameObject.Destroy(this.gameObject);
             return;
         }
 

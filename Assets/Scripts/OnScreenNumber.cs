@@ -99,6 +99,6 @@ public class OnScreenNumber : MonoBehaviour
 
     public void Delete()
     {
-        Destroy(this.gameObject);
+        GameObject.Destroy(this.gameObject);
     }
 }

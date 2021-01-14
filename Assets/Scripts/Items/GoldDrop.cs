@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GoldDrop : Drop
@@ -6,25 +8,29 @@ public class GoldDrop : Drop
     public override bool HasAutoPickup => true;
     public override int Quantity => Value;
 
-    private Sprite _icon;
+    private readonly int[] CoinSizes = new int[] { 1 };
+    private List<GameObject> coinPrefabs;
+
+    public string Id;
+    private static Sprite _icon;
     public override Sprite Icon
     {
         get
         {
-            return GetDetails().icon;
+            if (_icon == null)
+            {
+                _icon = Resources.Load<Sprite>($"{Constants.FilePaths.Icons}/GoldCoin");
+            }
+
+            return _icon;
         }
     }
 
     public GoldDrop(int low, int high)
     {
-        Value = Random.Range(low, high);
-    }
-
-    private class GoldDetails
-    {
-        public int sizeIndex;
-        public Sprite icon;
-        public GameObject model;
+        Value = UnityEngine.Random.Range(low, high);
+        coinPrefabs = new List<GameObject>();
+        Id = Guid.NewGuid().ToString("N");
     }
 
     public override GameObject GetDropIndicator()
@@ -34,75 +40,37 @@ public class GoldDrop : Drop
 
     public override bool GiveDropToPlayer(Player player)
     {
+        foreach (GameObject coin in coinPrefabs)
+        {
+            coin.GetComponent<PoolObject>().ReturnToPool();
+        }
+
         player.Gold += Value;
+        Value = 0;
+
         return true;
-    }
-
-    private GoldDetails _details;
-    private GoldDetails GetDetails()
-    {
-        if (_details != null)
-        {
-            return _details;
-        }
-
-        GoldDetails details = new GoldDetails();
-        if (Value >= 100000)
-        {
-            details.sizeIndex = 11;
-        }
-        else if (Value >= 10000)
-        {
-            details.sizeIndex = 10;
-        }
-        else if (Value >= 1000)
-        {
-            details.sizeIndex = 9;
-        }
-        else if (Value >= 1000)
-        {
-            details.sizeIndex = 8;
-        }
-        else if (Value >= 500)
-        {
-            details.sizeIndex = 7;
-        }
-        else if (Value >= 250)
-        {
-            details.sizeIndex = 6;
-        }
-        else if (Value >= 100)
-        {
-            details.sizeIndex = 5;
-        }
-        else if (Value >= 50)
-        {
-            details.sizeIndex = 4;
-        }
-        else if (Value >= 25)
-        {
-            details.sizeIndex = 3;
-        }
-        else if (Value >= 10)
-        {
-            details.sizeIndex = 2;
-        }
-        else if (Value >= 5)
-        {
-            details.sizeIndex = 1;
-        }
-        else
-        {
-            details.sizeIndex = 0;
-        }
-
-        details.model = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Gold}/{details.sizeIndex}");
-        details.icon = Resources.Load<Sprite>($"{Constants.FilePaths.GoldIcons}/{details.sizeIndex}");
-        return details;
     }
 
     public override void SetModel(Transform container)
     {
-        GameObject.Instantiate(GetDetails().model, container.position, new Quaternion(), container);
+        int remainingValue = Value;
+        int coinSizeIndex = 0;
+        while (remainingValue > 0 && coinPrefabs.Count < 3)
+        {
+            if (remainingValue >= CoinSizes[coinSizeIndex])
+            {
+                remainingValue -= CoinSizes[coinSizeIndex];
+                GameObject coin = Pools.GoldPool.GetObject(CoinSizes[coinSizeIndex]);
+                coin.transform.parent = container;
+                Vector3 position = container.transform.position;
+                position += new Vector3(UnityEngine.Random.Range(-.5f, .5f), UnityEngine.Random.Range(-.1f, .1f), UnityEngine.Random.Range(-.5f, .5f));
+                coin.transform.position = position;
+                coinPrefabs.Add(coin);
+            }
+            else
+            {
+                coinSizeIndex += 1;
+            }
+        }
     }
 }

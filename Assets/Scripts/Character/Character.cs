@@ -251,8 +251,8 @@ public abstract class Character : MonoBehaviour, Interactable
     protected virtual void SetVelocity() { }
     protected virtual void OnDeath()
     {
-        Destroy(this.Healthbar.gameObject);
-        Destroy(this.gameObject.gameObject);
+        GameObject.Destroy(this.Healthbar.gameObject);
+        GameObject.Destroy(this.gameObject.gameObject);
     }
 
     private float lastManaRegenTime;

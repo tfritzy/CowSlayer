@@ -34,5 +34,6 @@ public class MobileUtilsScript : MonoBehaviour
     void OnGUI()
     {
         GUI.Label(new Rect(Screen.width - 300, 10, 250, 40), fps, style);
+        Application.targetFrameRate = 60;
     }
 }

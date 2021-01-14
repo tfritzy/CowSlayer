@@ -12,4 +12,17 @@ public static class Helpers
         decal.transform.forward = hitInfo.normal * -1f;
         decal.transform.rotation = decal.transform.rotation * Quaternion.AngleAxis(Random.Range(0, 360), decal.transform.up);
     }
+
+    public static void Destroy(GameObject gameObject, float duration = 0f)
+    {
+        if (gameObject.TryGetComponent<PoolObject>(out PoolObject poolObject))
+        {
+            poolObject.transform.parent = null;
+            poolObject.ReturnToPool(duration);
+        }
+        else
+        {
+            GameObject.Destroy(gameObject, duration);
+        }
+    }
 }

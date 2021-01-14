@@ -20,7 +20,7 @@ public class Decal : MonoBehaviour
         // m = rise / run = alpha / duration = 1 / duration
         this.fadeSpeed = -1 / fadeDuration;
 
-        Destroy(this.gameObject, fadeDuration + fadeOffset);
+        GameObject.Destroy(this.gameObject, fadeDuration + fadeOffset);
     }
 
     void Start()

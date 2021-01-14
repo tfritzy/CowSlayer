@@ -11,7 +11,7 @@ public class PurchaseItemMenu : MonoBehaviour
     public ShopItemGroup OwningItemGroup;
     public bool BuyMode;
     private Text description;
-  
+
 
     public void Initialize(ShopItemGroup owner, Item item, bool buyMode = true)
     {
@@ -32,11 +32,12 @@ public class PurchaseItemMenu : MonoBehaviour
             {
                 description.text = $"Purchase {Item.Name} for {Item.Price} Gold?";
             }
-        } else
+        }
+        else
         {
             description.text = $"Sell {Item.Name} for {Item.Price} Gold?";
         }
-        
+
     }
 
     public void Accept()
@@ -44,15 +45,16 @@ public class PurchaseItemMenu : MonoBehaviour
         if (BuyMode)
         {
             OwningItemGroup.PurchaseItem(Item);
-        } else
+        }
+        else
         {
             OwningItemGroup.SellItem(Item);
         }
-        Destroy(this.gameObject);
+        GameObject.Destroy(this.gameObject);
     }
 
     public void Decline()
     {
-        Destroy(this.gameObject);
+        GameObject.Destroy(this.gameObject);
     }
 }

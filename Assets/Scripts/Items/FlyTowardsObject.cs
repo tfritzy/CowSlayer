@@ -25,7 +25,7 @@ public class FlyTowardsObject : MonoBehaviour
     void Update()
     {
         MoveTowardsObject();
-        MovementSpeed = Mathf.Min((Time.time - startTime) * 15f + 2f, 15f);
+        MovementSpeed = Mathf.Min((Time.time - startTime) * 15f + 2f, 10f);
         TurnRate = (Time.time - startTime) * 5f + 1;
     }
 
@@ -44,7 +44,7 @@ public class FlyTowardsObject : MonoBehaviour
             if (targetDirection.magnitude < collectionRadius)
             {
                 rewardLogicHandler();
-                Destroy(this.gameObject);
+                Helpers.Destroy(this.gameObject);
             }
 
             Vector3 currentDirection = this.GetComponent<Rigidbody>().velocity;

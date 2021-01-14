@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class Drop 
+public abstract class Drop
 {
     protected string dropId;
     public abstract bool HasAutoPickup { get; }

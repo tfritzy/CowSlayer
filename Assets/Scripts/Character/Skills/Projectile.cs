@@ -29,7 +29,7 @@ public class Projectile : MonoBehaviour
         explosionChild = transform.Find("Explosion");
         TriggerAllParticleSystems(explosionChild, false);
         TriggerAllParticleSystems(transform.Find(leftoverGround), false);
-        Destroy(this.gameObject, 10f);
+        GameObject.Destroy(this.gameObject, 10f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -45,7 +45,7 @@ public class Projectile : MonoBehaviour
             DetachParticles(transform.Find(trailGroupName));
             PlayExplosion();
             createGroundEffects(attacker, this.transform.position);
-            Destroy(this.gameObject);
+            GameObject.Destroy(this.gameObject);
         }
     }
 
@@ -53,14 +53,14 @@ public class Projectile : MonoBehaviour
     {
         particleGroup.parent = null;
         TriggerAllParticleSystems(particleGroup, false);
-        Destroy(particleGroup.gameObject, 1f);
+        GameObject.Destroy(particleGroup.gameObject, 1f);
     }
 
     private void PlayExplosion()
     {
         TriggerAllParticleSystems(explosionChild, true);
         explosionChild.parent = null;
-        Destroy(explosionChild.gameObject, 10f);
+        GameObject.Destroy(explosionChild.gameObject, 10f);
     }
 
     private void TriggerAllParticleSystems(Transform transform, bool start)

@@ -24,7 +24,7 @@ public class DropIndicator : MonoBehaviour
     {
         if (Owner == null)
         {
-            Destroy(this.gameObject);
+            GameObject.Destroy(this.gameObject);
             return;
         }
 

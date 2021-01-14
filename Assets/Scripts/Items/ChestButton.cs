@@ -7,7 +7,7 @@ public class ChestButton : MonoBehaviour
 {
     public ItemGroup SourceItemGroup;
     public ItemGroup TargetItemGroup;
-    
+
     protected Item Item;
 
     private bool isSelected;
@@ -79,7 +79,7 @@ public class ChestButton : MonoBehaviour
 
     public void ShowDetails()
     {
-        Destroy(itemDetailsInst);
+        GameObject.Destroy(itemDetailsInst);
         itemDetailsInst = Item.ShowItemDetailsPage();
         itemDetailsInst.transform.position = GetDetailPageTargetPos();
         areDetailsOpen = true;
@@ -87,7 +87,7 @@ public class ChestButton : MonoBehaviour
 
     public void CloseDetails()
     {
-        Destroy(itemDetailsInst);
+        GameObject.Destroy(itemDetailsInst);
         areDetailsOpen = false;
         isSelected = false;
     }

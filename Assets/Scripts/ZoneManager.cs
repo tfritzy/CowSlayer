@@ -39,7 +39,7 @@ public class ZoneManager : MonoBehaviour
 
     private void UnlockGate(GameObject gate)
     {
-        Destroy(gate);
+        GameObject.Destroy(gate);
     }
 }
 
