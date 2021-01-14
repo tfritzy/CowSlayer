@@ -26,7 +26,7 @@ public class DropContainer : MonoBehaviour
         {
             SpeedBurstOnStart speedBurst = child.gameObject.AddComponent<SpeedBurstOnStart>();
             child.gameObject.AddComponent<Rigidbody>();
-            speedBurst.Begin(Random.Range(4, 8));
+            speedBurst.Begin(Random.Range(6, 10));
         }
     }
 

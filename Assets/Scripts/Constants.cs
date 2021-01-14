@@ -261,19 +261,21 @@ public static class Constants
             }
         }
 
-        public class Gold
+        private static List<GameObject> _coins;
+        public static List<GameObject> Coins
         {
-            private static GameObject _smallGoldPile;
-            public static GameObject GoldCoin
+            get
             {
-                get
+                if (_coins == null)
                 {
-                    if (_smallGoldPile == null)
+                    _coins = new List<GameObject>();
+                    for (int i = 0; i < 3; i++)
                     {
-                        _smallGoldPile = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Gold}/0");
+                        _coins.Add(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Gold}/" + i));
                     }
-                    return _smallGoldPile;
                 }
+
+                return _coins;
             }
         }
 

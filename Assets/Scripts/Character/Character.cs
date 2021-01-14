@@ -3,23 +3,6 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour, Interactable
 {
-    public virtual int Health
-    {
-        get { return _health; }
-        set
-        {
-            _health = value;
-            if (_health > MaxHealth)
-            {
-                _health = MaxHealth;
-            }
-
-            if (_health < 0)
-            {
-                _health = 0;
-            }
-        }
-    }
     protected Rigidbody rb;
     public int MaxHealth { get; protected set; }
     public int Damage;
@@ -27,62 +10,23 @@ public abstract class Character : MonoBehaviour, Interactable
     public WornItemsGroup WornItems;
     protected float TimeBetweenAttacks
     {
-        get
-        {
-            // base is 1s, so if attackSpeed = 100%, timeBetweenAttacks == 1. if it's 200% it's .5s. 400% == .25s
-            return 1 / AttackSpeed;
-        }
+        // base is 1s, so if attackSpeed = 100%, timeBetweenAttacks == 1. if it's 200% it's .5s. 400% == .25s
+        get { return 1 / AttackSpeed; }
     }
     protected bool CanAttackWhileMoving => false;
     public float MeleeAttackRange;
     public float RangedAttackRange;
     public Skill PrimarySkill;
     public Skill SecondarySkill;
-    public Character Target;
     public string Name;
     public Allegiance Allegiance;
     public HashSet<Allegiance> Enemies;
     public Body Body;
     public int MaxMana;
     public virtual int Level { get; set; }
-    private int _mana;
-    public virtual int Mana
-    {
-        get { return _mana; }
-        set
-        {
-            _mana = value;
-            if (_mana > MaxMana)
-            {
-                _mana = MaxMana;
-            }
-
-            if (_mana < 0)
-            {
-                _mana = 0;
-            }
-        }
-    }
     public abstract float ManaRegenPerMinute { get; }
-
-    private HashSet<PassiveSkill> _passiveSkills;
-    public HashSet<PassiveSkill> PassiveSkills
-    {
-        get
-        {
-            if (_passiveSkills == null)
-            {
-                _passiveSkills = new HashSet<PassiveSkill>();
-            }
-
-            return _passiveSkills;
-        }
-        set { _passiveSkills = value; }
-    }
-
     protected Healthbar Healthbar;
     protected bool IsDead;
-    protected int _health;
     public float MovementSpeed;
     public AnimationState _animationState;
     public AnimationState CurrentAnimation
@@ -103,6 +47,63 @@ public abstract class Character : MonoBehaviour, Interactable
             else
             {
                 this.Body.Animator.speed = 1;
+            }
+        }
+    }
+
+    private Character _target;
+    public virtual Character Target
+    {
+        get { return _target; }
+        set { _target = value; }
+    }
+    private HashSet<PassiveSkill> _passiveSkills;
+    public HashSet<PassiveSkill> PassiveSkills
+    {
+        get
+        {
+            if (_passiveSkills == null)
+            {
+                _passiveSkills = new HashSet<PassiveSkill>();
+            }
+
+            return _passiveSkills;
+        }
+        set { _passiveSkills = value; }
+    }
+    private int _mana;
+    public virtual int Mana
+    {
+        get { return _mana; }
+        set
+        {
+            _mana = value;
+            if (_mana > MaxMana)
+            {
+                _mana = MaxMana;
+            }
+
+            if (_mana < 0)
+            {
+                _mana = 0;
+            }
+        }
+    }
+    protected int _health;
+    public virtual int Health
+    {
+        get { return _health; }
+        set
+        {
+            _health = value;
+            if (_health > MaxHealth)
+            {
+                _health = MaxHealth;
+            }
+
+            if (_health < 0)
+            {
+                _health = 0;
             }
         }
     }
@@ -204,7 +205,7 @@ public abstract class Character : MonoBehaviour, Interactable
 
     protected float timeBetweenTargetChecks = .5f;
     protected float lastTargetCheckTime;
-    protected void CheckForTarget()
+    protected virtual void CheckForTarget()
     {
         if (Time.time + lastTargetCheckTime > timeBetweenTargetChecks)
         {

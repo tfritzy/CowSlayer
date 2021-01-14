@@ -15,6 +15,8 @@ public class Player : Character
     private const float dashDuration = .3f;
     private float dashStartTime;
     private Vector3 dashDirection;
+    private GameObject targetIndicator;
+    private Vector3 originalTargetIndicatorScale;
 
     public override int Level
     {
@@ -97,6 +99,11 @@ public class Player : Character
         this.XP = GameState.Data.PlayerXP;
         this.PrimarySkill = Constants.CreateSkill(GameState.Data.PrimarySkill, this);
         this.SecondarySkill = Constants.CreateSkill(GameState.Data.SecondarySkill, this);
+        this.targetIndicator = this.transform.Find("TargetIndicator").gameObject;
+        if (originalTargetIndicatorScale == Vector3.zero)
+        {
+            originalTargetIndicatorScale = this.targetIndicator.transform.localScale;
+        }
     }
 
     protected override void SetInitialStats()
@@ -272,5 +279,27 @@ public class Player : Character
     {
         UIActions.CloseAllWindows();
         Instantiate(Constants.Prefabs.DeathScreenUI, Constants.Persistant.InteractableUI);
+    }
+
+    private void SetTargetIndicator()
+    {
+        if (Target == null)
+        {
+            this.targetIndicator.SetActive(false);
+        }
+        else
+        {
+            this.targetIndicator.SetActive(true);
+            this.targetIndicator.transform.localScale = this.Target.Body.Transform.localScale.x * originalTargetIndicatorScale;
+            this.targetIndicator.transform.parent = this.Target.transform;
+            Vector3 position = new Vector3(this.Target.transform.position.x, Constants.WorldProperties.GroundLevel, this.Target.transform.position.z);
+            this.targetIndicator.transform.position = position;
+        }
+    }
+
+    protected override void CheckForTarget()
+    {
+        base.CheckForTarget();
+        SetTargetIndicator();
     }
 }

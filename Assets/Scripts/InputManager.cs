@@ -29,7 +29,7 @@ public class InputManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100f, Constants.Layers.Character))
         {
-            hit.collider.gameObject?.GetComponent<Interactable>().Interact();
+            hit.collider.gameObject?.GetComponent<Interactable>()?.Interact();
         }
     }
 }

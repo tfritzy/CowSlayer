@@ -28,6 +28,7 @@ public abstract class Pool
         else
         {
             GameObject newPoolObject = this.CreateObject(objectType);
+            newPoolObject.name = objectType + "_" + System.Guid.NewGuid().ToString("N");
             newPoolObject.AddComponent<PoolObject>().Setup(objectType, this);
             return newPoolObject;
         }

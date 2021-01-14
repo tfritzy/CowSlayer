@@ -7,7 +7,7 @@ public class WimpyCowDropTable : DropTable
     {
         DropChances = new Dictionary<Drop, int>
         {
-            { new GoldDrop(1, 20), 90 },
+            { new GoldDrop(10, 100), 90 },
             { new ItemDrop(new Stick()), 10 },
         };
 

@@ -8,7 +8,7 @@ public class GoldDrop : Drop
     public override bool HasAutoPickup => true;
     public override int Quantity => Value;
 
-    private readonly int[] CoinSizes = new int[] { 1 };
+    private readonly int[] CoinSizes = new int[] { 1, 4, 16 };
     private List<GameObject> coinPrefabs;
 
     public string Id;
@@ -54,13 +54,13 @@ public class GoldDrop : Drop
     public override void SetModel(Transform container)
     {
         int remainingValue = Value;
-        int coinSizeIndex = 0;
-        while (remainingValue > 0 && coinPrefabs.Count < 3)
+        int coinSizeIndex = CoinSizes.Length - 1;
+        while (remainingValue > 0 && coinPrefabs.Count < 6)
         {
             if (remainingValue >= CoinSizes[coinSizeIndex])
             {
                 remainingValue -= CoinSizes[coinSizeIndex];
-                GameObject coin = Pools.GoldPool.GetObject(CoinSizes[coinSizeIndex]);
+                GameObject coin = Pools.GoldPool.GetObject(coinSizeIndex);
                 coin.transform.parent = container;
                 Vector3 position = container.transform.position;
                 position += new Vector3(UnityEngine.Random.Range(-.5f, .5f), UnityEngine.Random.Range(-.1f, .1f), UnityEngine.Random.Range(-.5f, .5f));
@@ -69,7 +69,7 @@ public class GoldDrop : Drop
             }
             else
             {
-                coinSizeIndex += 1;
+                coinSizeIndex -= 1;
             }
         }
     }
