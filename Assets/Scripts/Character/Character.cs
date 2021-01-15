@@ -307,6 +307,7 @@ public abstract class Character : MonoBehaviour, Interactable
 
     protected void LookTowards(Vector3 spot)
     {
+        spot.y = this.transform.position.y;
         Quaternion lookRotation = Quaternion.LookRotation(spot - this.transform.position, Vector3.up);
         Body.Transform.rotation = lookRotation * initialRotation;
     }

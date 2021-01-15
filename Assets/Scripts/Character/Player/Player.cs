@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -291,7 +291,6 @@ public class Player : Character
         {
             this.targetIndicator.SetActive(true);
             this.targetIndicator.transform.localScale = this.Target.Body.Transform.localScale.x * originalTargetIndicatorScale;
-            this.targetIndicator.transform.parent = this.Target.transform;
             Vector3 position = new Vector3(this.Target.transform.position.x, Constants.WorldProperties.GroundLevel, this.Target.transform.position.z);
             this.targetIndicator.transform.position = position;
         }

@@ -61,6 +61,12 @@ public abstract class Cow : Character
             position.y = Constants.WorldProperties.GroundLevel;
             this.transform.position = position;
         }
+
+        // Place on ground.
+        Vector3 newPosition = this.transform.position;
+        newPosition.y = Constants.WorldProperties.GroundLevel +
+                        Body.BoxCollider.bounds.extents.y * this.Body.Transform.localScale.y + .01f;
+        this.transform.position = newPosition;
     }
 
     private float AttackStartTime = float.MinValue;

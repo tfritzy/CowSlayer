@@ -11,8 +11,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3877579, y: 3.2342052, z: 4.515869}
-  m_Center: {x: 0.0037309527, y: 1.1996891, z: 0.47691584}
+  m_Size: {x: 1.3877579, y: 3.280652, z: 4.7994595}
+  m_Center: {x: 0, y: 0.11473036, z: 0.46589768}
 --- !u!95 &5820333593117692908
 Animator:
   serializedVersion: 3
@@ -81,7 +81,6 @@ MonoBehaviour:
   AttackSpeed: 0
   MeleeAttackRange: 0
   RangedAttackRange: 0
-  Target: {fileID: 0}
   Name: 
   Allegiance: 0
   MaxMana: 0
@@ -225,6 +224,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: ff9beb4cee43ee94cbb9966c7b1b678d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4907863173154463609, guid: ff9beb4cee43ee94cbb9966c7b1b678d,
         type: 3}
       propertyPath: m_Layer
@@ -264,6 +268,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -1063094714816996356, guid: ff9beb4cee43ee94cbb9966c7b1b678d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1028767958035742978, guid: ff9beb4cee43ee94cbb9966c7b1b678d,
         type: 3}
