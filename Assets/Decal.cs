@@ -25,7 +25,13 @@ public class Decal : MonoBehaviour
 
     void Start()
     {
-        this.material = this.GetComponent<MeshRenderer>().material;
+        GameObject decal = this.gameObject;
+        if (decal.GetComponent<MeshRenderer>() == null)
+        {
+            decal = this.transform.Find("Decal").gameObject;
+        }
+
+        this.material = decal.GetComponent<MeshRenderer>().material;
         this.color = material.color;
         this.birthTime = Time.time;
     }

@@ -8,7 +8,8 @@ public class Body
     public GameObject MainHand;
     public Transform Transform;
     public Animator Animator;
-    public BoxCollider BoxCollider;
+    public CapsuleCollider Collider;
+    public Renderer MeshRenderer;
 
     public Body(Transform self)
     {
@@ -21,7 +22,9 @@ public class Body
         this.OffHand = self.Find("LeftHand")?.gameObject;
         this.MainHand = self.Find("RightHand")?.gameObject;
         this.Animator = self.GetComponent<Animator>();
-        this.BoxCollider = self.GetComponent<BoxCollider>();
+        this.Collider = self.GetComponent<CapsuleCollider>();
+        this.MeshRenderer = self.transform.Find("Skin").GetComponent<Renderer>();
+
         if (self.gameObject.TryGetComponent<PassCommandUp>(out _) == false)
         {
             self.gameObject.AddComponent<PassCommandUp>();

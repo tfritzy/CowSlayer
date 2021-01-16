@@ -1,5 +1,5 @@
 public enum CowType
 {
     WimpyCow,
-    HealthyCow,
+    ChargeCow,
 }

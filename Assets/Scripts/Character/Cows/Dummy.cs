@@ -24,7 +24,7 @@ public class Dummy : Cow
         this.Health = 100000;
         this.MaxHealth = Health;
         this.Damage = 2;
-        this.AttackSpeed = 1;
+        this.AttackSpeedPercent = 1;
         this.TargetFindRadius = 10;
         this.RangedAttackRange = 2f;
         this.MeleeAttackRange = 10f;

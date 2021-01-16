@@ -25,4 +25,28 @@ public static class Helpers
             GameObject.Destroy(gameObject, duration);
         }
     }
+
+    public static Vector3 GetVectorBetween(Vector3 pos1, Vector3 pos2)
+    {
+        Vector3 diffVector = pos1 - pos2;
+        diffVector.y = 0;
+        return diffVector;
+    }
+
+    public static Vector3 GetVectorBetween(GameObject obj1, GameObject obj2)
+    {
+        return GetVectorBetween(obj1.transform.position, obj2.transform.position);
+    }
+
+    public static float GetDistBetweenColliders(Collider c1, Collider c2)
+    {
+        Vector3 closestC1 = c1.ClosestPoint(c2.transform.position);
+        Vector3 closestC2 = c2.ClosestPoint(c1.transform.position);
+        return Vector3.Distance(closestC1, closestC2);
+    }
+
+    public static float GetDistanceBetweenCharacters(Character c1, Character c2)
+    {
+        return GetDistBetweenColliders(c1.Body.Collider, c2.Body.Collider);
+    }
 }

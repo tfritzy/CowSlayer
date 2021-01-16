@@ -10,38 +10,13 @@ public abstract class Cow : Character
     public bool IsZoneGuardian;
     public int Zone;
     public int XPReward;
+    public bool IsInStateFreeze;
 
     public enum CowState
     {
         Grazing,
+        Stalking,
         Attacking
-    }
-
-    protected override void UpdateLoop()
-    {
-        AIUpdate();
-        base.UpdateLoop();
-    }
-
-    public override void Attack()
-    {
-        base.PerformAttack(PrimarySkill);
-    }
-
-    protected virtual void AIUpdate()
-    {
-        switch (this.CurrentState)
-        {
-            case CowState.Grazing:
-                Graze();
-                break;
-            case CowState.Attacking:
-                AttackLoop();
-                break;
-            default:
-                Graze();
-                break;
-        }
     }
 
     protected override void SetInitialStats()
@@ -65,49 +40,8 @@ public abstract class Cow : Character
         // Place on ground.
         Vector3 newPosition = this.transform.position;
         newPosition.y = Constants.WorldProperties.GroundLevel +
-                        Body.BoxCollider.bounds.extents.y * this.Body.Transform.localScale.y + .01f;
+                        this.Body.MeshRenderer.bounds.extents.y / 2 + .01f;
         this.transform.position = newPosition;
-    }
-
-    private float AttackStartTime = float.MinValue;
-    public virtual void AttackLoop()
-    {
-        if (Target == null)
-        {
-            if (this.CurrentState == CowState.Attacking)
-            {
-                this.CurrentState = CowState.Grazing;
-                this.CurrentAnimation = AnimationState.Idle;
-                this.targetPosition = FindNewGrazePosition();
-            }
-
-            return;
-        }
-
-        float dist = GetDistBetweenColliders(Target.Body.BoxCollider, Body.BoxCollider);
-
-        if (dist <= GetAttackRange(this.PrimarySkill))
-        {
-            if (AttackStartTime == float.MinValue || Time.time > AttackStartTime + TimeBetweenAttacks)
-            {
-                AttackStartTime = Time.time;
-            }
-
-            targetPosition = this.transform.position;
-            this.CurrentAnimation = AnimationState.Attacking;
-            LookTowards(Target.transform.position);
-            this.rb.constraints = RigidbodyConstraints.FreezeAll;
-        }
-        else
-        {
-            if (Time.time > AttackStartTime + TimeBetweenAttacks)
-            {
-                this.CurrentAnimation = AnimationState.Walking;
-                MoveTowards(Target.transform.position);
-                SetRigidbodyConstraints();
-                AttackStartTime = float.MinValue;
-            }
-        }
     }
 
     public override void Initialize()
@@ -123,6 +57,70 @@ public abstract class Cow : Character
         base.Initialize();
     }
 
+    protected override void UpdateLoop()
+    {
+        AIUpdate();
+        base.UpdateLoop();
+    }
+
+    public override void Attack()
+    {
+        PrimarySkill.Activate(this, BuildAttackTargetingDetails());
+    }
+
+    protected virtual void AIUpdate()
+    {
+        SetState();
+
+        switch (this.CurrentState)
+        {
+            case CowState.Grazing:
+                Graze();
+                break;
+            case CowState.Attacking:
+                AttackLoop();
+                break;
+            case CowState.Stalking:
+                Stalk();
+                break;
+            default:
+                Graze();
+                break;
+        }
+    }
+
+    protected float AttackStartTime;
+    public virtual void AttackLoop()
+    {
+        if (Target == null)
+        {
+            this.IsInStateFreeze = false;
+            return;
+        }
+
+        float duration = this.Body.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        if (this.CurrentAnimation == AnimationState.Attacking &&
+            Time.time < AttackStartTime + this.Body.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.length)
+        {
+            this.IsInStateFreeze = true;
+        }
+        else if (this.PrimarySkill.IsOnCooldown())
+        {
+            LookTowards(Target.transform.position);
+            this.IsInStateFreeze = false;
+            this.CurrentAnimation = AnimationState.Idle;
+            this.Body.Animator.speed = 1;
+            FreezeRigidbody();
+        }
+        else
+        {
+            this.CurrentAnimation = AnimationState.Attacking;
+            this.rb.constraints = RigidbodyConstraints.FreezeAll;
+            this.Body.Animator.speed = AttackSpeedPercent;
+            AttackStartTime = Time.time;
+        }
+    }
+
     private Vector3 targetPosition;
     private float lastGrazePositionTimeChange;
     private float timeBetweenGrazePositionChanges;
@@ -135,8 +133,7 @@ public abstract class Cow : Character
             lastGrazePositionTimeChange = Time.time;
         }
 
-        Vector3 diffVector = GetVectorTo(targetPosition);
-        if (diffVector.magnitude > .1f)
+        if (Helpers.GetVectorBetween(targetPosition, this.transform.position).magnitude > .1f)
         {
             MoveTowards(targetPosition);
             this.CurrentAnimation = AnimationState.Walking;
@@ -147,10 +144,52 @@ public abstract class Cow : Character
             this.CurrentAnimation = AnimationState.Idle;
             this.targetPosition = this.transform.position;
         }
+    }
 
-        if (Target != null)
+    protected void Stalk()
+    {
+        if (Target == null)
         {
-            this.CurrentState = CowState.Attacking;
+            return;
+        }
+
+        MoveTowards(Target.transform.position);
+        this.CurrentAnimation = AnimationState.Walking;
+    }
+
+    private float lastStateCheckTime;
+    private float timeBetweenStateCheck;
+    protected virtual void SetState()
+    {
+        if (IsInStateFreeze)
+        {
+            return;
+        }
+
+        if (Time.time > lastStateCheckTime + timeBetweenStateCheck)
+        {
+            float distanceToTarget = float.MaxValue;
+            if (Target != null)
+            {
+                distanceToTarget = GetDistBetweenColliders(Target.Body.Collider, Body.Collider);
+            }
+
+            if (distanceToTarget <= GetAttackRange(PrimarySkill))
+            {
+                this.CurrentState = CowState.Attacking;
+            }
+            else if (distanceToTarget <= TargetFindRadius)
+            {
+                this.CurrentState = CowState.Stalking;
+            }
+            else
+            {
+                this.CurrentState = CowState.Grazing;
+            }
+
+            SetRigidbodyConstraints();
+            lastStateCheckTime = Time.time;
+            timeBetweenStateCheck = Random.Range(.1f, .2f);
         }
     }
 

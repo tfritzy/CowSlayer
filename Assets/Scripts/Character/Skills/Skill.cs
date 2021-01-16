@@ -159,6 +159,11 @@ public abstract class Skill
         return Mathf.Max(0, Cooldown - (Time.time - LastAttackTime));
     }
 
+    public bool IsOnCooldown()
+    {
+        return (Time.time < LastAttackTime + Cooldown);
+    }
+
     public override int GetHashCode()
     {
         return Name.GetHashCode();

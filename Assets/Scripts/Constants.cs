@@ -53,6 +53,10 @@ public static class Constants
                     {
                         SkillType.FireWave,
                         new FireWave(null)
+                    },
+                    {
+                        SkillType.Charge,
+                        new Charge(null)
                     }
                 };
 
@@ -161,6 +165,20 @@ public static class Constants
                     }
 
                     return _bloodSplats[UnityEngine.Random.Range(0, _bloodSplats.Count)];
+                }
+            }
+
+            private static GameObject _longRectangle;
+            public static GameObject LongRectangle
+            {
+                get
+                {
+                    if (_longRectangle == null)
+                    {
+                        _longRectangle = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Decals}/LongRectangle");
+                    }
+
+                    return _longRectangle;
                 }
             }
         }

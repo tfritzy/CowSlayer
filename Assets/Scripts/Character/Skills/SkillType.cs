@@ -6,5 +6,6 @@ public enum SkillType
     Attunement,
     FlameSprite,
     FireWave,
-    Whack
+    Whack,
+    Charge
 }

@@ -6,12 +6,12 @@ public abstract class Character : MonoBehaviour, Interactable
     protected Rigidbody rb;
     public int MaxHealth { get; protected set; }
     public int Damage;
-    public float AttackSpeed;
+    public float AttackSpeedPercent;
     public WornItemsGroup WornItems;
     protected float TimeBetweenAttacks
     {
         // base is 1s, so if attackSpeed = 100%, timeBetweenAttacks == 1. if it's 200% it's .5s. 400% == .25s
-        get { return 1 / AttackSpeed; }
+        get { return 1 / AttackSpeedPercent; }
     }
     protected bool CanAttackWhileMoving => false;
     public float MeleeAttackRange;
@@ -164,7 +164,7 @@ public abstract class Character : MonoBehaviour, Interactable
             return false;
         }
 
-        float distanceToTarget = GetDistBetweenColliders(Target.Body.BoxCollider, this.Body.BoxCollider);
+        float distanceToTarget = GetDistBetweenColliders(Target.Body.Collider, this.Body.Collider);
         if (distanceToTarget <= GetAttackRange(skill))
         {
             skill.Activate(this, BuildAttackTargetingDetails());
@@ -194,7 +194,7 @@ public abstract class Character : MonoBehaviour, Interactable
         }
     }
 
-    private AttackTargetingDetails BuildAttackTargetingDetails()
+    protected AttackTargetingDetails BuildAttackTargetingDetails()
     {
         return new AttackTargetingDetails
         {
@@ -309,7 +309,7 @@ public abstract class Character : MonoBehaviour, Interactable
     {
         spot.y = this.transform.position.y;
         Quaternion lookRotation = Quaternion.LookRotation(spot - this.transform.position, Vector3.up);
-        Body.Transform.rotation = lookRotation * initialRotation;
+        this.rb.rotation = Quaternion.RotateTowards(initialRotation, lookRotation, 1);
     }
 
     public void RecalculateItemEffects()
@@ -348,17 +348,18 @@ public abstract class Character : MonoBehaviour, Interactable
         SetRotationWithVelocity();
     }
 
-    protected Vector3 GetVectorTo(Vector3 targetPos)
-    {
-        Vector3 diffVector = targetPos - this.transform.position;
-        diffVector.y = 0;
-        return diffVector;
-    }
-
     protected void SetRigidbodyConstraints()
     {
         this.rb.constraints =
             RigidbodyConstraints.FreezePositionY |
             RigidbodyConstraints.FreezeRotation;
+    }
+
+    protected void FreezeRigidbody()
+    {
+        this.rb.constraints =
+            RigidbodyConstraints.FreezePosition |
+            RigidbodyConstraints.FreezeRotationX |
+            RigidbodyConstraints.FreezeRotationZ;
     }
 }
