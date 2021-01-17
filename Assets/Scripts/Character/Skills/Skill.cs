@@ -14,7 +14,6 @@ public abstract class Skill
     public virtual HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>();
     public abstract SkillType Type { get; }
     public abstract float DamageModifier { get; }
-    public Character Owner { get; }
     protected string IconFilePath => $"{Constants.FilePaths.Icons}/{Name}";
     protected virtual bool ShowsDecal => false;
 
@@ -22,14 +21,7 @@ public abstract class Skill
     {
         get
         {
-            if (Owner is Cow)
-            {
-                return Owner.Level;
-            }
-            else
-            {
-                return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 0;
-            }
+            return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 1;
         }
     }
 
@@ -48,9 +40,8 @@ public abstract class Skill
     private Sprite _icon;
     protected abstract void CreatePrefab(AttackTargetingDetails attackTargetingDetails);
 
-    public Skill(Character owner)
+    public Skill()
     {
-        this.Owner = owner;
         Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/{Name}");
 
         if (Prefab == null)
@@ -184,6 +175,7 @@ public abstract class Skill
         Vector3 flyDirection = attackTargetingDetails.Target.transform.position - projectile.transform.position;
         projectile.GetComponent<Rigidbody>().velocity = flyDirection.normalized * speed;
         projectile.GetComponent<Projectile>().Initialize(DealDamage, IsCollisionTarget, CreateGroundEffects, attackTargetingDetails.Attacker);
+        projectile.transform.rotation = Quaternion.LookRotation(flyDirection);
     }
 
     protected virtual GameObject BuildDecal()

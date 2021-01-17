@@ -97,8 +97,8 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
-        this.PrimarySkill = Constants.CreateSkill(GameState.Data.PrimarySkill, this);
-        this.SecondarySkill = Constants.CreateSkill(GameState.Data.SecondarySkill, this);
+        this.PrimarySkill = Constants.Skills[GameState.Data.PrimarySkill];
+        this.SecondarySkill = Constants.Skills[GameState.Data.SecondarySkill];
         this.targetIndicator = this.transform.Find("TargetIndicator").gameObject;
         if (originalTargetIndicatorScale == Vector3.zero)
         {
@@ -265,11 +265,13 @@ public class Player : Character
     {
         if (index == 0)
         {
-            PrimarySkill = Constants.CreateSkill(skill, this);
+            PrimarySkill = Constants.Skills[skill];
+            GameState.Data.PrimarySkill = skill;
         }
         else
         {
-            SecondarySkill = Constants.CreateSkill(skill, this);
+            SecondarySkill = Constants.Skills[skill];
+            GameState.Data.SecondarySkill = skill;
         }
 
         Constants.Persistant.AbilityButtons[index].FormatButton();

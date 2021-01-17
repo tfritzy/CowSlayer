@@ -7,5 +7,6 @@ public enum SkillType
     FlameSprite,
     FireWave,
     Whack,
-    Charge
+    Charge,
+    CrossbowAttack
 }

@@ -55,7 +55,7 @@ public class GoldDrop : Drop
     {
         int remainingValue = Value;
         int coinSizeIndex = CoinSizes.Length - 1;
-        while (remainingValue > 0 && coinPrefabs.Count < 3)
+        while (remainingValue > 0 && coinPrefabs.Count < 1)
         {
             if (remainingValue >= CoinSizes[coinSizeIndex])
             {

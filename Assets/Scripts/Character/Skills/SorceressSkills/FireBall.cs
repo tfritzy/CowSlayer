@@ -16,8 +16,6 @@ public class FireBall : RangedSkill
     protected override float ProjectileSpeed => 14f;
     protected override float ExplosionRadius => 1f;
 
-    public FireBall(Character owner) : base(owner) { }
-
     protected override void CreateGroundEffects(Character attacker, Vector3 position)
     {
         List<GameObject> fires = SpawnObjectsInCircle(Constants.Prefabs.GroundFire, GroundFireCount, position, (float)GroundFireCount / 8f);

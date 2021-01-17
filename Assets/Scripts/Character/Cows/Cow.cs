@@ -53,7 +53,7 @@ public abstract class Cow : Character
         this.targetPosition = FindNewGrazePosition();
         this.Zone = int.Parse(transform.parent.name.Split('_')[1]);
         this.Level = this.Zone + 1;
-        this.PrimarySkill = new Whack(this);
+        this.PrimarySkill = new Whack();
         base.Initialize();
     }
 

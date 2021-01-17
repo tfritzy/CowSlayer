@@ -14,8 +14,6 @@ public class FireWave : RangedSkill
     protected override float ProjectileSpeed => 0.5f;
     private const float DistBetweenFires = 0.4f;
 
-    public FireWave(Character owner) : base(owner) { }
-
     protected override void CreatePrefab(AttackTargetingDetails attackTargetingDetails)
     {
         GameObject fireWave = GameObject.Instantiate(Prefab, attackTargetingDetails.Attacker.transform.position, new Quaternion());

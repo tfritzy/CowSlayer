@@ -28,35 +28,39 @@ public static class Constants
                 {
                     {
                         SkillType.Firebolt,
-                        new FireBolt(null)
+                        new FireBolt()
                     },
                     {
                         SkillType.Fireball,
-                        new FireBall(null)
+                        new FireBall()
                     },
                     {
                         SkillType.Meteor,
-                        new Meteor(null)
+                        new Meteor()
                     },
                     {
                         SkillType.Attunement,
-                        new Attunement(null)
+                        new Attunement()
                     },
                     {
                         SkillType.Whack,
-                        new Whack(null)
+                        new Whack()
                     },
                     {
                         SkillType.FlameSprite,
-                        new FlameSprite(null)
+                        new FlameSprite()
                     },
                     {
                         SkillType.FireWave,
-                        new FireWave(null)
+                        new FireWave()
                     },
                     {
                         SkillType.Charge,
-                        new Charge(null)
+                        new Charge()
+                    },
+                    {
+                        SkillType.CrossbowAttack,
+                        new CrossbowAttack()
                     }
                 };
 
@@ -73,29 +77,6 @@ public static class Constants
         }
     }
 
-    public static Skill CreateSkill(SkillType skillType, Character owner)
-    {
-        switch (skillType)
-        {
-            case (SkillType.Firebolt):
-                return new FireBolt(owner);
-            case (SkillType.Fireball):
-                return new FireBall(owner);
-            case (SkillType.Meteor):
-                return new Meteor(owner);
-            case (SkillType.Attunement):
-                return new Meteor(owner);
-            case (SkillType.Whack):
-                return new Whack(owner);
-            case (SkillType.FlameSprite):
-                return new FlameSprite(owner);
-            case (SkillType.FireWave):
-                return new FireWave(owner);
-            default:
-                throw new ArgumentException($"Unknown skill passed: {skillType}");
-        }
-    }
-
     public static class WorldProperties
     {
         public const float GroundLevel = 0f;
@@ -109,8 +90,8 @@ public static class Constants
         public class Prefabs
         {
             public const string UI = "Prefabs/Objects/UI";
-            public const string Gold = "Prefabs/Objects/Drops/Gold";
-            public const string Drops = "Prefabs/Objects/Drops";
+            public const string Gold = "Prefabs/Objects/Items/Gold";
+            public const string Drops = "Prefabs/Objects/Items";
             public const string Cows = "Prefabs/Objects/Cows";
             public const string Skills = "Prefabs/Objects/Skills";
             public const string Decals = "Prefabs/Objects/Decals";

@@ -1,4 +1,6 @@
-﻿public class ChargeCow : Cow
+﻿using UnityEngine;
+
+public class ChargeCow : Cow
 {
     public override CowType CowType => CowType.ChargeCow;
     public override float ManaRegenPerMinute => 50f;
@@ -12,19 +14,14 @@
 
     protected override void SetInitialStats()
     {
-        this.MaxHealth = 5 + Level;
-        this.Damage = 2 + Level / 2;
+        this.MaxHealth = 10 + Level * 2;
+        this.Damage = 3 + Level / 2;
         this.AttackSpeedPercent = 1;
-        this.TargetFindRadius = 8f;
-        this.MeleeAttackRange = 5;
-        this.MovementSpeed = 2f;
-        this.XPReward = 1 + Level;
-        this.PrimarySkill = new Charge(this);
+        this.TargetFindRadius = 10f;
+        this.MeleeAttackRange = 1;
+        this.MovementSpeed = 5f;
+        this.XPReward = 4 + Level;
+        this.PrimarySkill = new Whack();
         base.SetInitialStats();
-    }
-
-    public override void AttackLoop()
-    {
-
     }
 }

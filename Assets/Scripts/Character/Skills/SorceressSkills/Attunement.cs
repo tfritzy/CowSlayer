@@ -9,8 +9,6 @@ public class Attunement : PassiveSkill
     public override SkillType Type => SkillType.Attunement;
     public override float DamageModifier => 0f;
 
-    public Attunement(Character owner) : base(owner) { }
-
     public override void ApplyEffect(AttackTargetingDetails attackTargetingDetails)
     {
         Constants.Persistant.PlayerScript.Mana += 10 * Level;

@@ -5,8 +5,6 @@ public abstract class RangedSkill : Skill
     protected abstract float ProjectileSpeed { get; }
     protected virtual Vector3 ProjectileStartPositionOffset => Vector3.zero;
 
-    public RangedSkill(Character owner) : base(owner) { }
-
     public override bool Activate(Character attacker, AttackTargetingDetails attackTargetingDetails)
     {
         if (base.Activate(attacker, attackTargetingDetails) == false)
@@ -21,7 +19,11 @@ public abstract class RangedSkill : Skill
 
     protected override void CreatePrefab(AttackTargetingDetails attackTargetingDetails)
     {
-        GameObject projectile = GameObject.Instantiate(Prefab, attackTargetingDetails.Attacker.transform.position + ProjectileStartPositionOffset, new Quaternion(), null);
+        GameObject projectile = GameObject.Instantiate(
+            Prefab,
+            attackTargetingDetails.Attacker.transform.position + ProjectileStartPositionOffset,
+            new Quaternion(),
+            null);
         DirectProjectile(projectile, attackTargetingDetails, ProjectileSpeed);
     }
 }

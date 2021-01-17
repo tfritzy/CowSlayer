@@ -2,8 +2,6 @@ using UnityEngine;
 
 public abstract class MeleeSkill : Skill
 {
-    public MeleeSkill(Character owner) : base(owner) { }
-
     public override bool Activate(Character attacker, AttackTargetingDetails attackTargetingDetails)
     {
         if (base.Activate(attacker, attackTargetingDetails) == false)

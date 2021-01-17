@@ -19,7 +19,7 @@
         this.MeleeAttackRange = .5f;
         this.MovementSpeed = 2f;
         this.XPReward = 1 + Level;
-        this.PrimarySkill = new Whack(this);
+        this.PrimarySkill = new Whack();
         base.SetInitialStats();
     }
 }

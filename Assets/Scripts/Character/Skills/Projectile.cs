@@ -51,6 +51,11 @@ public class Projectile : MonoBehaviour
 
     private void DetachParticles(Transform particleGroup)
     {
+        if (particleGroup == null)
+        {
+            return;
+        }
+
         particleGroup.parent = null;
         TriggerAllParticleSystems(particleGroup, false);
         GameObject.Destroy(particleGroup.gameObject, 1f);
@@ -58,6 +63,11 @@ public class Projectile : MonoBehaviour
 
     private void PlayExplosion()
     {
+        if (explosionChild == null)
+        {
+            return;
+        }
+
         TriggerAllParticleSystems(explosionChild, true);
         explosionChild.parent = null;
         GameObject.Destroy(explosionChild.gameObject, 10f);

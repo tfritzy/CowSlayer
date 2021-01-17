@@ -49,4 +49,9 @@ public static class Helpers
     {
         return GetDistBetweenColliders(c1.Body.Collider, c2.Body.Collider);
     }
+
+    public static Quaternion RotationTowards(Character target, Character source)
+    {
+        return Quaternion.LookRotation(GetVectorBetween(target.gameObject, source.gameObject));
+    }
 }

@@ -11,8 +11,6 @@ public class FlameSprite : PassiveSkill
     private GameObject SpriteBody;
     private string SpriteBodyPath = $"{Constants.FilePaths.Prefabs.Skills}/FlameSpriteBody";
 
-    public FlameSprite(Character owner) : base(owner) { }
-
     public override bool Activate(Character attacker, AttackTargetingDetails targetingDetails)
     {
         if (base.Activate(attacker, targetingDetails) == false)

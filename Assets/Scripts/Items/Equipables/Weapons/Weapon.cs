@@ -7,6 +7,10 @@ public abstract class Weapon : EquipableItem
 
     public override ItemWearLocations.SlotType PlaceWorn => ItemWearLocations.SlotType.MainHand;
 
+    public abstract Skill Effect { get; }
+
+    public Character Bearer;
+
     public Weapon()
     {
     }
@@ -16,9 +20,12 @@ public abstract class Weapon : EquipableItem
         base.OnEquip(bearer);
         bodyInst = GameObject.Instantiate(
             Prefab,
-            bearer.Body.OffHand.transform.position,
-            new Quaternion(),
             bearer.Body.OffHand.transform);
+        bodyInst.transform.position = bearer.Body.OffHand.transform.position;
+        bodyInst.GetComponent<Collider>().enabled = false;
+
+        // TODO: set through selection.
+        bearer.PrimarySkill = Effect;
     }
 
     public override void OnUnequip(Character bearer)
