@@ -8,7 +8,6 @@ public class Player : Character
     public ItemGroup Inventory;
     public int Gold;
     public override float ManaRegenPerMinute => 100f;
-    public override int LineOfSightArcInDegrees => 90;
     private GameObject playerInventoryUI;
     private Joystick joystick { get { return Constants.Persistant.Joystick; } }
     private bool isDashing;
@@ -93,7 +92,7 @@ public class Player : Character
         this.Enemies = new HashSet<Allegiance>() { Allegiance.Cows };
         this.rb = this.GetComponent<Rigidbody>();
         this.Inventory = new ChestItemGroup("Inventory");
-        this.Inventory.AddItems(new List<Item> { new SmallManaPotion(), new SmallHealthPotion() });
+        this.Inventory.AddItems(new List<Item> { new SmallManaPotion(), new SmallHealthPotion(), new Crossbow(), new Stick() });
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
@@ -129,6 +128,16 @@ public class Player : Character
         {
             rb.velocity = GetInput() * MovementSpeed;
         }
+
+        if (rb.velocity.magnitude > .3f)
+        {
+            this.CurrentAnimation = AnimationState.Walking;
+        }
+        else
+        {
+            SetIdleAnimationState();
+        }
+
         SetRotationWithVelocity();
     }
 

@@ -8,7 +8,7 @@ public abstract class Weapon : EquipableItem
     public override ItemWearLocations.SlotType PlaceWorn => ItemWearLocations.SlotType.MainHand;
 
     public abstract Skill Effect { get; }
-
+    public abstract AnimationState IdleAnimationState { get; }
     public Character Bearer;
 
     public Weapon()
@@ -22,7 +22,11 @@ public abstract class Weapon : EquipableItem
             Prefab,
             bearer.Body.OffHand.transform);
         bodyInst.transform.position = bearer.Body.OffHand.transform.position;
-        bodyInst.GetComponent<Collider>().enabled = false;
+
+        foreach (Collider c in bodyInst.GetComponentsInChildren<Collider>())
+        {
+            c.enabled = false;
+        }
 
         // TODO: set through selection.
         bearer.PrimarySkill = Effect;

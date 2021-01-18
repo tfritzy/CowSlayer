@@ -28,7 +28,6 @@ public abstract class Character : MonoBehaviour, Interactable
     protected Healthbar Healthbar;
     protected bool IsDead;
     public float MovementSpeed;
-    public abstract int LineOfSightArcInDegrees { get; }
     public AnimationState _animationState;
     public AnimationState CurrentAnimation
     {
@@ -362,5 +361,17 @@ public abstract class Character : MonoBehaviour, Interactable
             RigidbodyConstraints.FreezePosition |
             RigidbodyConstraints.FreezeRotationX |
             RigidbodyConstraints.FreezeRotationZ;
+    }
+
+    protected void SetIdleAnimationState()
+    {
+        if (this.WornItems.Weapon != null)
+        {
+            this.CurrentAnimation = this.WornItems.Weapon.IdleAnimationState;
+        }
+        else
+        {
+            this.CurrentAnimation = AnimationState.IdleNoWeapon;
+        }
     }
 }

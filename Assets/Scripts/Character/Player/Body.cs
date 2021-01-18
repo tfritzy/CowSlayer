@@ -19,8 +19,8 @@ public class Body
         }
 
         Transform = self;
-        this.OffHand = self.Find("LeftHand")?.gameObject;
-        this.MainHand = self.Find("RightHand")?.gameObject;
+        this.OffHand = Helpers.FindDeepChild(self, "RightHand")?.gameObject;
+        this.MainHand = Helpers.FindDeepChild(self, "LeftHand")?.gameObject; ;
         this.Animator = self.GetComponent<Animator>();
         this.Collider = self.GetComponent<CapsuleCollider>();
         this.MeshRenderer = self.transform.Find("Skin").GetComponent<Renderer>();

@@ -1,6 +1,7 @@
 public enum AnimationState
 {
-    Idle = 0,
+    IdleNoWeapon = 0,
     Walking = 1,
     Attacking = 2,
+    IdleOneHandedWeapon = 3,
 }

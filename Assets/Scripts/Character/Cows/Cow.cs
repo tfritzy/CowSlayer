@@ -11,7 +11,6 @@ public abstract class Cow : Character
     public int Zone;
     public int XPReward;
     public bool IsInStateFreeze;
-    public override int LineOfSightArcInDegrees => 120;
 
     public enum CowState
     {
@@ -109,7 +108,7 @@ public abstract class Cow : Character
         {
             LookTowards(Target.transform.position);
             this.IsInStateFreeze = false;
-            this.CurrentAnimation = AnimationState.Idle;
+            SetIdleAnimationState();
             this.Body.Animator.speed = 1;
             FreezeRigidbody();
         }
@@ -142,7 +141,7 @@ public abstract class Cow : Character
         else
         {
             this.rb.velocity = Vector3.zero;
-            this.CurrentAnimation = AnimationState.Idle;
+            this.SetIdleAnimationState();
             this.targetPosition = this.transform.position;
         }
     }

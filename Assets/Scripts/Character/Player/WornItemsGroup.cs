@@ -19,6 +19,18 @@ public class WornItemsGroup : ItemGroup
         return item is EquipableItem;
     }
 
+    public Weapon Weapon
+    {
+        get
+        {
+            return (Weapon)Items[ItemWearLocations.Slots[ItemWearLocations.SlotType.MainHand][0]];
+        }
+        set
+        {
+            Items[ItemWearLocations.Slots[ItemWearLocations.SlotType.MainHand][0]] = value;
+        }
+    }
+
 
     protected override int FindTargetSlot(Item item)
     {
