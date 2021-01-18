@@ -146,6 +146,11 @@ public abstract class Character : MonoBehaviour, Interactable
         PerformAttack(PrimarySkill);
     }
 
+    public void TriggerPrimaryAttack()
+    {
+        this.PrimarySkill.Activate(this, BuildAttackTargetingDetails());
+    }
+
     /// <summary>
     /// Tries to attack the target with the given skill. Returns true if successful, false otherwise.
     /// </summary>
@@ -164,10 +169,16 @@ public abstract class Character : MonoBehaviour, Interactable
             return false;
         }
 
+        if (skill.IsOnCooldown())
+        {
+            return false;
+        }
+
         float distanceToTarget = GetDistBetweenColliders(Target.Body.Collider, this.Body.Collider);
         if (distanceToTarget <= GetAttackRange(skill))
         {
-            skill.Activate(this, BuildAttackTargetingDetails());
+            SetAttackAnimation();
+            LookTowards(Target.transform.position);
             return true;
         }
         else
@@ -309,7 +320,7 @@ public abstract class Character : MonoBehaviour, Interactable
     {
         spot.y = this.transform.position.y;
         Quaternion lookRotation = Quaternion.LookRotation(spot - this.transform.position, Vector3.up);
-        this.rb.rotation = Quaternion.RotateTowards(initialRotation, lookRotation, 1);
+        this.Body.Transform.rotation = Quaternion.RotateTowards(initialRotation, lookRotation, 360);
     }
 
     public void RecalculateItemEffects()
@@ -363,15 +374,39 @@ public abstract class Character : MonoBehaviour, Interactable
             RigidbodyConstraints.FreezeRotationZ;
     }
 
+    public virtual void SetAbility(int index, SkillType skill)
+    {
+        if (index == 0)
+        {
+            PrimarySkill = Constants.Skills[skill];
+        }
+        else
+        {
+            SecondarySkill = Constants.Skills[skill];
+        }
+    }
+
     protected void SetIdleAnimationState()
     {
         if (this.WornItems.Weapon != null)
         {
-            this.CurrentAnimation = this.WornItems.Weapon.IdleAnimationState;
+            this.CurrentAnimation = this.WornItems.Weapon.IdleAnimation;
         }
         else
         {
             this.CurrentAnimation = AnimationState.IdleNoWeapon;
+        }
+    }
+
+    protected void SetAttackAnimation()
+    {
+        if (this.WornItems.Weapon != null)
+        {
+            this.CurrentAnimation = this.WornItems.Weapon.AttackAnimation;
+        }
+        else
+        {
+            this.CurrentAnimation = AnimationState.Punch;
         }
     }
 }

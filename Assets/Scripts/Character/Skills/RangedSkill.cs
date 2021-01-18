@@ -19,9 +19,21 @@ public abstract class RangedSkill : Skill
 
     protected override void CreatePrefab(AttackTargetingDetails attackTargetingDetails)
     {
+        Vector3 startPosition;
+        if (attackTargetingDetails.Attacker.WornItems.Weapon != null)
+        {
+            startPosition = attackTargetingDetails.Attacker.WornItems.Weapon.ProjectileStartPosition;
+        }
+        else
+        {
+            startPosition = attackTargetingDetails.Attacker.Body.MainHand.transform.position;
+        }
+
+        startPosition += ProjectileStartPositionOffset;
+
         GameObject projectile = GameObject.Instantiate(
             Prefab,
-            attackTargetingDetails.Attacker.transform.position + ProjectileStartPositionOffset,
+            startPosition,
             new Quaternion(),
             null);
         DirectProjectile(projectile, attackTargetingDetails, ProjectileSpeed);

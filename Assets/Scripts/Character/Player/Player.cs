@@ -80,8 +80,8 @@ public class Player : Character
     {
         base.UpdateLoop();
         SetDashStatus();
-        Attack();
         SetVelocity();
+        Attack();
         SecondaryAttack();
     }
 
@@ -107,7 +107,7 @@ public class Player : Character
 
     protected override void SetInitialStats()
     {
-        this.MaxHealth = 100;
+        this.MaxHealth = 20;
         this.MaxMana = 100;
         this.Damage = 1;
         this.AttackSpeedPercent = 1f;
@@ -120,6 +120,7 @@ public class Player : Character
 
     protected override void SetVelocity()
     {
+        Vector3 input = GetInput();
         if (isDashing)
         {
             rb.velocity = dashDirection * MovementSpeed * 1.5f;
@@ -133,7 +134,7 @@ public class Player : Character
         {
             this.CurrentAnimation = AnimationState.Walking;
         }
-        else
+        else if (CurrentAnimation != this.WornItems.Weapon?.AttackAnimation)
         {
             SetIdleAnimationState();
         }
@@ -270,16 +271,16 @@ public class Player : Character
         this.IsDead = false;
     }
 
-    public void SetAbility(int index, SkillType skill)
+    public override void SetAbility(int index, SkillType skill)
     {
+        base.SetAbility(index, skill);
+
         if (index == 0)
         {
-            PrimarySkill = Constants.Skills[skill];
             GameState.Data.PrimarySkill = skill;
         }
         else
         {
-            SecondarySkill = Constants.Skills[skill];
             GameState.Data.SecondarySkill = skill;
         }
 

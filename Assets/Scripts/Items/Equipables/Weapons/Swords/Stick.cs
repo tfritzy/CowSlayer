@@ -10,6 +10,7 @@ class Stick : Weapon
     protected override Effect PrimaryEffectPrefab => new DamageItemEffect(1, 3);
     protected override List<Effect> SecondaryEffectPool => new List<Effect>() { };
     protected override int NumSecondaryEffects => 0;
-    public override AnimationState IdleAnimationState => AnimationState.IdleOneHandedWeapon;
+    public override AnimationState IdleAnimation => AnimationState.IdleOneHandedWeapon;
+    public override AnimationState AttackAnimation => AnimationState.OneHandWeaponAttack;
 }
 
