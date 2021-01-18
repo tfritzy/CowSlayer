@@ -96,8 +96,8 @@ public class Player : Character
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
-        this.PrimarySkill = Constants.Skills[GameState.Data.PrimarySkill];
-        this.SecondarySkill = Constants.Skills[GameState.Data.SecondarySkill];
+        SetAbility(0, GameState.Data.PrimarySkill);
+        SetAbility(1, GameState.Data.SecondarySkill);
         this.targetIndicator = this.transform.Find("TargetIndicator").gameObject;
         if (originalTargetIndicatorScale == Vector3.zero)
         {
@@ -134,7 +134,7 @@ public class Player : Character
         {
             this.CurrentAnimation = AnimationState.Walking;
         }
-        else if (CurrentAnimation != this.WornItems.Weapon?.AttackAnimation)
+        else if (CurrentAnimation != this.WornItems.Weapon?.AttackAnimation || PrimarySkill.IsOnCooldown())
         {
             SetIdleAnimationState();
         }
@@ -259,7 +259,6 @@ public class Player : Character
     protected override void OnDeath()
     {
         ShowDeathScreen();
-        Body.Transform.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
     public void Respawn()
@@ -271,7 +270,7 @@ public class Player : Character
         this.IsDead = false;
     }
 
-    public override void SetAbility(int index, SkillType skill)
+    public override void SetAbility(int index, SkillType? skill)
     {
         base.SetAbility(index, skill);
 

@@ -8,5 +8,6 @@ public enum SkillType
     FireWave,
     Whack,
     Charge,
-    CrossbowAttack
+    CrossbowAttack,
+    Punch
 }

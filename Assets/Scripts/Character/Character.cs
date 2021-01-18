@@ -16,8 +16,34 @@ public abstract class Character : MonoBehaviour, Interactable
     protected bool CanAttackWhileMoving => false;
     public float MeleeAttackRange;
     public float RangedAttackRange;
-    public Skill PrimarySkill;
-    public Skill SecondarySkill;
+    private Skill _primarySkill;
+    public Skill PrimarySkill
+    {
+        get
+        {
+            if (_primarySkill == null)
+            {
+                return Constants.Skills[WornItems.Weapon.DefaultAttack];
+            }
+
+            return _primarySkill;
+        }
+        set { _primarySkill = value; }
+    }
+    private Skill _secondarySkill;
+    public Skill SecondarySkill
+    {
+        get
+        {
+            if (_secondarySkill == null)
+            {
+                return Constants.Skills[WornItems.Weapon.DefaultAttack];
+            }
+
+            return _secondarySkill;
+        }
+        set { _secondarySkill = value; }
+    }
     public string Name;
     public Allegiance Allegiance;
     public HashSet<Allegiance> Enemies;
@@ -163,8 +189,7 @@ public abstract class Character : MonoBehaviour, Interactable
 
         // Allow secondary skill to attack while moving.
         if (!skill.CanAttackWhileMoving &&
-            this.GetComponent<Rigidbody>().velocity.magnitude > .2f &&
-            skill != SecondarySkill)
+            this.GetComponent<Rigidbody>().velocity.magnitude > .2f)
         {
             return false;
         }
@@ -374,15 +399,20 @@ public abstract class Character : MonoBehaviour, Interactable
             RigidbodyConstraints.FreezeRotationZ;
     }
 
-    public virtual void SetAbility(int index, SkillType skill)
+    public virtual void SetAbility(int index, SkillType? skill)
     {
+        if (skill == null)
+        {
+            return;
+        }
+
         if (index == 0)
         {
-            PrimarySkill = Constants.Skills[skill];
+            PrimarySkill = Constants.Skills[skill.Value];
         }
         else
         {
-            SecondarySkill = Constants.Skills[skill];
+            SecondarySkill = Constants.Skills[skill.Value];
         }
     }
 
@@ -400,13 +430,6 @@ public abstract class Character : MonoBehaviour, Interactable
 
     protected void SetAttackAnimation()
     {
-        if (this.WornItems.Weapon != null)
-        {
-            this.CurrentAnimation = this.WornItems.Weapon.AttackAnimation;
-        }
-        else
-        {
-            this.CurrentAnimation = AnimationState.Punch;
-        }
+        this.CurrentAnimation = this.WornItems.Weapon.AttackAnimation;
     }
 }

@@ -43,11 +43,6 @@ public abstract class Skill
     public Skill()
     {
         Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/{Name}");
-
-        if (Prefab == null)
-        {
-            throw new System.ArgumentNullException($"Missing prefab {Constants.FilePaths.Prefabs.Skills}/{Name}");
-        }
     }
 
     public virtual bool Activate(Character attacker, AttackTargetingDetails targetingDetails)

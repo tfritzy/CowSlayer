@@ -48,6 +48,11 @@ public static class Helpers
 
     public static float GetDistanceBetweenCharacters(Character c1, Character c2)
     {
+        if (c1 == null || c2 == null)
+        {
+            return float.MaxValue;
+        }
+
         return GetDistBetweenColliders(c1.Body.Collider, c2.Body.Collider);
     }
 

@@ -11,8 +11,8 @@ public class GameSave
     public int PlayerXP;
     public string CharacterFaction;
     public int UnspentSkillPoints;
-    public SkillType PrimarySkill;
-    public SkillType SecondarySkill;
+    public SkillType? PrimarySkill;
+    public SkillType? SecondarySkill;
     private Dictionary<SkillType, int> _skillTypes;
     public Dictionary<SkillType, int> SkillLevels
     {

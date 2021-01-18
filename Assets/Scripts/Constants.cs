@@ -61,6 +61,10 @@ public static class Constants
                     {
                         SkillType.CrossbowAttack,
                         new CrossbowAttack()
+                    },
+                    {
+                        SkillType.Punch,
+                        new Punch()
                     }
                 };
 

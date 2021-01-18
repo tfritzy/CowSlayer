@@ -5,7 +5,7 @@ public abstract class Weapon : EquipableItem
 {
     public GameObject Instantiation;
     public override ItemWearLocations.SlotType PlaceWorn => ItemWearLocations.SlotType.MainHand;
-    public abstract Skill Effect { get; }
+    public abstract SkillType DefaultAttack { get; }
     public abstract AnimationState IdleAnimation { get; }
     public abstract AnimationState AttackAnimation { get; }
     public Character Bearer;
@@ -38,7 +38,7 @@ public abstract class Weapon : EquipableItem
         this.projectileStartPositionObj = Instantiation.transform.Find("ProjectileStartPosition");
 
         // TODO: set through selection.
-        bearer.SetAbility(0, Effect.Type);
+        bearer.SetAbility(0, DefaultAttack);
     }
 
     public override void OnUnequip(Character bearer)

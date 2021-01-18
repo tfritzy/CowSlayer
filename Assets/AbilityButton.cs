@@ -6,19 +6,59 @@ using UnityEngine.UI;
 public class AbilityButton : MonoBehaviour
 {
     public int AbilityIndex;
-    private Image background;
-    private Image outline;
-    private Image icon;
-    private Text text;
+    private Image _background;
+    private Image background
+    {
+        get
+        {
+            if (_background == null)
+            {
+                _background = this.GetComponent<Image>();
+            }
+            return _background;
+        }
+    }
+    private Image _outline;
+    private Image outline
+    {
+        get
+        {
+            if (_outline == null)
+            {
+                _outline = transform.Find("Outline").GetComponent<Image>();
+            }
+            return _outline;
+        }
+    }
+    private Image _icon;
+    private Image icon
+    {
+        get
+        {
+            if (_icon == null)
+            {
+                _icon = transform.Find("Icon").GetComponent<Image>();
+            }
+            return _icon;
+        }
+    }
+    private Text _text;
+    private Text text
+    {
+        get
+        {
+            if (_text == null)
+            {
+                _text = transform.Find("Text").GetComponent<Text>();
+            }
+            return _text;
+        }
+    }
     private Skill skill;
 
     // Start is called before the first frame update
     void Start()
     {
-        background = this.GetComponent<Image>();
-        outline = transform.Find("Outline").GetComponent<Image>();
-        icon = transform.Find("Icon").GetComponent<Image>();
-        text = transform.Find("Text").GetComponent<Text>();
         FormatButton();
     }
 

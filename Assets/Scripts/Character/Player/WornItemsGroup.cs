@@ -9,11 +9,12 @@ public class WornItemsGroup : ItemGroup
     public WornItemsGroup(string Name, Character bearer) : base(Name)
     {
         this.Bearer = bearer;
+        this.fists = new Fists();
     }
 
     public override int MaxSize => 9;
     public override string UIPrefabName => "PlayerWornItems";
-
+    private Fists fists;
     public override bool CanHoldItem(Item item)
     {
         return item is EquipableItem;
@@ -23,6 +24,11 @@ public class WornItemsGroup : ItemGroup
     {
         get
         {
+            if (Items[ItemWearLocations.Slots[ItemWearLocations.SlotType.MainHand][0]] == null)
+            {
+                return this.fists;
+            }
+
             return (Weapon)Items[ItemWearLocations.Slots[ItemWearLocations.SlotType.MainHand][0]];
         }
         set
