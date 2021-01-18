@@ -28,6 +28,7 @@ public abstract class Character : MonoBehaviour, Interactable
     protected Healthbar Healthbar;
     protected bool IsDead;
     public float MovementSpeed;
+    public abstract int LineOfSightArcInDegrees { get; }
     public AnimationState _animationState;
     public AnimationState CurrentAnimation
     {

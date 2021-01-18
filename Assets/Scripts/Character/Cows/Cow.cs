@@ -11,6 +11,7 @@ public abstract class Cow : Character
     public int Zone;
     public int XPReward;
     public bool IsInStateFreeze;
+    public override int LineOfSightArcInDegrees => 120;
 
     public enum CowState
     {

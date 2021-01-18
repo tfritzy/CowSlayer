@@ -19,9 +19,6 @@ public class AbilityButton : MonoBehaviour
         outline = transform.Find("Outline").GetComponent<Image>();
         icon = transform.Find("Icon").GetComponent<Image>();
         text = transform.Find("Text").GetComponent<Text>();
-        skill = AbilityIndex == 0 ? 
-                    Constants.Persistant.PlayerScript.PrimarySkill : 
-                    Constants.Persistant.PlayerScript.SecondarySkill;
         FormatButton();
     }
 
@@ -34,7 +31,7 @@ public class AbilityButton : MonoBehaviour
             text.text = cooldown.ToString("N1");
             icon.color = Color.grey;
         }
-        else 
+        else
         {
             icon.color = Constants.UI.Colors.HighLight;
             text.text = "";
@@ -55,5 +52,9 @@ public class AbilityButton : MonoBehaviour
         {
             icon.sprite = Constants.Persistant.PlayerScript.SecondarySkill.Icon;
         }
+
+        skill = AbilityIndex == 0 ?
+            Constants.Persistant.PlayerScript.PrimarySkill :
+            Constants.Persistant.PlayerScript.SecondarySkill;
     }
 }

@@ -8,7 +8,7 @@ public class Player : Character
     public ItemGroup Inventory;
     public int Gold;
     public override float ManaRegenPerMinute => 100f;
-
+    public override int LineOfSightArcInDegrees => 90;
     private GameObject playerInventoryUI;
     private Joystick joystick { get { return Constants.Persistant.Joystick; } }
     private bool isDashing;
