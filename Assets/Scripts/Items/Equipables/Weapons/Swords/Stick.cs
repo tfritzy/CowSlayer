@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class Stick : Weapon
+class Stick : Sword
 {
     public override string Name => "Stick";
     public override ItemRarity Rarity => ItemRarity.Common;
-    public override SkillType DefaultAttack => SkillType.Whack;
     protected override Effect PrimaryEffectPrefab => new DamageItemEffect(1, 3);
     protected override List<Effect> SecondaryEffectPool => new List<Effect>() { };
     protected override int NumSecondaryEffects => 0;
-    public override AnimationState IdleAnimation => AnimationState.IdleOneHandedWeapon;
-    public override AnimationState AttackAnimation => AnimationState.OneHandWeaponAttack;
 }
 

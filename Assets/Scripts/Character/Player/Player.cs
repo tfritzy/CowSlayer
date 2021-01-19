@@ -92,7 +92,7 @@ public class Player : Character
         this.Enemies = new HashSet<Allegiance>() { Allegiance.Cows };
         this.rb = this.GetComponent<Rigidbody>();
         this.Inventory = new ChestItemGroup("Inventory");
-        this.Inventory.AddItems(new List<Item> { new SmallManaPotion(), new SmallHealthPotion(), new Crossbow(), new Stick() });
+        this.Inventory.AddItems(new List<Item> { new SmallManaPotion(), new SmallHealthPotion(), new ShoddyCrossbow(), new Stick(), new BasicStaff() });
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
@@ -132,7 +132,7 @@ public class Player : Character
 
         if (rb.velocity.magnitude > .3f)
         {
-            this.CurrentAnimation = AnimationState.Walking;
+            SetWalkAnimation();
         }
         else if (CurrentAnimation != this.WornItems.Weapon?.AttackAnimation || PrimarySkill.IsOnCooldown())
         {

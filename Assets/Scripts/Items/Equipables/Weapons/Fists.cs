@@ -5,6 +5,7 @@ public class Fists : Weapon
     public override SkillType DefaultAttack => SkillType.Punch;
     public override AnimationState IdleAnimation => AnimationState.IdleNoWeapon;
     public override AnimationState AttackAnimation => AnimationState.Punch;
+    public override AnimationState WalkAnimation => AnimationState.NormalWalk;
     public override string Name => "Fists";
     public override ItemRarity Rarity => ItemRarity.Common;
     protected override Effect PrimaryEffectPrefab => new DamageItemEffect(1, 1);

@@ -432,4 +432,9 @@ public abstract class Character : MonoBehaviour, Interactable
     {
         this.CurrentAnimation = this.WornItems.Weapon.AttackAnimation;
     }
+
+    protected void SetWalkAnimation()
+    {
+        this.CurrentAnimation = this.WornItems.Weapon.WalkAnimation;
+    }
 }

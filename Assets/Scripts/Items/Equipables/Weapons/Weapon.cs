@@ -8,6 +8,7 @@ public abstract class Weapon : EquipableItem
     public abstract SkillType DefaultAttack { get; }
     public abstract AnimationState IdleAnimation { get; }
     public abstract AnimationState AttackAnimation { get; }
+    public abstract AnimationState WalkAnimation { get; }
     public Character Bearer;
     public Vector3 ProjectileStartPosition
     {
@@ -27,8 +28,8 @@ public abstract class Weapon : EquipableItem
         base.OnEquip(bearer);
         Instantiation = GameObject.Instantiate(
             Prefab,
-            bearer.Body.OffHand.transform);
-        Instantiation.transform.position = bearer.Body.OffHand.transform.position;
+            bearer.Body.MainHand.transform);
+        Instantiation.transform.position = bearer.Body.MainHand.transform.position;
 
         foreach (Collider c in Instantiation.GetComponentsInChildren<Collider>())
         {

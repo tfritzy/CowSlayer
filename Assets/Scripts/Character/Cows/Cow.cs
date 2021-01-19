@@ -136,7 +136,7 @@ public abstract class Cow : Character
         if (Helpers.GetVectorBetween(targetPosition, this.transform.position).magnitude > .1f)
         {
             MoveTowards(targetPosition);
-            this.CurrentAnimation = AnimationState.Walking;
+            this.CurrentAnimation = AnimationState.NormalWalk;
         }
         else
         {
@@ -154,7 +154,7 @@ public abstract class Cow : Character
         }
 
         MoveTowards(Target.transform.position);
-        this.CurrentAnimation = AnimationState.Walking;
+        this.CurrentAnimation = AnimationState.NormalWalk;
     }
 
     private float lastStateCheckTime;
