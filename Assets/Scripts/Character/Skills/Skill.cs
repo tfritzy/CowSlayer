@@ -57,6 +57,11 @@ public abstract class Skill
             return false;
         }
 
+        if (targetingDetails.Target == null)
+        {
+            return false;
+        }
+
         if (Time.time - LastAttackTime < Cooldown)
         {
             return false;
