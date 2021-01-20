@@ -202,7 +202,7 @@ public abstract class Character : MonoBehaviour, Interactable
         float distanceToTarget = GetDistBetweenColliders(Target.Body.Collider, this.Body.Collider);
         if (distanceToTarget <= GetAttackRange(skill))
         {
-            SetAttackAnimation();
+            SetAttackAnimation(skill);
             LookTowards(Target.transform.position);
             return true;
         }
@@ -428,9 +428,17 @@ public abstract class Character : MonoBehaviour, Interactable
         }
     }
 
-    protected void SetAttackAnimation()
+    protected void SetAttackAnimation(Skill skill)
     {
-        this.CurrentAnimation = this.WornItems.Weapon.AttackAnimation;
+        if (skill is RangedSkill)
+        {
+            this.CurrentAnimation = this.WornItems.Weapon.SpellAnimation;
+        }
+        else
+        {
+            this.CurrentAnimation = this.WornItems.Weapon.AttackAnimation;
+        }
+
     }
 
     protected void SetWalkAnimation()

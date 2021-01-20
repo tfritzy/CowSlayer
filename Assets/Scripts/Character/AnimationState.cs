@@ -9,4 +9,5 @@ public enum AnimationState
     Punch = 6,
     StaffWalk = 7,
     StaffIdle = 8,
+    CastSpellBareHanded = 9,
 }
