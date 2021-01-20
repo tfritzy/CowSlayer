@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1791806355702981669}
   - component: {fileID: 4555726558612312303}
   - component: {fileID: 676752151114300079}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BasicStaff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2610343248778621242}
-  m_LocalRotation: {x: -0.068151094, y: 0.33370712, z: 0.34284618, w: -0.8754722}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.10220068, y: 0.36955494, z: 0.3265186, w: -0.863927}
+  m_LocalPosition: {x: -0.016, y: -0.009, z: -0.011}
   m_LocalScale: {x: 0.32111353, y: 0.32111353, z: 6}
   m_Children:
   - {fileID: 2283530154546612378}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -6.2860003, y: -39.409, z: -400.519}
+  m_LocalEulerAnglesHint: {x: -3.7120001, y: -44.972004, z: -399.871}
 --- !u!33 &1791806355702981669
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2283530154546612378}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ProjectileStartPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}

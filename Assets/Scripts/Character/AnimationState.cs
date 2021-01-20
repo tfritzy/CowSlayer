@@ -8,4 +8,5 @@ public enum AnimationState
     OneHandWeaponAttack = 5,
     Punch = 6,
     StaffWalk = 7,
+    StaffIdle = 8,
 }
