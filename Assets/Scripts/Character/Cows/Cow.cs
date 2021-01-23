@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 public abstract class Cow : Character
 {
     public CowState CurrentState;
@@ -205,7 +206,7 @@ public abstract class Cow : Character
         if (IsZoneGuardian)
         {
             GameState.Data.HighestZoneUnlocked = Math.Max(GameState.Data.HighestZoneUnlocked, Zone + 1);
-            Constants.Persistant.ZoneManager.UnlockZones();
+            Constants.Persistant.ZoneManager.RefreshGates();
         }
 
         Drop drop = DropTable.RollDrop();

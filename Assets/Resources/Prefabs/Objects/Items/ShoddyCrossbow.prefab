@@ -72,8 +72,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.2124872, y: 0.75688016, z: 0.26342997}
-  m_Center: {x: -0.07826299, y: -0.66143286, z: 0.36828178}
+  m_Size: {x: 2.4893513, y: 0.75687987, z: 0.26342997}
+  m_Center: {x: 0.060169987, y: -0.66143125, z: 0.368281}
 --- !u!1 &7454304840946000018
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 6599754755809015181}
   - component: {fileID: 8967791324197552455}
   m_Layer: 10
-  m_Name: Crossbow
+  m_Name: ShoddyCrossbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
