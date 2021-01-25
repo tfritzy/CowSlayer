@@ -199,7 +199,7 @@ public abstract class Character : MonoBehaviour, Interactable
             return false;
         }
 
-        float distanceToTarget = GetDistBetweenColliders(Target.Body.Collider, this.Body.Collider);
+        float distanceToTarget = Helpers.GetDistBetweenColliders(Target.Body.Collider, this.Body.Collider);
         if (distanceToTarget <= GetAttackRange(skill))
         {
             SetAttackAnimation(skill);
@@ -368,13 +368,6 @@ public abstract class Character : MonoBehaviour, Interactable
     }
 
     protected abstract void SetInitialStats();
-
-    protected float GetDistBetweenColliders(Collider c1, Collider c2)
-    {
-        Vector3 closestC1 = c1.ClosestPoint(c2.transform.position);
-        Vector3 closestC2 = c2.ClosestPoint(c1.transform.position);
-        return Vector3.Distance(closestC1, closestC2);
-    }
 
     protected void MoveTowards(Vector3 targetPosition)
     {

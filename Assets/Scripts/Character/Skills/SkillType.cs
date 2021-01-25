@@ -9,5 +9,6 @@ public enum SkillType
     Whack,
     Charge,
     CrossbowAttack,
-    Punch
+    Punch,
+    SwordSwing,
 }

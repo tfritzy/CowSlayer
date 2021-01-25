@@ -1,17 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class GoldDrop : Drop
+public class GoldDrop : StackableDrop
 {
-    public int Value;
-    public override bool HasAutoPickup => true;
-    public override int Quantity => Value;
+    protected override Dictionary<int, DropType> SizeMap
+    {
+        get { return CoinSizeMap; }
+    }
 
-    private readonly int[] CoinSizes = new int[] { 1, 4, 16 };
-    private List<GameObject> coinPrefabs;
+    private readonly Dictionary<int, DropType> CoinSizeMap = new Dictionary<int, DropType>()
+    {
+        { 1, DropType.Gold_0 },
+        { 4, DropType.Gold_1 },
+        { 8, DropType.Gold_2 },
+        { 16, DropType.Gold_3 },
+    };
 
-    public string Id;
     private static Sprite _icon;
     public override Sprite Icon
     {
@@ -25,13 +31,8 @@ public class GoldDrop : Drop
             return _icon;
         }
     }
-
-    public GoldDrop(int low, int high)
-    {
-        Value = UnityEngine.Random.Range(low, high);
-        coinPrefabs = new List<GameObject>();
-        Id = Guid.NewGuid().ToString("N");
-    }
+    public override int MaxPrefabs => 2;
+    public GoldDrop(int low, int high) : base(low, high) { }
 
     public override GameObject GetDropIndicator()
     {
@@ -40,37 +41,8 @@ public class GoldDrop : Drop
 
     public override bool GiveDropToPlayer(Player player)
     {
-        foreach (GameObject coin in coinPrefabs)
-        {
-            coin.GetComponent<PoolObject>().ReturnToPool();
-        }
-
         player.Gold += Value;
-        Value = 0;
-
+        base.GiveDropToPlayer(player);
         return true;
-    }
-
-    public override void SetModel(Transform container)
-    {
-        int remainingValue = Value;
-        int coinSizeIndex = CoinSizes.Length - 1;
-        while (remainingValue > 0 && coinPrefabs.Count < 1)
-        {
-            if (remainingValue >= CoinSizes[coinSizeIndex])
-            {
-                remainingValue -= CoinSizes[coinSizeIndex];
-                GameObject coin = Pools.GoldPool.GetObject(coinSizeIndex);
-                coin.transform.parent = container;
-                Vector3 position = container.transform.position;
-                position += new Vector3(UnityEngine.Random.Range(-.5f, .5f), UnityEngine.Random.Range(-.1f, .1f), UnityEngine.Random.Range(-.5f, .5f));
-                coin.transform.position = position;
-                coinPrefabs.Add(coin);
-            }
-            else
-            {
-                coinSizeIndex -= 1;
-            }
-        }
     }
 }

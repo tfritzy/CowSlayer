@@ -16,6 +16,7 @@ public abstract class Skill
     public abstract float DamageModifier { get; }
     protected string IconFilePath => $"{Constants.FilePaths.Icons}/{Name}";
     protected virtual bool ShowsDecal => false;
+    protected virtual Item Ammo => null;
 
     public int Level
     {
@@ -65,6 +66,17 @@ public abstract class Skill
         if (Time.time - LastAttackTime < Cooldown)
         {
             return false;
+        }
+
+        if (Ammo != null && attacker is Player)
+        {
+            Item item = ((Player)attacker).Inventory.GetItemByName(Ammo.Name);
+            if (item == null)
+            {
+                return false;
+            }
+
+            ((Player)attacker).Inventory.RemoveItem(item.Id, 1);
         }
 
         LastAttackTime = Time.time;

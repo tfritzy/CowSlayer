@@ -4,17 +4,17 @@ using UnityEngine;
 
 public static class Pools
 {
-    private static GoldPool _goldPool;
-    public static GoldPool GoldPool
+    private static DropPool _dropPool;
+    public static DropPool DropPool
     {
         get
         {
-            if (_goldPool == null)
+            if (_dropPool == null)
             {
-                _goldPool = new GoldPool();
+                _dropPool = new DropPool();
             }
 
-            return _goldPool;
+            return _dropPool;
         }
     }
 }

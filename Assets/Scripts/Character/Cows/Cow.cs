@@ -172,7 +172,7 @@ public abstract class Cow : Character
             float distanceToTarget = float.MaxValue;
             if (Target != null)
             {
-                distanceToTarget = GetDistBetweenColliders(Target.Body.Collider, Body.Collider);
+                distanceToTarget = Helpers.GetDistBetweenColliders(Target.Body.Collider, Body.Collider);
             }
 
             if (distanceToTarget <= GetAttackRange(PrimarySkill))

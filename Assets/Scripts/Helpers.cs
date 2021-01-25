@@ -41,8 +41,12 @@ public static class Helpers
 
     public static float GetDistBetweenColliders(Collider c1, Collider c2)
     {
-        Vector3 closestC1 = c1.ClosestPoint(c2.transform.position);
-        Vector3 closestC2 = c2.ClosestPoint(c1.transform.position);
+        Vector3 c2Pos = c2.transform.position;
+        c2Pos.y = 0;
+        Vector3 c1Pos = c1.transform.position;
+        c1Pos.y = 0;
+        Vector3 closestC1 = c1.ClosestPoint(c2Pos);
+        Vector3 closestC2 = c2.ClosestPoint(c1Pos);
         return Vector3.Distance(closestC1, closestC2);
     }
 

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoldPool : Pool
+public class DropPool : Pool
 {
     protected override GameObject CreateObject(int objectType)
     {
-        return GameObject.Instantiate(Constants.Prefabs.Coins[objectType]);
+        return GameObject.Instantiate(Constants.Prefabs.Drops[(DropType)objectType]);
     }
 }

@@ -18,16 +18,8 @@ public class AreaSpawner : MonoBehaviour
         SpawnableAreaSize = new Vector2(45, 45);
         SpawnedCows = new Dictionary<string, Cow>();
         SpawnableCows = LoadSpawnableCows();
-        AreaCenter = transform.position;
-        AreaCenter.y = Constants.WorldProperties.GroundLevel;
 
-        SpawnCowsToMax();
-        SpawnZoneGuardianIfNeeded();
-    }
-
-    void SpawnAreaBossIfNeeded()
-    {
-
+        SwitchZones(AreaIndex);
     }
 
     void Update()
@@ -35,7 +27,23 @@ public class AreaSpawner : MonoBehaviour
         SpawnCowsIfNeeded();
     }
 
-    private const float timeBetweenSpawnChecks = 15f;
+    public void SwitchZones(int newZoneIndex)
+    {
+        AreaCenter = transform.position;
+        AreaCenter.y = Constants.WorldProperties.GroundLevel;
+        this.AreaIndex = newZoneIndex;
+        foreach (Cow cow in SpawnedCows.Values)
+        {
+            Destroy(cow.gameObject);
+        }
+
+        SpawnedCows = new Dictionary<string, Cow>();
+
+        SpawnCowsToMax();
+        SpawnZoneGuardianIfNeeded();
+    }
+
+    private const float timeBetweenSpawnChecks = 5f;
     private float lastSpawnCheckTime;
     private void SpawnCowsIfNeeded()
     {
@@ -118,6 +126,7 @@ public class AreaSpawner : MonoBehaviour
                 this.transform);
             newCow.GetComponent<Cow>().Initialize();
             newCow.GetComponent<Cow>().PromoteToZoneGuardian();
+            SpawnedCows[newCow.name] = newCow.GetComponent<Cow>();
         }
     }
 }

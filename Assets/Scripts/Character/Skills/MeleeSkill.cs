@@ -22,6 +22,11 @@ public abstract class MeleeSkill : Skill
 
     protected override void CreatePrefab(AttackTargetingDetails attackTargetingDetails)
     {
+        if (Prefab == null)
+        {
+            return;
+        }
+
         Quaternion rotation = Quaternion.LookRotation(attackTargetingDetails.Target.transform.position - attackTargetingDetails.Attacker.transform.position);
         GameObject inst = GameObject.Instantiate(Prefab, attackTargetingDetails.Attacker.transform.position, rotation, null);
         GameObject.Destroy(inst, 5f);

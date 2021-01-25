@@ -26,7 +26,7 @@ public abstract class Item
     public Item()
     {
         this.Id = GenerateId();
-        Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Drops}/{Name.Replace(" ", "")}");
+        Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Equipment}/{Name.Replace(" ", "")}");
         this.SecondaryEffects = GenerateSecondaryEffects();
         this.PrimaryEffect = PrimaryEffectPrefab;
     }

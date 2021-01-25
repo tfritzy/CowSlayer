@@ -38,12 +38,19 @@ public abstract class ItemGroup
         int firstOpenSlot = 0;
         for (int i = 0; i < MaxSize; i++)
         {
+            if (item.Stacks && this.Items[i]?.Name == item.Name)
+            {
+                firstOpenSlot = i;
+                break;
+            }
+
             if (this.Items[i] == null)
             {
                 firstOpenSlot = i;
                 break;
             }
         }
+
         return firstOpenSlot;
     }
 
@@ -70,13 +77,22 @@ public abstract class ItemGroup
     public virtual void AddItem(Item item)
     {
         int targetSlot = FindTargetSlot(item);
-        if (Items[targetSlot] != null)
+
+        if (Items[targetSlot] != null && item.Stacks == false)
         {
             return;
         }
 
-        Items[targetSlot] = item;
-        numItemsContained += 1;
+        if (item.Stacks && Items[targetSlot] != null)
+        {
+            Items[targetSlot].Quantity += item.Quantity;
+        }
+        else
+        {
+            Items[targetSlot] = item;
+            numItemsContained += 1;
+        }
+
         if (IsMenuOpen())
         {
             SetButtonValues(ButtonInsts[targetSlot], item);
@@ -119,11 +135,24 @@ public abstract class ItemGroup
         return item;
     }
 
-    public Item GetItem(string itemId)
+    public Item GetItemById(string itemId)
     {
         foreach (Item item in Items)
         {
             if (item?.Id == itemId)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    public Item GetItemByName(string itemName)
+    {
+        foreach (Item item in Items)
+        {
+            if (item?.Name == itemName)
             {
                 return item;
             }
@@ -148,6 +177,12 @@ public abstract class ItemGroup
         return null;
     }
 
+    public bool TryGetItem<T>(out Item item)
+    {
+        item = FindItem<T>();
+        return item != null;
+    }
+
     public virtual void TransferItemTo(ItemGroup targetItemGroup, string itemId, int quantity, bool hasTransferBeenConfirmed = false)
     {
         if (targetItemGroup.IsFull())
@@ -155,7 +190,7 @@ public abstract class ItemGroup
             return;
         }
 
-        Item item = this.GetItem(itemId);
+        Item item = this.GetItemById(itemId);
 
         if (!targetItemGroup.CanHoldItem(item))
         {

@@ -12,8 +12,8 @@
 
     protected override void SetInitialStats()
     {
-        this.MaxHealth = 5 + Level;
-        this.Damage = 2 + Level / 2;
+        this.MaxHealth = 5 + Level * 2;
+        this.Damage = 2 + Level;
         this.AttackSpeedPercent = 1;
         this.TargetFindRadius = 5f;
         this.MeleeAttackRange = .5f;

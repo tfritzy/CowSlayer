@@ -65,6 +65,10 @@ public static class Constants
                     {
                         SkillType.Punch,
                         new Punch()
+                    },
+                    {
+                        SkillType.SwordSwing,
+                        new SwordSwing()
                     }
                 };
 
@@ -94,8 +98,8 @@ public static class Constants
         public class Prefabs
         {
             public const string UI = "Prefabs/Objects/UI";
-            public const string Gold = "Prefabs/Objects/Items/Gold";
-            public const string Drops = "Prefabs/Objects/Items";
+            public const string Drops = "Prefabs/Objects/Items/Drops";
+            public const string Equipment = "Prefabs/Objects/Items/Equipment";
             public const string Cows = "Prefabs/Objects/Cows";
             public const string Skills = "Prefabs/Objects/Skills";
             public const string Decals = "Prefabs/Objects/Decals";
@@ -244,7 +248,7 @@ public static class Constants
             {
                 if (_emptyDrop == null)
                 {
-                    _emptyDrop = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Drops}/Drop");
+                    _emptyDrop = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Equipment}/Drop");
                 }
 
                 return _emptyDrop;
@@ -264,21 +268,22 @@ public static class Constants
             }
         }
 
-        private static List<GameObject> _coins;
-        public static List<GameObject> Coins
+        private static Dictionary<DropType, GameObject> _drops;
+        public static Dictionary<DropType, GameObject> Drops
         {
-            get
+            get 
             {
-                if (_coins == null)
+                if (_drops == null)
                 {
-                    _coins = new List<GameObject>();
-                    for (int i = 0; i < 3; i++)
+                    _drops = new Dictionary<DropType, GameObject>();
+
+                    foreach (DropType dropType in Enum.GetValues(typeof(DropType)))
                     {
-                        _coins.Add(Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Gold}/" + i));
+                        _drops[dropType] = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Drops}/{dropType}");
                     }
                 }
 
-                return _coins;
+                return _drops;
             }
         }
 

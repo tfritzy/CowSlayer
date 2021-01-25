@@ -24,6 +24,7 @@ public class Zone
     public void SetZone(int index)
     {
         this.ZoneIndex = index;
+        Spawner.SwitchZones(index);
         Reset();
     }
 

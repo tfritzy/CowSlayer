@@ -31,7 +31,7 @@ public class ShopItemGroup : ItemGroup
 
     protected void OpenPurchaseItemMenu(string itemId)
     {
-        Item item = GetItem(itemId);
+        Item item = GetItemById(itemId);
         if (currentlyOpenConfirmationWindow != null)
         {
             GameObject.Destroy(currentlyOpenConfirmationWindow);
