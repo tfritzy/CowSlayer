@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 4255313505566769418}
   - component: {fileID: 2849924113325037532}
   - component: {fileID: 9165954157646458054}
-  - component: {fileID: 8852373469582633393}
   m_Layer: 0
   m_Name: Single_Arrow
   m_TagString: Untagged
@@ -142,15 +141,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8852373469582633393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8675487304856101882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d3d44be226c05e4e99469b362315d0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

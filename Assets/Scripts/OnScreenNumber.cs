@@ -27,7 +27,6 @@ public class OnScreenNumber : MonoBehaviour
     private void Start()
     {
         birthTime = Time.time;
-        iconNextToNumber = transform.Find("Icon")?.GetComponent<Image>();
         this.transform.position += (Vector3)(Random.insideUnitCircle / 2);
     }
 
@@ -67,6 +66,7 @@ public class OnScreenNumber : MonoBehaviour
             owner.transform.position + (Vector3)Random.insideUnitCircle / 5);
         this.GetComponent<Rigidbody>().velocity = Vector3.up * 100;
 
+        iconNextToNumber = transform.Find("Icon")?.GetComponent<Image>();
         if (iconNextToNumber != null)
         {
             iconNextToNumber.sprite = icon;

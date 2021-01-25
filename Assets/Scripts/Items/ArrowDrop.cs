@@ -31,7 +31,6 @@ public class ArrowDrop : StackableDrop
 
     public ArrowDrop(int low, int high) : base(low, high)
     {
-        Debug.Log("Arrow Quantity: " + Value);
     }
 
     public override GameObject GetDropIndicator()

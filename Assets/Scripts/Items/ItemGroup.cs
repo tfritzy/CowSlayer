@@ -129,7 +129,7 @@ public abstract class ItemGroup
 
         if (IsMenuOpen())
         {
-            SetButtonValues(ButtonInsts[slotIndex], null);
+            SetButtonValues(ButtonInsts[slotIndex], this.Items[slotIndex]);
         }
 
         return item;
