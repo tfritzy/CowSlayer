@@ -14,7 +14,6 @@ public abstract class Skill
     public virtual HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>();
     public abstract SkillType Type { get; }
     public abstract float DamageModifier { get; }
-    protected string IconFilePath => $"{Constants.FilePaths.Icons}/{Name}";
     protected virtual bool ShowsDecal => false;
     protected virtual Item Ammo => null;
 
@@ -28,15 +27,7 @@ public abstract class Skill
 
     public Sprite Icon
     {
-        get
-        {
-            if (_icon == null)
-            {
-                _icon = Resources.Load<Sprite>(IconFilePath);
-            }
-
-            return _icon;
-        }
+        get { return Constants.Icons[this.Name.Replace(" ", "")]; }
     }
     private Sprite _icon;
     protected abstract void CreatePrefab(AttackTargetingDetails attackTargetingDetails);

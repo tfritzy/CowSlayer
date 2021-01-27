@@ -216,12 +216,24 @@ public abstract class Cow : Character
             dropContainer.GetComponent<DropContainer>().SetDrop(drop);
         }
 
+        this.CreateDeathEffect();
+
+        base.OnDeath();
+    }
+
+    public virtual void CreateDeathEffect()
+    {
+        GameObject bloodExplosion = Instantiate(Constants.Prefabs.Effects.BloodExplosion, Helpers.PlacePointOnGround(this.transform.position), new Quaternion(), null);
+        bloodExplosion.transform.localScale *= this.Body.Transform.localScale.x;
+        Destroy(bloodExplosion, 30f);
+
         GameObject bloodSplat = Instantiate(Constants.Prefabs.Decals.BloodSplat);
         Helpers.PlaceDecalOnGround(this.transform.position, bloodSplat);
         bloodSplat.transform.localScale *= this.Body.Transform.localScale.x;
         bloodSplat.GetComponent<Decal>().Setup(8, 5);
 
-        base.OnDeath();
+        GameObject bodyParts = Instantiate(Constants.Prefabs.Effects.CowBodyParts, this.transform.position, new Quaternion(), null);
+        bodyParts.transform.localScale *= this.Body.Transform.localScale.x;
     }
 
     public void PromoteToZoneGuardian()

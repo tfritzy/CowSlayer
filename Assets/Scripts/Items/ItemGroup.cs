@@ -35,7 +35,7 @@ public abstract class ItemGroup
 
     protected virtual int FindTargetSlot(Item item)
     {
-        int firstOpenSlot = 0;
+        int firstOpenSlot = -1;
         for (int i = 0; i < MaxSize; i++)
         {
             if (item.Stacks && this.Items[i]?.Name == item.Name)
@@ -46,8 +46,15 @@ public abstract class ItemGroup
 
             if (this.Items[i] == null)
             {
-                firstOpenSlot = i;
-                break;
+                if (firstOpenSlot == -1)
+                {
+                    firstOpenSlot = i;
+                }
+
+                if (item.Stacks == false)
+                {
+                    break;
+                }
             }
         }
 
@@ -78,7 +85,7 @@ public abstract class ItemGroup
     {
         int targetSlot = FindTargetSlot(item);
 
-        if (Items[targetSlot] != null && item.Stacks == false)
+        if (targetSlot == -1)
         {
             return;
         }
@@ -95,7 +102,7 @@ public abstract class ItemGroup
 
         if (IsMenuOpen())
         {
-            SetButtonValues(ButtonInsts[targetSlot], item);
+            SetButtonValues(ButtonInsts[targetSlot], Items[targetSlot]);
         }
     }
 
@@ -198,7 +205,7 @@ public abstract class ItemGroup
         }
 
         int targetSlot = targetItemGroup.FindTargetSlot(item);
-        if (targetItemGroup.Items[targetSlot] != null)
+        if (targetSlot == -1)
         {
             return;
         }

@@ -46,7 +46,7 @@ public class GroundFire : PersistantAreaEffect
         {
             ps.Stop();
             var main = ps.main;
-            main.duration = Duration;
+            main.duration = Duration - .2f;
             ps.Play();
         }
     }

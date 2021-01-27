@@ -18,6 +18,13 @@ public abstract class Item
     public List<Effect> SecondaryEffects;
     public int Quantity;
     public virtual bool Stacks => false;
+    protected virtual List<Tuple<int, string>> Icons
+    {
+        get
+        {
+            return new List<Tuple<int, string>> { new Tuple<int, string>(1, Name) };
+        }
+    }
 
     /// <summary>
     /// Creates a new instance of this item. If effects are not passed, new effects will
@@ -30,7 +37,7 @@ public abstract class Item
         this.SecondaryEffects = GenerateSecondaryEffects();
         this.PrimaryEffect = PrimaryEffectPrefab;
     }
-
+    
     protected List<Effect> GenerateSecondaryEffects()
     {
         if (NumSecondaryEffects == 0)
@@ -77,7 +84,13 @@ public abstract class Item
 
     public Sprite GetIcon()
     {
-        return Resources.Load<Sprite>($"{Constants.FilePaths.Icons}/{this.Name.Replace(" ", "")}");
+        int iconIndex = 1;
+        while (iconIndex < Icons.Count && Icons[iconIndex].Item1 <= Quantity)
+        {
+            iconIndex += 1;
+        }
+
+        return Constants.Icons[Icons[iconIndex - 1].Item2.Replace(" ", "")];
     }
 
     public Color GetRarityColor()

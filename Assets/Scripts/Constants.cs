@@ -103,6 +103,7 @@ public static class Constants
             public const string Cows = "Prefabs/Objects/Cows";
             public const string Skills = "Prefabs/Objects/Skills";
             public const string Decals = "Prefabs/Objects/Decals";
+            public const string Effects = "Prefabs/Effects";
         }
         public const string AreaSpawns = "AreaSpawns";
     }
@@ -119,6 +120,25 @@ public static class Constants
         public const string Player = "Player";
         public const string InteractableUI = "InteractableUI";
         public const string Ground = "Ground";
+    }
+
+    private static Dictionary<string, Sprite> _icons;
+    public static Dictionary<string, Sprite> Icons
+    {
+        get
+        {
+            if (_icons == null)
+            {
+                _icons = new Dictionary<string, Sprite>();
+                Sprite[] sprites = Resources.LoadAll<Sprite>(FilePaths.Icons);
+                foreach (Sprite sprite in sprites)
+                {
+                    _icons[sprite.name] = sprite;
+                }
+            }
+
+            return _icons;
+        }
     }
 
     public static class Prefabs
@@ -168,6 +188,35 @@ public static class Constants
                     }
 
                     return _longRectangle;
+                }
+            }
+        }
+
+        public static class Effects
+        {
+            private static GameObject _bloodExplosion;
+            public static GameObject BloodExplosion
+            {
+                get
+                {
+                    if (_bloodExplosion == null)
+                    {
+                        _bloodExplosion = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Effects}/BloodExplosion");
+                    }
+                    return _bloodExplosion;
+                }
+            }
+
+            private static GameObject _cowBodyParts;
+            public static GameObject CowBodyParts
+            {
+                get
+                {
+                    if (_cowBodyParts == null)
+                    {
+                        _cowBodyParts = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Effects}/CowParts");
+                    }
+                    return _cowBodyParts;
                 }
             }
         }
@@ -271,7 +320,7 @@ public static class Constants
         private static Dictionary<DropType, GameObject> _drops;
         public static Dictionary<DropType, GameObject> Drops
         {
-            get 
+            get
             {
                 if (_drops == null)
                 {

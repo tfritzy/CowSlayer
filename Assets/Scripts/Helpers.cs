@@ -80,4 +80,10 @@ public static class Helpers
 
         return null;
     }
+
+    public static Vector3 PlacePointOnGround(Vector3 point)
+    {
+        point.y = Constants.WorldProperties.GroundLevel;
+        return point;
+    }
 }

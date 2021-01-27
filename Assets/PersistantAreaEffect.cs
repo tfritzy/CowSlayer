@@ -12,6 +12,7 @@ public abstract class PersistantAreaEffect : MonoBehaviour
     protected Dictionary<GameObject, float> recentHits;
     protected abstract void ApplyEffect(GameObject gameObject);
     private float birthTime;
+    private const float fadeOutTime = 0.5f;
 
     void Update()
     {
@@ -19,12 +20,21 @@ public abstract class PersistantAreaEffect : MonoBehaviour
         {
             Begin();
         }
+
+        if (Time.time > birthTime + Duration - fadeOutTime)
+        {
+            foreach (ParticleSystem ps in this.GetComponentsInChildren<ParticleSystem>())
+            {
+                ps.Stop();
+            }
+        }
     }
 
     void Start()
     {
         birthTime = Time.time;
         this.Decal = this.transform.Find("Decal")?.gameObject;
+        Decal.GetComponent<Decal>().Setup(100, 100);
     }
 
     private void OnTriggerStay(Collider other)
@@ -55,6 +65,9 @@ public abstract class PersistantAreaEffect : MonoBehaviour
         recentHits = new Dictionary<GameObject, float>();
         PositionDecal(Decal);
         GameObject.Destroy(this.gameObject, Duration + .1f);
+        birthTime = Time.time;
+        Decal.GetComponent<Decal>().Setup(Duration - fadeOutTime, fadeOutTime);
+        Decal.transform.parent = null;
     }
 
     protected void PositionDecal(GameObject decal)
@@ -65,7 +78,5 @@ public abstract class PersistantAreaEffect : MonoBehaviour
         }
 
         Helpers.PlaceDecalOnGround(this.transform.position, decal);
-
-        GameObject.Destroy(decal, 5f);
     }
 }
