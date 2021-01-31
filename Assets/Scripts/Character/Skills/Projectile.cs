@@ -17,6 +17,11 @@ public class Projectile : MonoBehaviour
     private const string leftoverGround = "LeftoverGroundParticles";
     private Transform explosionChild;
 
+    void Start()
+    {
+        StartLogic();
+    }
+
     void Update()
     {
         UpdateLoop();
@@ -45,6 +50,7 @@ public class Projectile : MonoBehaviour
     }
 
     protected virtual void UpdateLoop() { }
+    protected virtual void StartLogic() { }
 
     private void OnTriggerEnter(Collider other)
     {
