@@ -10,10 +10,7 @@ public class Player : Character
     public override float ManaRegenPerMinute => 100f;
     private GameObject playerInventoryUI;
     private Joystick joystick { get { return Constants.Persistant.Joystick; } }
-    private bool isDashing;
-    private const float dashDuration = .3f;
-    private float dashStartTime;
-    private Vector3 dashDirection;
+    public bool IsRunning { private set; get; }
     private GameObject targetIndicator;
     private Vector3 originalTargetIndicatorScale;
 
@@ -79,7 +76,6 @@ public class Player : Character
     protected override void UpdateLoop()
     {
         base.UpdateLoop();
-        SetDashStatus();
         SetVelocity();
         Attack();
         SecondaryAttack();
@@ -121,18 +117,18 @@ public class Player : Character
     protected override void SetVelocity()
     {
         Vector3 input = GetInput();
-        if (isDashing)
-        {
-            rb.velocity = dashDirection * MovementSpeed * 1.5f;
-        }
-        else
-        {
-            rb.velocity = GetInput() * MovementSpeed;
-        }
+        rb.velocity = GetInput() * MovementSpeed * (IsRunning ? 2 : 1);
 
         if (rb.velocity.magnitude > .3f)
         {
-            SetWalkAnimation();
+            if (this.IsRunning)
+            {
+                SetRunAnimation();
+            }
+            else
+            {
+                SetWalkAnimation();
+            }
         }
         else if (CurrentAnimation != this.WornItems.Weapon?.AttackAnimation || PrimarySkill.IsOnCooldown())
         {
@@ -181,26 +177,6 @@ public class Player : Character
         }
 
         return movementDirection;
-    }
-
-    private void SetDashStatus()
-    {
-        if (isDashing)
-        {
-            if (Time.time > dashStartTime + dashDuration)
-            {
-                isDashing = false;
-            }
-        }
-        else
-        {
-            if (joystick.IsDashing)
-            {
-                isDashing = true;
-                dashStartTime = Time.time;
-                dashDirection = joystick.Direction;
-            }
-        }
     }
 
     public void DrinkPotion<TPotion>()
@@ -284,6 +260,11 @@ public class Player : Character
         }
 
         Constants.Persistant.AbilityButtons[index].FormatButton();
+    }
+
+    public void ToggleRunStatus()
+    {
+        this.IsRunning = !this.IsRunning;
     }
 
     private void ShowDeathScreen()

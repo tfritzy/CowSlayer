@@ -1,7 +1,7 @@
 public enum AnimationState
 {
     IdleNoWeapon = 0,
-    NormalWalk = 1,
+    OneHandWeaponWalk = 1,
     Attacking = 2,
     IdleOneHandedWeapon = 3,
     CrossbowAttack = 4,
@@ -10,4 +10,8 @@ public enum AnimationState
     StaffWalk = 7,
     StaffIdle = 8,
     CastSpellBareHanded = 9,
+    RunNoWeapon = 10,
+    StaffRun = 11,
+    OneHandRun = 12,
+    WalkNoWeapon = 13,
 }

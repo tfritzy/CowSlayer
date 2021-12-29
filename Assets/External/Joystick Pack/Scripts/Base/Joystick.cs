@@ -8,17 +8,15 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public float Horizontal { get { return (snapX) ? SnapFloat(input.x, AxisOptions.Horizontal) : input.x; } }
     public float Vertical { get { return (snapY) ? SnapFloat(input.y, AxisOptions.Vertical) : input.y; } }
     private Vector3 _direction;
-    public Vector3 Direction 
-    { 
-        get 
+    public Vector3 Direction
+    {
+        get
         {
             _direction.x = Horizontal;
             _direction.z = Vertical;
-            return _direction; 
-        } 
+            return _direction;
+        }
     }
-
-    public bool IsDashing { get { return Direction.magnitude == 1 && Time.time - startPressTime < .15f; } }
 
     public float HandleRange
     {

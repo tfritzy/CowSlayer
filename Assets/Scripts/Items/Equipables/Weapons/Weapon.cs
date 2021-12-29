@@ -9,6 +9,7 @@ public abstract class Weapon : EquipableItem
     public abstract AnimationState IdleAnimation { get; }
     public abstract AnimationState AttackAnimation { get; }
     public abstract AnimationState WalkAnimation { get; }
+    public abstract AnimationState RunAnimation { get; }
     public virtual AnimationState SpellAnimation => AttackAnimation;
     public Character Bearer;
     public virtual Vector3 ProjectileStartPosition
@@ -37,7 +38,7 @@ public abstract class Weapon : EquipableItem
             c.enabled = false;
         }
 
-        this.projectileStartPositionObj = Instantiation.transform.Find("ProjectileStartPosition");
+        this.projectileStartPositionObj = Instantiation.transform.Find("ProjectileStartPosition") ?? Instantiation.transform;
 
         // TODO: set through selection.
         bearer.SetAbility(0, DefaultAttack);
