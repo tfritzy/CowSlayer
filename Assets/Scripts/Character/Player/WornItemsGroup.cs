@@ -46,8 +46,9 @@ public class WornItemsGroup : ItemGroup
         {
             if (index == ItemWearLocations.Slots[slot].Length - 1)
             {
-                break;
+                return -1;
             }
+
             index += 1;
         }
 
