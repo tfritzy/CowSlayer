@@ -8,49 +8,29 @@ public class Projectile : MonoBehaviour
     public delegate bool IsCollisionTarget(Character attacker, GameObject collision);
     private IsCollisionTarget isCollisionTarget;
     public delegate void CreateGroundEffects(Character attacker, Vector3 position);
-    protected Rigidbody Rigidbody;
-    protected Character target;
-    protected float birthTime;
     private CreateGroundEffects createGroundEffects;
     private Character attacker;
     private const string trailGroupName = "Trail";
     private const string leftoverGround = "LeftoverGroundParticles";
     private Transform explosionChild;
 
-    void Start()
-    {
-        StartLogic();
-    }
-
-    void Update()
-    {
-        UpdateLoop();
-    }
-
     public void Initialize(
         DamageEnemy damageEnemyHandler,
         IsCollisionTarget isCollisionTarget,
         CreateGroundEffects createGroundEffects,
         Character attacker,
-        bool explodesOnGroundContact = false,
-        Character target = null)
+        bool explodesOnGroundContact = false)
     {
         this.damageEnemy = damageEnemyHandler;
         this.isCollisionTarget = isCollisionTarget;
         this.createGroundEffects = createGroundEffects;
         this.attacker = attacker;
-        this.target = target;
-        this.Rigidbody = this.GetComponent<Rigidbody>();
-        this.birthTime = Time.time;
 
         explosionChild = transform.Find("Explosion");
         TriggerAllParticleSystems(explosionChild, false);
         TriggerAllParticleSystems(transform.Find(leftoverGround), false);
         GameObject.Destroy(this.gameObject, 10f);
     }
-
-    protected virtual void UpdateLoop() { }
-    protected virtual void StartLogic() { }
 
     private void OnTriggerEnter(Collider other)
     {

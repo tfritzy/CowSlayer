@@ -10,6 +10,8 @@ public class CowParts : MonoBehaviour
         {
             bodyPart.GetComponent<Rigidbody>().velocity = Random.insideUnitSphere * 15;
             bodyPart.GetComponent<Rigidbody>().angularVelocity = Random.insideUnitSphere * 360;
+
+            Destroy(bodyPart.gameObject, 5f);
         }
 
         this.transform.DetachChildren();

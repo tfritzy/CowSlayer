@@ -114,7 +114,7 @@ public class Player : Character
         this.MeleeAttackRange = 3f;
         this.RangedAttackRange = 12f;
         this.TargetFindRadius = 10f;
-        this.MovementSpeed = 6f;
+        this.MovementSpeed = 2.5f;
         this.Gold = 100;
     }
 

@@ -11,8 +11,7 @@ public class FireSorcress : Player
         SkillType.Meteor,
         SkillType.Attunement,
         SkillType.FlameSprite,
-        SkillType.FireWave,
-        SkillType.PhoenixWings
+        SkillType.FireWave
     };
 
 }

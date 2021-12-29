@@ -6,7 +6,6 @@ public class Body
 {
     public GameObject OffHand;
     public GameObject MainHand;
-    public GameObject Back;
     public Transform Transform;
     public Animator Animator;
     public CapsuleCollider Collider;
@@ -22,7 +21,6 @@ public class Body
         Transform = self;
         this.OffHand = Helpers.FindDeepChild(self, "LeftHand")?.gameObject;
         this.MainHand = Helpers.FindDeepChild(self, "RightHand")?.gameObject;
-        this.Back = Helpers.FindDeepChild(self, "Back")?.gameObject;
         this.Animator = self.GetComponent<Animator>();
         this.Collider = self.GetComponent<CapsuleCollider>();
         this.MeshRenderer = self.transform.Find("Skin").GetComponent<Renderer>();

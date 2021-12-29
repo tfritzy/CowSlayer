@@ -6,7 +6,6 @@ public enum SkillType
     Attunement,
     FlameSprite,
     FireWave,
-    PhoenixWings,
     Whack,
     Charge,
     CrossbowAttack,

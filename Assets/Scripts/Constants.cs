@@ -55,10 +55,6 @@ public static class Constants
                         new FireWave()
                     },
                     {
-                        SkillType.PhoenixWings,
-                        new PhoenixWings()
-                    },
-                    {
                         SkillType.Charge,
                         new Charge()
                     },
