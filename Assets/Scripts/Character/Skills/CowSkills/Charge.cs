@@ -8,6 +8,8 @@ public class Charge : MeleeSkill
     public override int ManaCost => 0;
     public override SkillType Type => SkillType.Charge;
     public override float DamageModifier => 5f;
+    public override bool IsLevelable => false;
+
     public readonly float ChargeDistance = 10f;
     public readonly float ChargeWidth = 2f;
 

@@ -14,6 +14,12 @@ public class Player : Character
     private GameObject targetIndicator;
     private Vector3 originalTargetIndicatorScale;
 
+    private Vector3 rollDirection;
+    private float rollStartTime;
+    private const float ROLL_DURATION = .5f;
+    private const float ROLL_COOLDOWN = .75f;
+
+
     public override int Level
     {
         get
@@ -117,9 +123,24 @@ public class Player : Character
     protected override void SetVelocity()
     {
         Vector3 input = GetInput();
-        rb.velocity = GetInput() * MovementSpeed * (IsRunning ? 2 : 1);
+        rb.velocity = GetInput().normalized * MovementSpeed * (IsRunning ? 2 : 1);
+        if (joystick.FlickDetected && Time.time > rollStartTime + ROLL_COOLDOWN)
+        {
+            this.CurrentAnimation = AnimationState.Rolling;
+            this.rollDirection = joystick.FlickDirection;
+            rollStartTime = Time.time;
+        }
 
-        if (rb.velocity.magnitude > .3f)
+        if (this.CurrentAnimation == AnimationState.Rolling)
+        {
+            rb.velocity = rollDirection * MovementSpeed * 4;
+
+            if (Time.time - rollStartTime > ROLL_DURATION)
+            {
+                SetIdleAnimationState();
+            }
+        }
+        else if (rb.velocity.magnitude > .3f)
         {
             if (this.IsRunning)
             {

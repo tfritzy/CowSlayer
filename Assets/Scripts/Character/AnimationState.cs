@@ -14,4 +14,5 @@ public enum AnimationState
     StaffRun = 11,
     OneHandRun = 12,
     WalkNoWeapon = 13,
+    Rolling = 14,
 }

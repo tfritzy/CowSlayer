@@ -30,6 +30,11 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         set { deadZone = Mathf.Abs(value); }
     }
 
+    public bool FlickDetected;
+    public Vector3 FlickDirection;
+    public float FlickSetTime;
+    private const float MAX_FLICK_DURATION = .5f;
+
     public AxisOptions AxisOptions { get { return AxisOptions; } set { axisOptions = value; } }
     public bool SnapX { get { return snapX; } set { snapX = value; } }
     public bool SnapY { get { return snapY; } set { snapY = value; } }
@@ -67,10 +72,20 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         handle.anchoredPosition = Vector2.zero;
     }
 
+    void Update()
+    {
+        // Flick detected should only be set for one frame.
+        if (Time.time != FlickSetTime)
+        {
+            FlickDetected = false;
+        }
+    }
+
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         startPressTime = Time.time;
         OnDrag(eventData);
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -142,6 +157,13 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
+        if (Time.time - startPressTime < MAX_FLICK_DURATION && input.magnitude > .3f)
+        {
+            FlickDetected = true;
+            FlickDirection = this.Direction;
+            FlickSetTime = Time.time;
+        }
+
         input = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
         startPressTime = float.MinValue;

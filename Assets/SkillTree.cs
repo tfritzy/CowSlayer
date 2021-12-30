@@ -27,7 +27,7 @@ public abstract class SkillTree : MonoBehaviour
             SkillTreeButton button = Buttons[Skills[i]].GetComponent<SkillTreeButton>();
             button.Setup(Skills[i], this, i);
 
-            foreach (SkillType sourceType in Constants.Skills[button.SkillType].UnlockDependsOn)
+            foreach (SkillType sourceType in Constants.GetSkill(button.SkillType).UnlockDependsOn)
             {
                 Transform sourceButton = Buttons[sourceType];
                 int sourceIndex = sourceButton.GetComponent<SkillTreeButton>().ButtonIndex;

@@ -7,6 +7,7 @@ public abstract class Skill
     public abstract string Name { get; }
     public abstract float Cooldown { get; }
     public abstract bool CanAttackWhileMoving { get; }
+    public abstract bool IsLevelable { get; }
     public float LastAttackTime;
     public abstract int ManaCost { get; }
     protected virtual float ExplosionRadius => 0;
@@ -21,7 +22,12 @@ public abstract class Skill
     {
         get
         {
-            return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 1;
+            if (!IsLevelable)
+            {
+                return 1;
+            }
+
+            return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 0;
         }
     }
 

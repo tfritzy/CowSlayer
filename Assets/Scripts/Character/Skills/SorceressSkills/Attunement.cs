@@ -8,6 +8,7 @@ public class Attunement : PassiveSkill
     public override int ManaCost => 0;
     public override SkillType Type => SkillType.Attunement;
     public override float DamageModifier => 0f;
+    public override bool IsLevelable => true;
 
     public override void ApplyEffect(AttackTargetingDetails attackTargetingDetails)
     {

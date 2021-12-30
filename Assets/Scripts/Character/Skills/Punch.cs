@@ -11,4 +11,5 @@ public class Punch : MeleeSkill
     public override SkillType Type => SkillType.Punch;
     public override float DamageModifier => 1f;
     protected override void CreatePrefab(AttackTargetingDetails attackTargetingDetails) { }
+    public override bool IsLevelable => false;
 }

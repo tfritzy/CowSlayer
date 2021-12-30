@@ -23,7 +23,7 @@ public abstract class Character : MonoBehaviour, Interactable
         {
             if (_primarySkill == null)
             {
-                return Constants.Skills[WornItems.Weapon.DefaultAttack];
+                return Constants.GetSkill(WornItems.Weapon.DefaultAttack);
             }
 
             return _primarySkill;
@@ -37,7 +37,7 @@ public abstract class Character : MonoBehaviour, Interactable
         {
             if (_secondarySkill == null)
             {
-                return Constants.Skills[WornItems.Weapon.DefaultAttack];
+                return Constants.GetSkill(WornItems.Weapon.DefaultAttack);
             }
 
             return _secondarySkill;
@@ -401,11 +401,11 @@ public abstract class Character : MonoBehaviour, Interactable
 
         if (index == 0)
         {
-            PrimarySkill = Constants.Skills[skill.Value];
+            PrimarySkill = Constants.GetSkill(skill.Value);
         }
         else
         {
-            SecondarySkill = Constants.Skills[skill.Value];
+            SecondarySkill = Constants.GetSkill(skill.Value);
         }
     }
 

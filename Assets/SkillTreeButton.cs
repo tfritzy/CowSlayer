@@ -33,7 +33,7 @@ public class SkillTreeButton : MonoBehaviour
         icon = transform.Find("Icon").GetComponent<Image>();
         level = transform.Find("Level").GetComponent<Text>();
         level.text = "";
-        icon.sprite = Constants.Skills[skillType].Icon;
+        icon.sprite = Constants.GetSkill(skillType).Icon;
 
         this.IsSelectingAbility = false;
         SetupColors();
@@ -68,7 +68,7 @@ public class SkillTreeButton : MonoBehaviour
 
     public bool IsUnlockable()
     {
-        Skill skill = Constants.Skills[SkillType];
+        Skill skill = Constants.GetSkill(SkillType);
         foreach (SkillType type in skill.UnlockDependsOn)
         {
             GameState.Data.SkillLevels.TryGetValue(type, out int skillLevel);

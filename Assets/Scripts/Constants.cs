@@ -17,71 +17,32 @@ public static class Constants
         }
     }
 
-    private static Dictionary<SkillType, Skill> _skills;
-    public static Dictionary<SkillType, Skill> Skills
+    public static Skill GetSkill(SkillType skillType)
     {
-        get
+        switch (skillType)
         {
-            if (_skills == null)
-            {
-                _skills = new Dictionary<SkillType, Skill>()
-                {
-                    {
-                        SkillType.Firebolt,
-                        new FireBolt()
-                    },
-                    {
-                        SkillType.Fireball,
-                        new FireBall()
-                    },
-                    {
-                        SkillType.Meteor,
-                        new Meteor()
-                    },
-                    {
-                        SkillType.Attunement,
-                        new Attunement()
-                    },
-                    {
-                        SkillType.Whack,
-                        new Whack()
-                    },
-                    {
-                        SkillType.FlameSprite,
-                        new FlameSprite()
-                    },
-                    {
-                        SkillType.FireWave,
-                        new FireWave()
-                    },
-                    {
-                        SkillType.Charge,
-                        new Charge()
-                    },
-                    {
-                        SkillType.CrossbowAttack,
-                        new CrossbowAttack()
-                    },
-                    {
-                        SkillType.Punch,
-                        new Punch()
-                    },
-                    {
-                        SkillType.SwordSwing,
-                        new SwordSwing()
-                    }
-                };
-
-                foreach (SkillType type in Enum.GetValues(typeof(SkillType)))
-                {
-                    if (_skills.ContainsKey(type) == false)
-                    {
-                        throw new Exception($"You forgot to add the skill {type} to Constants.Skills");
-                    }
-                }
-            }
-
-            return _skills;
+            case (SkillType.Firebolt):
+                return new FireBolt();
+            case (SkillType.Fireball):
+                return new FireBall();
+            case (SkillType.Meteor):
+                return new Meteor();
+            case (SkillType.Attunement):
+                return new Attunement();
+            case (SkillType.Whack):
+                return new Whack();
+            case (SkillType.FlameSprite):
+                return new FlameSprite();
+            case (SkillType.FireWave):
+                return new FireWave();
+            case (SkillType.CrossbowAttack):
+                return new CrossbowAttack();
+            case (SkillType.Punch):
+                return new Punch();
+            case (SkillType.SwordSwing):
+                return new SwordSwing();
+            default:
+                throw new Exception($"Unknown skill {skillType}");
         }
     }
 

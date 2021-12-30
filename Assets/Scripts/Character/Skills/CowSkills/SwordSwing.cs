@@ -8,4 +8,5 @@ public class SwordSwing : MeleeSkill
     public override int ManaCost => 0;
     public override SkillType Type => SkillType.SwordSwing;
     public override float DamageModifier => 1f;
+    public override bool IsLevelable => false;
 }

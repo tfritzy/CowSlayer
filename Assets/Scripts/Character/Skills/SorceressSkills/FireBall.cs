@@ -15,6 +15,7 @@ public class FireBall : RangedSkill
     public override float DamageModifier => 3f + 0.25f * Level;
     protected override float ProjectileSpeed => 14f;
     protected override float ExplosionRadius => 1f;
+    public override bool IsLevelable => true;
 
     protected override void CreateGroundEffects(Character attacker, Vector3 position)
     {
