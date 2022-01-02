@@ -1,8 +1,8 @@
 public abstract class Staff : Weapon
 {
     public override SkillType DefaultAttack => SkillType.Whack;
-    public override AnimationState IdleAnimation => AnimationState.StaffIdle;
-    public override AnimationState AttackAnimation => AnimationState.OneHandWeaponAttack;
-    public override AnimationState WalkAnimation => AnimationState.StaffWalk;
-    public override AnimationState RunAnimation => AnimationState.StaffRun;
+    public override PlayerAnimationState IdleAnimation => PlayerAnimationState.StaffIdle;
+    public override PlayerAnimationState AttackAnimation => PlayerAnimationState.OneHandWeaponAttack;
+    public override PlayerAnimationState WalkAnimation => PlayerAnimationState.StaffWalk;
+    public override PlayerAnimationState RunAnimation => PlayerAnimationState.StaffRun;
 }

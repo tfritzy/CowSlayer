@@ -54,26 +54,27 @@ public abstract class Character : MonoBehaviour, Interactable
     protected Healthbar Healthbar;
     protected bool IsDead;
     public float MovementSpeed;
-    public AnimationState _animationState;
-    public AnimationState CurrentAnimation
+    public virtual float TurnRateDegPerS => 60;
+
+    private Vector3 _position;
+    public Vector3 Position
     {
         get
         {
-            return _animationState;
+            _position = this.transform.position;
+            _position.y = 0;
+            return _position;
         }
-        set
-        {
-            _animationState = value;
-            this.Body.Animator.SetInteger("Animation_State", (int)_animationState);
+    }
 
-            if (_animationState == AnimationState.Attacking)
-            {
-                this.Body.Animator.speed = 1 / TimeBetweenAttacks;
-            }
-            else
-            {
-                this.Body.Animator.speed = 1;
-            }
+    private Vector3 _forward;
+    public Vector3 Forward
+    {
+        get
+        {
+            _forward = this.transform.forward;
+            _forward.y = 0;
+            return _forward;
         }
     }
 
@@ -167,29 +168,20 @@ public abstract class Character : MonoBehaviour, Interactable
         UpdateLoop();
     }
 
-    public virtual void Attack()
-    {
-        PerformAttack(PrimarySkill);
-    }
-
-    public void TriggerPrimaryAttack()
-    {
-        this.PrimarySkill.Activate(this, BuildAttackTargetingDetails());
-    }
-
-    /// <summary>
-    /// Tries to attack the target with the given skill. Returns true if successful, false otherwise.
-    /// </summary>
-    protected bool PerformAttack(Skill skill)
+    protected Skill InProgressAttack;
+    protected bool CanPerformAttack(Skill skill)
     {
         if (IsDead || Target == null)
         {
             return false;
         }
 
-        // Allow secondary skill to attack while moving.
-        if (!skill.CanAttackWhileMoving &&
-            this.GetComponent<Rigidbody>().velocity.magnitude > .2f)
+        if (InProgressAttack != null)
+        {
+            return false;
+        }
+
+        if (!skill.CanAttackWhileMoving && this.GetComponent<Rigidbody>().velocity.magnitude > .2f)
         {
             return false;
         }
@@ -202,19 +194,41 @@ public abstract class Character : MonoBehaviour, Interactable
         float distanceToTarget = Helpers.GetDistBetweenColliders(Target.Body.Collider, this.Body.Collider);
         if (distanceToTarget <= GetAttackRange(skill))
         {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Tries to attack the target with the given skill. Returns true if successful, false otherwise.
+    /// </summary>
+    protected bool PerformAttack(Skill skill)
+    {
+        if (CanPerformAttack(skill))
+        {
             SetAttackAnimation(skill);
             LookTowards(Target.transform.position);
+            this.InProgressAttack = skill;
             return true;
         }
         else
         {
+            float distanceToTarget = Helpers.GetDistBetweenColliders(Target.Body.Collider, this.Body.Collider);
             if (distanceToTarget > TargetFindRadius)
             {
                 Target = null;
             }
+            return false;
         }
+    }
 
-        return false;
+    protected abstract void SetAttackAnimation(Skill skill);
+
+    public virtual void AttackAnimTrigger()
+    {
+        this.InProgressAttack.Activate(this, BuildAttackTargetingDetails());
+        this.InProgressAttack = null;
     }
 
     private void ApplyPassiveEffects()
@@ -354,6 +368,17 @@ public abstract class Character : MonoBehaviour, Interactable
         WornItems.ApplyItemEffects(this);
     }
 
+    protected float GetSqrAttackRange(Skill skill)
+    {
+        if (skill is MeleeSkill)
+        {
+            return MeleeAttackRange * MeleeAttackRange;
+        }
+        else
+        {
+            return RangedAttackRange * RangedAttackRange;
+        }
+    }
 
     protected float GetAttackRange(Skill skill)
     {
@@ -409,38 +434,20 @@ public abstract class Character : MonoBehaviour, Interactable
         }
     }
 
-    protected void SetIdleAnimationState()
+    protected void SetVelocityTowardsPoint(Vector3 point, float velocity)
     {
-        if (this.WornItems.Weapon != null)
-        {
-            this.CurrentAnimation = this.WornItems.Weapon.IdleAnimation;
-        }
-        else
-        {
-            this.CurrentAnimation = AnimationState.IdleNoWeapon;
-        }
+        this.rb.velocity = Vector3.Lerp(
+            this.Forward * velocity,
+            (point - this.Position).normalized * velocity,
+            Time.deltaTime * this.TurnRateDegPerS);
     }
 
-    protected void SetAttackAnimation(Skill skill)
+    protected void RotateTowardsPoint(Vector3 point)
     {
-        if (skill is RangedSkill)
-        {
-            this.CurrentAnimation = this.WornItems.Weapon.SpellAnimation;
-        }
-        else
-        {
-            this.CurrentAnimation = this.WornItems.Weapon.AttackAnimation;
-        }
-
-    }
-
-    protected void SetWalkAnimation()
-    {
-        this.CurrentAnimation = this.WornItems.Weapon.WalkAnimation;
-    }
-
-    protected void SetRunAnimation()
-    {
-        this.CurrentAnimation = this.WornItems.Weapon.RunAnimation;
+        point.y = 0;
+        this.Body.Transform.rotation = Quaternion.Slerp(
+            this.Body.Rotation,
+            Quaternion.LookRotation(point - this.Position),
+            Time.deltaTime * this.TurnRateDegPerS);
     }
 }

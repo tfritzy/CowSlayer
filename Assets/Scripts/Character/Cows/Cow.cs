@@ -1,23 +1,424 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public abstract class Cow : Character
 {
-    public CowState CurrentState;
-    public DropTable DropTable;
-    public abstract CowType CowType { get; }
-    public bool IsZoneGuardian;
-    public int Zone;
-    public int XPReward;
-    public bool IsInStateFreeze;
-
     public enum CowState
     {
         Grazing,
-        Stalking,
-        Attacking
+        EatingGrass,
+        StaringAtPlayer,
+        KickingBackwards,
+        WindingUpCharge,
+        Charging,
+        SkiddingToStop,
+        Fighting,
+        PerformingAttack,
+        Fleeing,
+        WalkingTowardsPlayer,
+    }
+
+    [SerializeField]
+    private CowState _currentState;
+    public CowState CurrentState => _currentState;
+    private Player player;
+    public bool IsZoneGuardian;
+    public int Zone;
+    public int XPReward;
+    public abstract CowType CowType { get; }
+    public DropTable DropTable;
+
+    protected virtual float Scale => 1f;
+
+
+    private const float STARE_DISTANCE = 15 * 15;
+    private const float CHARGE_DISTANCE = 9 * 9;
+    private const float WALK_RANGE = 6 * 6;
+    private float BACK_KICK_RANGE;
+    Vector3 vecToPlayer;
+
+    public CowAnimationState _animationState;
+    public CowAnimationState AnimationState
+    {
+        get
+        {
+            return _animationState;
+        }
+        set
+        {
+            _animationState = value;
+            this.Body.Animator.SetInteger("Animation_State", (int)_animationState);
+        }
+    }
+
+    public override float ManaRegenPerMinute => throw new NotImplementedException();
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        this.player = Constants.Persistant.PlayerScript;
+        this.BACK_KICK_RANGE = (1.25f * Scale) * (1.25f * Scale);
+        this.Target = this.player;
+        this.Allegiance = Allegiance.Cows;
+        this.Enemies = new HashSet<Allegiance>() { Allegiance.Player };
+        this.Name += Guid.NewGuid().ToString("N");
+        this.name = this.Name;
+        this.Zone = int.Parse(transform.parent.name.Split('_')[1]);
+        this.Level = this.Zone + 1;
+        this.PrimarySkill = new Whack();
+    }
+
+    protected override void UpdateLoop()
+    {
+        base.UpdateLoop();
+
+
+        switch (CurrentState)
+        {
+            case (CowState.Grazing):
+                Graze();
+                return;
+            case (CowState.KickingBackwards):
+                KickBackwards();
+                return;
+            case (CowState.EatingGrass):
+                EatGrass();
+                return;
+            case (CowState.WalkingTowardsPlayer):
+                WalkTowardsPlayer();
+                return;
+            case (CowState.WindingUpCharge):
+                WindUpCharge();
+                return;
+            case (CowState.Charging):
+                Charge();
+                return;
+            case (CowState.SkiddingToStop):
+                SkidToStop();
+                return;
+            case (CowState.Fighting):
+                Fight();
+                return;
+            case (CowState.PerformingAttack):
+                // no-op, just wait for anim to finish.
+                return;
+            case (CowState.Fleeing):
+                Flee();
+                return;
+            case (CowState.StaringAtPlayer):
+                StareAtPlayer();
+                return;
+        }
+    }
+
+    private Vector3 targetGrazePos;
+    private const float FIND_GRAZE_POS_SIZE = 5;
+    private void Graze()
+    {
+        vecToPlayer = player.Position - this.Position;
+        float distToPlayer = vecToPlayer.sqrMagnitude;
+
+        if (ShouldFlee() && distToPlayer < STARE_DISTANCE)
+        {
+            this._currentState = CowState.Fleeing;
+            return;
+        }
+
+        if (distToPlayer < BACK_KICK_RANGE)
+        {
+            Vector3 backwards = this.Position - this.Body.Forward;
+
+            if (Vector3.Angle(vecToPlayer, backwards) < 20)
+            {
+                this._currentState = CowState.KickingBackwards;
+                this.targetGrazePos = Vector3.zero;
+                return;
+            }
+        }
+
+        if (distToPlayer < WALK_RANGE)
+        {
+            this._currentState = CowState.WalkingTowardsPlayer;
+            this.targetGrazePos = Vector3.zero;
+            return;
+        }
+        else if (distToPlayer < CHARGE_DISTANCE)
+        {
+            this._currentState = CowState.WindingUpCharge;
+            this.targetGrazePos = Vector3.zero;
+            return;
+        }
+        else if (distToPlayer < STARE_DISTANCE)
+        {
+            this._currentState = CowState.StaringAtPlayer;
+            this.targetGrazePos = Vector3.zero;
+            return;
+        }
+
+        if (targetGrazePos == Vector3.zero)
+        {
+            Vector3 chooseGrazePosMid = this.Position;
+
+            float minX = -Constants.WorldProperties.HalfWidth + FIND_GRAZE_POS_SIZE / 2;
+            if (chooseGrazePosMid.x < minX)
+            {
+                chooseGrazePosMid.x = minX;
+            }
+
+            float maxX = Constants.WorldProperties.HalfWidth - FIND_GRAZE_POS_SIZE / 2;
+            if (chooseGrazePosMid.x > maxX)
+            {
+                chooseGrazePosMid.x = maxX;
+            }
+
+            // TODO: Limit z pos to be in zone.
+
+            this.targetGrazePos = new Vector3(
+                UnityEngine.Random.Range(
+                    chooseGrazePosMid.x - FIND_GRAZE_POS_SIZE / 2,
+                    chooseGrazePosMid.x + FIND_GRAZE_POS_SIZE / 2),
+                0,
+                UnityEngine.Random.Range(
+                    chooseGrazePosMid.z - FIND_GRAZE_POS_SIZE / 2,
+                    chooseGrazePosMid.z + FIND_GRAZE_POS_SIZE / 2)
+            );
+        }
+
+        float distToGrazePos = (this.targetGrazePos - this.Position).sqrMagnitude;
+        if (distToGrazePos < .1f)
+        {
+            this._currentState = CowState.EatingGrass;
+            this.rb.velocity = Vector3.zero;
+            this.targetGrazePos = Vector3.zero;
+        }
+        else
+        {
+            this.SetVelocityTowardsPoint(targetGrazePos, this.MovementSpeed);
+        }
+    }
+
+    private void KickBackwards()
+    {
+        this.AnimationState = CowAnimationState.KickingBackwards;
+        this.rb.velocity = Vector3.zero;
+    }
+
+    public void BackwardsKicKAnimTrigger()
+    {
+        vecToPlayer = this.player.Position - this.Position;
+        Vector3 backwards = this.Position - this.Body.Forward;
+
+        if (vecToPlayer.sqrMagnitude < BACK_KICK_RANGE && Vector3.Angle(vecToPlayer, backwards) < 15)
+        {
+            this.player.TakeDamage(this.Damage * 3, this);
+        }
+
+        this._currentState = CowState.Grazing;
+    }
+
+    public void FinishBackKickAnimTrigger()
+    {
+        this.AnimationState = CowAnimationState.Idle;
+        this._currentState = CowState.Grazing;
+    }
+
+    private void EatGrass()
+    {
+        this.AnimationState = CowAnimationState.EatingGrass;
+        this.rb.velocity = Vector3.zero;
+    }
+
+    public void FinishedEatingGrassAnimTrigger()
+    {
+        this._currentState = CowState.Grazing;
+    }
+
+    private float chargeStartTime;
+    private void WindUpCharge()
+    {
+        this.AnimationState = CowAnimationState.WindingUpCharge;
+        this.rb.velocity = Vector3.zero;
+    }
+
+    public void FinishedWindingUpChargeAnimTrigger()
+    {
+        this.AnimationState = CowAnimationState.Charging;
+        this._currentState = CowState.Charging;
+        this.chargeStartTime = Time.time;
+    }
+
+    private const float STOP_CHARGE_DISTANCE = 3 * 3;
+    private const float MAX_CHARGE_TIME_S = 5f;
+    private void Charge()
+    {
+        vecToPlayer = this.player.Position - this.Position;
+
+        if (vecToPlayer.sqrMagnitude < STOP_CHARGE_DISTANCE || Time.time > chargeStartTime + MAX_CHARGE_TIME_S)
+        {
+            this._currentState = CowState.SkiddingToStop;
+            return;
+        }
+        else
+        {
+            this.SetVelocityTowardsPoint(this.player.Position, this.MovementSpeed * 2);
+            this.AnimationState = CowAnimationState.Charging;
+        }
+    }
+
+    private void SkidToStop()
+    {
+        this._animationState = CowAnimationState.SkiddingToStop;
+
+        // TODO: Slow down slowly.
+    }
+
+    public void FinishedSkiddingToStopAnimTrigger()
+    {
+        vecToPlayer = this.player.Position - this.Position;
+        float distToPlayer = vecToPlayer.sqrMagnitude;
+        this.rb.velocity = Vector3.zero;
+
+        if (distToPlayer < GetSqrAttackRange(this.PrimarySkill) * .8f)
+        {
+            this._currentState = CowState.Fighting;
+            return;
+        }
+        else if (distToPlayer < WALK_RANGE)
+        {
+            this._currentState = CowState.WalkingTowardsPlayer;
+            return;
+        }
+        else
+        {
+            this._currentState = CowState.Grazing;
+            return;
+        }
+    }
+
+
+    private void Fight()
+    {
+        vecToPlayer = this.player.Position - this.Position;
+
+        this.rb.velocity = Vector3.zero;
+
+        if (this.ShouldFlee())
+        {
+            this._currentState = CowState.Fleeing;
+            return;
+        }
+
+        float distToPlayer = vecToPlayer.sqrMagnitude;
+        this.AnimationState = CowAnimationState.Idle;
+
+        Quaternion lookRotation = Quaternion.LookRotation(vecToPlayer);
+        if (Quaternion.Angle(this.Body.Rotation, lookRotation) > 5)
+        {
+            this.RotateTowardsPoint(this.player.Position);
+            this.AnimationState = CowAnimationState.Turning;
+            return;
+        }
+        else
+        {
+            this.AnimationState = CowAnimationState.Idle;
+        }
+
+        if (this.CanPerformAttack(this.PrimarySkill))
+        {
+            this.PerformAttack(this.PrimarySkill);
+            this._currentState = CowState.PerformingAttack;
+            return;
+        }
+        else if (distToPlayer > GetSqrAttackRange(this.PrimarySkill))
+        {
+            this._currentState = CowState.WalkingTowardsPlayer;
+        }
+    }
+
+    public override void AttackAnimTrigger()
+    {
+        base.AttackAnimTrigger();
+        this._currentState = CowState.Fighting;
+    }
+
+    private bool ShouldFlee()
+    {
+        return this.Health < this.MaxHealth * .1f;
+    }
+
+    private void Flee()
+    {
+        Vector3 vecAwayFromPlayer = this.Position - this.player.Position;
+
+        if (vecAwayFromPlayer.sqrMagnitude > STARE_DISTANCE)
+        {
+            this._currentState = CowState.Grazing;
+            return;
+        }
+        else
+        {
+            this.SetVelocityTowardsPoint(this.Position + vecAwayFromPlayer.normalized, this.MovementSpeed / 3);
+            this.AnimationState = CowAnimationState.Limping;
+            return;
+        }
+    }
+
+    private void WalkTowardsPlayer()
+    {
+        vecToPlayer = this.player.Position - this.Position;
+        float distToPlayer = vecToPlayer.sqrMagnitude;
+
+        if (distToPlayer > WALK_RANGE)
+        {
+            this._currentState = CowState.Grazing;
+            return;
+        }
+        else if (distToPlayer < GetSqrAttackRange(this.PrimarySkill) * .8f)
+        {
+            this._currentState = CowState.Fighting;
+            return;
+        }
+        else
+        {
+            this.SetVelocityTowardsPoint(this.player.Position, this.MovementSpeed);
+        }
+    }
+
+    private void StareAtPlayer()
+    {
+        vecToPlayer = this.player.Position - this.Position;
+        float distToPlayer = vecToPlayer.sqrMagnitude;
+
+        this.rb.velocity = Vector3.zero;
+
+        Quaternion lookRotation = Quaternion.LookRotation(vecToPlayer);
+        if (Quaternion.Angle(this.Body.Rotation, lookRotation) > 5)
+        {
+            this.RotateTowardsPoint(this.player.Position);
+            this.AnimationState = CowAnimationState.Turning;
+            return;
+        }
+        else
+        {
+            this.AnimationState = CowAnimationState.Idle;
+        }
+
+        if (distToPlayer < WALK_RANGE)
+        {
+            this._currentState = CowState.WalkingTowardsPlayer;
+            return;
+        }
+        else if (distToPlayer < CHARGE_DISTANCE)
+        {
+            this._currentState = CowState.WindingUpCharge;
+            return;
+        }
+        else if (distToPlayer > STARE_DISTANCE)
+        {
+            this._currentState = CowState.Grazing;
+            return;
+        }
     }
 
     protected override void SetInitialStats()
@@ -45,160 +446,6 @@ public abstract class Cow : Character
         this.transform.position = newPosition;
     }
 
-    public override void Initialize()
-    {
-        this.Allegiance = Allegiance.Cows;
-        this.Enemies = new HashSet<Allegiance>() { Allegiance.Player };
-        this.Name += Guid.NewGuid().ToString("N");
-        this.name = this.Name;
-        this.targetPosition = FindNewGrazePosition();
-        this.Zone = int.Parse(transform.parent.name.Split('_')[1]);
-        this.Level = this.Zone + 1;
-        this.PrimarySkill = new Whack();
-        base.Initialize();
-    }
-
-    protected override void UpdateLoop()
-    {
-        AIUpdate();
-        base.UpdateLoop();
-    }
-
-    public override void Attack()
-    {
-        PrimarySkill.Activate(this, BuildAttackTargetingDetails());
-    }
-
-    protected virtual void AIUpdate()
-    {
-        SetState();
-
-        switch (this.CurrentState)
-        {
-            case CowState.Grazing:
-                Graze();
-                break;
-            case CowState.Attacking:
-                AttackLoop();
-                break;
-            case CowState.Stalking:
-                Stalk();
-                break;
-            default:
-                Graze();
-                break;
-        }
-    }
-
-    protected float AttackStartTime;
-    public virtual void AttackLoop()
-    {
-        if (Target == null)
-        {
-            this.IsInStateFreeze = false;
-            return;
-        }
-
-        float duration = this.Body.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-        if (this.CurrentAnimation == AnimationState.Attacking &&
-            Time.time < AttackStartTime + this.Body.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.length)
-        {
-            this.IsInStateFreeze = true;
-        }
-        else if (this.PrimarySkill.IsOnCooldown())
-        {
-            LookTowards(Target.transform.position);
-            this.IsInStateFreeze = false;
-            SetIdleAnimationState();
-            this.Body.Animator.speed = 1;
-            FreezeRigidbody();
-        }
-        else
-        {
-            this.CurrentAnimation = AnimationState.Attacking;
-            this.rb.constraints = RigidbodyConstraints.FreezeAll;
-            this.Body.Animator.speed = AttackSpeedPercent;
-            AttackStartTime = Time.time;
-        }
-    }
-
-    private Vector3 targetPosition;
-    private float lastGrazePositionTimeChange;
-    private float timeBetweenGrazePositionChanges;
-    protected void Graze()
-    {
-        if (Time.time > lastGrazePositionTimeChange + timeBetweenGrazePositionChanges)
-        {
-            timeBetweenGrazePositionChanges = Random.Range(2.5f, 7.5f);
-            this.targetPosition = FindNewGrazePosition();
-            lastGrazePositionTimeChange = Time.time;
-        }
-
-        if (Helpers.GetVectorBetween(targetPosition, this.transform.position).magnitude > .1f)
-        {
-            MoveTowards(targetPosition);
-            this.CurrentAnimation = AnimationState.OneHandWeaponWalk;
-        }
-        else
-        {
-            this.rb.velocity = Vector3.zero;
-            this.SetIdleAnimationState();
-            this.targetPosition = this.transform.position;
-        }
-    }
-
-    protected void Stalk()
-    {
-        if (Target == null)
-        {
-            return;
-        }
-
-        MoveTowards(Target.transform.position);
-        this.CurrentAnimation = AnimationState.OneHandWeaponWalk;
-    }
-
-    private float lastStateCheckTime;
-    private float timeBetweenStateCheck;
-    protected virtual void SetState()
-    {
-        if (IsInStateFreeze)
-        {
-            return;
-        }
-
-        if (Time.time > lastStateCheckTime + timeBetweenStateCheck)
-        {
-            float distanceToTarget = float.MaxValue;
-            if (Target != null)
-            {
-                distanceToTarget = Helpers.GetDistBetweenColliders(Target.Body.Collider, Body.Collider);
-            }
-
-            if (distanceToTarget <= GetAttackRange(PrimarySkill))
-            {
-                this.CurrentState = CowState.Attacking;
-            }
-            else if (distanceToTarget <= TargetFindRadius)
-            {
-                this.CurrentState = CowState.Stalking;
-            }
-            else
-            {
-                this.CurrentState = CowState.Grazing;
-            }
-
-            SetRigidbodyConstraints();
-            lastStateCheckTime = Time.time;
-            timeBetweenStateCheck = Random.Range(.1f, .2f);
-        }
-    }
-
-    private Vector3 FindNewGrazePosition()
-    {
-        return this.transform.position + new Vector3(Random.Range(-5f, 5f), this.transform.position.y, Random.Range(-5f, 5f));
-    }
-
     protected override void OnDeath()
     {
         Constants.Persistant.PlayerScript.XP += XPReward;
@@ -216,29 +463,17 @@ public abstract class Cow : Character
             dropContainer.GetComponent<DropContainer>().SetDrop(drop);
         }
 
-        this.CreateDeathEffect();
-
         base.OnDeath();
-    }
-
-    public virtual void CreateDeathEffect()
-    {
-        GameObject bloodExplosion = Instantiate(Constants.Prefabs.Effects.BloodExplosion, Helpers.PlacePointOnGround(this.transform.position), new Quaternion(), null);
-        bloodExplosion.transform.localScale *= this.Body.Transform.localScale.x;
-        Destroy(bloodExplosion, 30f);
-
-        GameObject bloodSplat = Instantiate(Constants.Prefabs.Decals.BloodSplat);
-        Helpers.PlaceDecalOnGround(this.transform.position, bloodSplat);
-        bloodSplat.transform.localScale *= this.Body.Transform.localScale.x;
-        bloodSplat.GetComponent<Decal>().Setup(8, 5);
-
-        GameObject bodyParts = Instantiate(Constants.Prefabs.Effects.CowBodyParts, this.transform.position, new Quaternion(), null);
-        bodyParts.transform.localScale *= this.Body.Transform.localScale.x;
     }
 
     public void PromoteToZoneGuardian()
     {
         this.IsZoneGuardian = true;
         this.SetInitialStats();
+    }
+
+    protected override void SetAttackAnimation(Skill skill)
+    {
+        this.AnimationState = CowAnimationState.Attacking;
     }
 }

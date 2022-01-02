@@ -4,11 +4,11 @@ using UnityEngine;
 public class Fists : Weapon
 {
     public override SkillType DefaultAttack => SkillType.Punch;
-    public override AnimationState IdleAnimation => AnimationState.IdleNoWeapon;
-    public override AnimationState AttackAnimation => AnimationState.Punch;
-    public override AnimationState WalkAnimation => AnimationState.WalkNoWeapon;
-    public override AnimationState SpellAnimation => AnimationState.CastSpellBareHanded;
-    public override AnimationState RunAnimation => AnimationState.RunNoWeapon;
+    public override PlayerAnimationState IdleAnimation => PlayerAnimationState.IdleNoWeapon;
+    public override PlayerAnimationState AttackAnimation => PlayerAnimationState.Punch;
+    public override PlayerAnimationState WalkAnimation => PlayerAnimationState.WalkNoWeapon;
+    public override PlayerAnimationState SpellAnimation => PlayerAnimationState.CastSpellBareHanded;
+    public override PlayerAnimationState RunAnimation => PlayerAnimationState.RunNoWeapon;
     public override string Name => "Fists";
     public override ItemRarity Rarity => ItemRarity.Common;
     protected override Effect PrimaryEffectPrefab => new DamageItemEffect(1, 1);

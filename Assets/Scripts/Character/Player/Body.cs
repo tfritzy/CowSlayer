@@ -30,5 +30,24 @@ public class Body
             self.gameObject.AddComponent<PassCommandUp>();
         }
     }
+
+    private Vector3 forward;
+    public Vector3 Forward
+    {
+        get
+        {
+            forward = this.Transform.forward;
+            forward.y = 0;
+            return forward;
+        }
+    }
+
+    public Quaternion Rotation
+    {
+        get
+        {
+            return Quaternion.LookRotation(this.Forward);
+        }
+    }
 }
 

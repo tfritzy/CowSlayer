@@ -79,11 +79,26 @@ public class Player : Character
         }
     }
 
+    public PlayerAnimationState _animationState;
+    public PlayerAnimationState CurrentAnimation
+    {
+        get
+        {
+            return _animationState;
+        }
+        set
+        {
+            _animationState = value;
+            this.Body.Animator.SetInteger("Animation_State", (int)_animationState);
+        }
+    }
+
+
     protected override void UpdateLoop()
     {
         base.UpdateLoop();
         SetVelocity();
-        Attack();
+        // PrimaryAttackLoop();
         SecondaryAttack();
     }
 
@@ -126,12 +141,12 @@ public class Player : Character
         rb.velocity = GetInput().normalized * MovementSpeed * (IsRunning ? 2 : 1);
         if (joystick.FlickDetected && Time.time > rollStartTime + ROLL_COOLDOWN)
         {
-            this.CurrentAnimation = AnimationState.Rolling;
+            this.CurrentAnimation = PlayerAnimationState.Rolling;
             this.rollDirection = joystick.FlickDirection;
             rollStartTime = Time.time;
         }
 
-        if (this.CurrentAnimation == AnimationState.Rolling)
+        if (this.CurrentAnimation == PlayerAnimationState.Rolling)
         {
             rb.velocity = rollDirection * MovementSpeed * 4;
 
@@ -294,6 +309,12 @@ public class Player : Character
         Instantiate(Constants.Prefabs.DeathScreenUI, Constants.Persistant.InteractableUI);
     }
 
+    public override void AttackAnimTrigger()
+    {
+        base.AttackAnimTrigger();
+        this.SetIdleAnimationState();
+    }
+
     private void SetTargetIndicator()
     {
         if (Target == null)
@@ -313,5 +334,39 @@ public class Player : Character
     {
         base.CheckForTarget();
         SetTargetIndicator();
+    }
+
+    private void SetIdleAnimationState()
+    {
+        if (this.WornItems.Weapon != null)
+        {
+            this.CurrentAnimation = this.WornItems.Weapon.IdleAnimation;
+        }
+        else
+        {
+            this.CurrentAnimation = PlayerAnimationState.IdleNoWeapon;
+        }
+    }
+
+    protected override void SetAttackAnimation(Skill skill)
+    {
+        if (skill is RangedSkill)
+        {
+            this.CurrentAnimation = this.WornItems.Weapon.SpellAnimation;
+        }
+        else
+        {
+            this.CurrentAnimation = this.WornItems.Weapon.AttackAnimation;
+        }
+    }
+
+    private void SetWalkAnimation()
+    {
+        this.CurrentAnimation = this.WornItems.Weapon.WalkAnimation;
+    }
+
+    private void SetRunAnimation()
+    {
+        this.CurrentAnimation = this.WornItems.Weapon.RunAnimation;
     }
 }

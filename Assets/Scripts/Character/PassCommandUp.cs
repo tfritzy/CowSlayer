@@ -5,27 +5,15 @@ using UnityEngine;
 public class PassCommandUp : MonoBehaviour
 {
     private float lastTriggerTime;
-    public void Attack()
+    public void AttackAnimTrigger()
     {
         // Skip duplicate events.
-        if (Time.time - lastTriggerTime < .1f)
+        if (Time.time - lastTriggerTime < .03f)
         {
             return;
         }
 
-        transform.parent.GetComponent<Character>().Attack();
-        lastTriggerTime = Time.time;
-    }
-
-    public void TriggerPrimaryAttack()
-    {
-        // Skip duplicate events.
-        if (Time.time - lastTriggerTime < .1f)
-        {
-            return;
-        }
-
-        transform.parent.GetComponent<Character>().TriggerPrimaryAttack();
+        transform.parent.GetComponent<Character>().AttackAnimTrigger();
         lastTriggerTime = Time.time;
     }
 }

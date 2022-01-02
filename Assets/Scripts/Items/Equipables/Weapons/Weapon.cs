@@ -6,11 +6,11 @@ public abstract class Weapon : EquipableItem
     public GameObject Instantiation;
     public override ItemWearLocations.SlotType PlaceWorn => ItemWearLocations.SlotType.MainHand;
     public abstract SkillType DefaultAttack { get; }
-    public abstract AnimationState IdleAnimation { get; }
-    public abstract AnimationState AttackAnimation { get; }
-    public abstract AnimationState WalkAnimation { get; }
-    public abstract AnimationState RunAnimation { get; }
-    public virtual AnimationState SpellAnimation => AttackAnimation;
+    public abstract PlayerAnimationState IdleAnimation { get; }
+    public abstract PlayerAnimationState AttackAnimation { get; }
+    public abstract PlayerAnimationState WalkAnimation { get; }
+    public abstract PlayerAnimationState RunAnimation { get; }
+    public virtual PlayerAnimationState SpellAnimation => AttackAnimation;
     public Character Bearer;
     public virtual Vector3 ProjectileStartPosition
     {

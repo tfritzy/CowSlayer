@@ -1,4 +1,4 @@
-public enum AnimationState
+public enum PlayerAnimationState
 {
     IdleNoWeapon = 0,
     OneHandWeaponWalk = 1,

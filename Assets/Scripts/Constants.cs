@@ -50,6 +50,7 @@ public static class Constants
     {
         public const float GroundLevel = 0f;
         public const int PlayerAbilityCount = 2;
+        public const float HalfWidth = 15;
     }
 
     public static class FilePaths
