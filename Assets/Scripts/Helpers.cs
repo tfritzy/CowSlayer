@@ -50,16 +50,6 @@ public static class Helpers
         return Vector3.Distance(closestC1, closestC2);
     }
 
-    public static float GetDistanceBetweenCharacters(Character c1, Character c2)
-    {
-        if (c1 == null || c2 == null)
-        {
-            return float.MaxValue;
-        }
-
-        return GetDistBetweenColliders(c1.Body.Collider, c2.Body.Collider);
-    }
-
     public static Quaternion RotationTowards(Character target, Character source)
     {
         return Quaternion.LookRotation(GetVectorBetween(target.gameObject, source.gameObject));

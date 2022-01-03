@@ -146,7 +146,6 @@ public abstract class Character : MonoBehaviour, Interactable
         this.SetInitialStats();
         this.Health = this.MaxHealth;
         this.Mana = this.MaxMana;
-        this.initialRotation = Body.Transform.rotation;
         this.rb = this.GetComponent<Rigidbody>();
         SetRigidbodyConstraints();
     }
@@ -191,7 +190,7 @@ public abstract class Character : MonoBehaviour, Interactable
             return false;
         }
 
-        float distanceToTarget = Helpers.GetDistBetweenColliders(Target.Body.Collider, this.Body.Collider);
+        float distanceToTarget = this.DistanceToCharacter(Target);
         if (distanceToTarget <= GetAttackRange(skill))
         {
             return true;
@@ -343,23 +342,10 @@ public abstract class Character : MonoBehaviour, Interactable
         Debug.Log($"Clicked on {this.Name}");
     }
 
-    private Quaternion initialRotation;
-    protected void SetRotationWithVelocity()
-    {
-        if (rb.velocity.magnitude < .1f)
-        {
-            return;
-        }
-
-        Quaternion lookRotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
-        Body.Transform.rotation = lookRotation * initialRotation;
-    }
-
     protected void LookTowards(Vector3 spot)
     {
         spot.y = this.transform.position.y;
-        Quaternion lookRotation = Quaternion.LookRotation(spot - this.transform.position, Vector3.up);
-        this.Body.Transform.rotation = Quaternion.RotateTowards(initialRotation, lookRotation, 360);
+        Body.Transform.rotation = Quaternion.LookRotation(spot - this.transform.position, Vector3.up);
     }
 
     public void RecalculateItemEffects()
@@ -402,6 +388,14 @@ public abstract class Character : MonoBehaviour, Interactable
         SetRotationWithVelocity();
     }
 
+    protected void SetRotationWithVelocity()
+    {
+        if (this.rb.velocity.sqrMagnitude > .1f)
+        {
+            Body.Transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
+        }
+    }
+
     protected void SetRigidbodyConstraints()
     {
         this.rb.constraints =
@@ -436,10 +430,12 @@ public abstract class Character : MonoBehaviour, Interactable
 
     protected void SetVelocityTowardsPoint(Vector3 point, float velocity)
     {
-        this.rb.velocity = Vector3.Lerp(
-            this.Forward * velocity,
-            (point - this.Position).normalized * velocity,
-            Time.deltaTime * this.TurnRateDegPerS);
+        // this.rb.velocity = Vector3.Lerp(
+        //     this.Forward * velocity,
+        //     (point - this.Position).normalized * velocity,
+        //     Time.deltaTime * this.TurnRateDegPerS);
+        this.rb.velocity = (point - this.Position).normalized * velocity;
+        this.SetRotationWithVelocity();
     }
 
     protected void RotateTowardsPoint(Vector3 point)
@@ -449,5 +445,13 @@ public abstract class Character : MonoBehaviour, Interactable
             this.Body.Rotation,
             Quaternion.LookRotation(point - this.Position),
             Time.deltaTime * this.TurnRateDegPerS);
+    }
+
+    public float DistanceToCharacter(Character character)
+    {
+        float fullDist = (character.Position - this.Position).magnitude;
+        fullDist -= character.Body.Collider.radius * character.Body.Transform.localScale.x;
+        fullDist -= this.Body.Collider.radius * character.Body.Transform.localScale.x;
+        return fullDist;
     }
 }

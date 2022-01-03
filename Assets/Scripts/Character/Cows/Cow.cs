@@ -38,7 +38,7 @@ public abstract class Cow : Character
     private float BACK_KICK_RANGE;
     Vector3 vecToPlayer;
 
-    public CowAnimationState _animationState;
+    private CowAnimationState _animationState;
     public CowAnimationState AnimationState
     {
         get
@@ -113,7 +113,7 @@ public abstract class Cow : Character
     }
 
     private Vector3 targetGrazePos;
-    private const float FIND_GRAZE_POS_SIZE = 5;
+    private const float FIND_GRAZE_POS_SIZE = 15;
     private void Graze()
     {
         vecToPlayer = player.Position - this.Position;
@@ -195,6 +195,7 @@ public abstract class Cow : Character
         else
         {
             this.SetVelocityTowardsPoint(targetGrazePos, this.MovementSpeed);
+            this.AnimationState = CowAnimationState.Walking;
         }
     }
 
@@ -268,7 +269,7 @@ public abstract class Cow : Character
 
     private void SkidToStop()
     {
-        this._animationState = CowAnimationState.SkiddingToStop;
+        this.AnimationState = CowAnimationState.SkiddingToStop;
 
         // TODO: Slow down slowly.
     }
@@ -276,10 +277,10 @@ public abstract class Cow : Character
     public void FinishedSkiddingToStopAnimTrigger()
     {
         vecToPlayer = this.player.Position - this.Position;
-        float distToPlayer = vecToPlayer.sqrMagnitude;
+        float distToPlayer = this.DistanceToCharacter(this.player);
         this.rb.velocity = Vector3.zero;
 
-        if (distToPlayer < GetSqrAttackRange(this.PrimarySkill) * .8f)
+        if (distToPlayer < GetAttackRange(this.PrimarySkill) * .8f)
         {
             this._currentState = CowState.Fighting;
             return;
@@ -309,7 +310,7 @@ public abstract class Cow : Character
             return;
         }
 
-        float distToPlayer = vecToPlayer.sqrMagnitude;
+        float distToPlayer = this.DistanceToCharacter(this.player);
         this.AnimationState = CowAnimationState.Idle;
 
         Quaternion lookRotation = Quaternion.LookRotation(vecToPlayer);
@@ -330,7 +331,7 @@ public abstract class Cow : Character
             this._currentState = CowState.PerformingAttack;
             return;
         }
-        else if (distToPlayer > GetSqrAttackRange(this.PrimarySkill))
+        else if (distToPlayer > GetAttackRange(this.PrimarySkill) * .9f)
         {
             this._currentState = CowState.WalkingTowardsPlayer;
         }
@@ -367,14 +368,14 @@ public abstract class Cow : Character
     private void WalkTowardsPlayer()
     {
         vecToPlayer = this.player.Position - this.Position;
-        float distToPlayer = vecToPlayer.sqrMagnitude;
+        float distToPlayer = this.DistanceToCharacter(this.player);
 
         if (distToPlayer > WALK_RANGE)
         {
             this._currentState = CowState.Grazing;
             return;
         }
-        else if (distToPlayer < GetSqrAttackRange(this.PrimarySkill) * .8f)
+        else if (distToPlayer < GetAttackRange(this.PrimarySkill) * .8f)
         {
             this._currentState = CowState.Fighting;
             return;
@@ -382,6 +383,7 @@ public abstract class Cow : Character
         else
         {
             this.SetVelocityTowardsPoint(this.player.Position, this.MovementSpeed);
+            this.AnimationState = CowAnimationState.Walking;
         }
     }
 
