@@ -258,6 +258,7 @@ public abstract class Cow : Character
         if (vecToPlayer.sqrMagnitude < STOP_CHARGE_DISTANCE || Time.time > chargeStartTime + MAX_CHARGE_TIME_S)
         {
             this._currentState = CowState.SkiddingToStop;
+            this.rb.velocity = Vector3.zero;
             return;
         }
         else

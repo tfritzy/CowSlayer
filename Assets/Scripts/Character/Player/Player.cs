@@ -98,7 +98,7 @@ public class Player : Character
     {
         base.UpdateLoop();
         SetVelocity();
-        // PrimaryAttackLoop();
+        PrimaryAttackLoop();
         SecondaryAttack();
     }
 
@@ -172,6 +172,14 @@ public class Player : Character
         }
 
         SetRotationWithVelocity();
+    }
+
+    private void PrimaryAttackLoop()
+    {
+        if (this.CanPerformAttack(this.PrimarySkill))
+        {
+            this.PerformAttack(this.PrimarySkill);
+        }
     }
 
     private void SecondaryAttack()

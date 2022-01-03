@@ -23,7 +23,7 @@ public abstract class Character : MonoBehaviour, Interactable
         {
             if (_primarySkill == null)
             {
-                return Constants.GetSkill(WornItems.Weapon.DefaultAttack);
+                _primarySkill = Constants.GetSkill(WornItems.Weapon.DefaultAttack);
             }
 
             return _primarySkill;
@@ -167,15 +167,10 @@ public abstract class Character : MonoBehaviour, Interactable
         UpdateLoop();
     }
 
-    protected Skill InProgressAttack;
+    protected Skill LastStartedAttack;
     protected bool CanPerformAttack(Skill skill)
     {
         if (IsDead || Target == null)
-        {
-            return false;
-        }
-
-        if (InProgressAttack != null)
         {
             return false;
         }
@@ -208,7 +203,7 @@ public abstract class Character : MonoBehaviour, Interactable
         {
             SetAttackAnimation(skill);
             LookTowards(Target.transform.position);
-            this.InProgressAttack = skill;
+            this.LastStartedAttack = skill;
             return true;
         }
         else
@@ -226,8 +221,8 @@ public abstract class Character : MonoBehaviour, Interactable
 
     public virtual void AttackAnimTrigger()
     {
-        this.InProgressAttack.Activate(this, BuildAttackTargetingDetails());
-        this.InProgressAttack = null;
+        this.LastStartedAttack.Activate(this, BuildAttackTargetingDetails());
+        this.LastStartedAttack = null;
     }
 
     private void ApplyPassiveEffects()
