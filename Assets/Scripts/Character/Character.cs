@@ -147,7 +147,7 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Health = this.MaxHealth;
         this.Mana = this.MaxMana;
         this.rb = this.GetComponent<Rigidbody>();
-        SetRigidbodyConstraints();
+        UnFreeze();
     }
 
     void Awake()
@@ -391,19 +391,28 @@ public abstract class Character : MonoBehaviour, Interactable
         }
     }
 
-    protected void SetRigidbodyConstraints()
+    RigidbodyConstraints unFrozenConstraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+    protected void UnFreeze()
     {
-        this.rb.constraints =
-            RigidbodyConstraints.FreezePositionY |
-            RigidbodyConstraints.FreezeRotation;
+        this.rb.constraints = unFrozenConstraints;
     }
 
-    protected void FreezeRigidbody()
+    RigidbodyConstraints frozenConstraints =
+        RigidbodyConstraints.FreezePosition |
+        RigidbodyConstraints.FreezeRotation;
+    protected void Freeze()
     {
-        this.rb.constraints =
-            RigidbodyConstraints.FreezePosition |
-            RigidbodyConstraints.FreezeRotationX |
-            RigidbodyConstraints.FreezeRotationZ;
+        this.rb.constraints = frozenConstraints;
+        this.rb.velocity = Vector3.zero;
+    }
+
+    RigidbodyConstraints onlyTurnConstraints =
+        RigidbodyConstraints.FreezeRotationX |
+        RigidbodyConstraints.FreezeRotationZ;
+    protected void FreezeAllButTurns()
+    {
+        this.rb.constraints = onlyTurnConstraints;
+        this.rb.velocity = Vector3.zero;
     }
 
     public virtual void SetAbility(int index, SkillType? skill)
@@ -425,21 +434,31 @@ public abstract class Character : MonoBehaviour, Interactable
 
     protected void SetVelocityTowardsPoint(Vector3 point, float velocity)
     {
-        // this.rb.velocity = Vector3.Lerp(
-        //     this.Forward * velocity,
-        //     (point - this.Position).normalized * velocity,
-        //     Time.deltaTime * this.TurnRateDegPerS);
-        this.rb.velocity = (point - this.Position).normalized * velocity;
-        this.SetRotationWithVelocity();
+        Vector3 targetVelocity = (point - this.Position).normalized * velocity;
+        this.UnFreeze();
+        this.rb.velocity = Vector3.RotateTowards(
+            this.rb.velocity,
+            targetVelocity,
+            this.TurnRateDegPerS * Time.deltaTime * Mathf.Deg2Rad,
+            float.MaxValue);
+        this.Body.Transform.rotation = Quaternion.LookRotation(this.rb.velocity);
     }
 
-    protected void RotateTowardsPoint(Vector3 point)
+    /// <summary>
+    /// Rotates towards the provided point, at the characters turn rate.
+    /// </summary>
+    /// <param name="point">The point to rotate to</param>
+    /// <returns>The remaining angle to the point.</returns>
+    protected float RotateTowardsPoint(Vector3 point)
     {
+        this.FreezeAllButTurns();
         point.y = 0;
-        this.Body.Transform.rotation = Quaternion.Slerp(
+        Quaternion targetRotation = Quaternion.LookRotation(point - this.Position, Vector3.up);
+        this.Body.Transform.rotation = Quaternion.RotateTowards(
             this.Body.Rotation,
-            Quaternion.LookRotation(point - this.Position),
-            Time.deltaTime * this.TurnRateDegPerS);
+            targetRotation,
+            this.TurnRateDegPerS * Time.deltaTime);
+        return Quaternion.Angle(this.Body.Rotation, targetRotation);
     }
 
     public float DistanceToCharacter(Character character)
