@@ -128,7 +128,7 @@ public class Player : Character
         this.MaxMana = 100;
         this.Damage = 1;
         this.AttackSpeedPercent = 1f;
-        this.MeleeAttackRange = 3f;
+        this.MeleeAttackRange = .1f;
         this.RangedAttackRange = 12f;
         this.TargetFindRadius = 10f;
         this.MovementSpeed = 2.5f;

@@ -7,7 +7,7 @@ public class AreaSpawner : MonoBehaviour
     public Dictionary<string, Cow> SpawnedCows;
     public Area AreaType;
     public int AreaIndex;
-    private const int MaxCows = 10;
+    private const int MaxCows = 0;
     private List<GameObject> SpawnableCows;
     private Vector2 SpawnableAreaSize;
     private Vector3 AreaCenter;

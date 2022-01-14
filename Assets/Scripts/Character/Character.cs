@@ -310,7 +310,7 @@ public abstract class Character : MonoBehaviour, Interactable
         }
     }
 
-    public void TakeDamage(int amount, Character attacker)
+    public virtual void TakeDamage(int amount, Character attacker)
     {
         if (IsDead)
         {

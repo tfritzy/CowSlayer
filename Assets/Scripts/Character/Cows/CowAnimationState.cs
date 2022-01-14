@@ -10,4 +10,5 @@ public enum CowAnimationState
     Turning = 7,
     SkiddingToStop = 8,
     Limping = 9,
+    Flinching = 10,
 }

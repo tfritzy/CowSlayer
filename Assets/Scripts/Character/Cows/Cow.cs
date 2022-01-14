@@ -18,11 +18,10 @@ public abstract class Cow : Character
         Fleeing,
         WalkingTowardsPlayer,
         TurningTowardsTarget,
+        Flinching,
     }
 
-    [SerializeField]
-    private CowState _currentState;
-    public CowState CurrentState => _currentState;
+    public CowState CurrentState;
     private Player player;
     public bool IsZoneGuardian;
     public int Zone;
@@ -52,6 +51,7 @@ public abstract class Cow : Character
     private float BACK_KICK_RANGE;
     Vector3 vecToPlayer;
 
+    private const string ANIMATION_STATE_PARAM = "Animation_State";
     private CowAnimationState _animationState;
     public CowAnimationState AnimationState
     {
@@ -62,7 +62,7 @@ public abstract class Cow : Character
         set
         {
             _animationState = value;
-            this.Body.Animator.SetInteger("Animation_State", (int)_animationState);
+            this.Body.Animator.SetInteger(ANIMATION_STATE_PARAM, (int)_animationState);
         }
     }
 
@@ -126,6 +126,9 @@ public abstract class Cow : Character
             case (CowState.TurningTowardsTarget):
                 TurnTowardsTarget();
                 return;
+            case (CowState.Flinching):
+                Flinch();
+                return;
         }
     }
 
@@ -137,7 +140,7 @@ public abstract class Cow : Character
 
         if (ShouldFlee() && distToPlayer < STARE_DISTANCE)
         {
-            this._currentState = CowState.Fleeing;
+            this.CurrentState = CowState.Fleeing;
             return;
         }
 
@@ -147,7 +150,7 @@ public abstract class Cow : Character
 
             if (Vector3.Angle(vecToPlayer, backwards) < 20)
             {
-                this._currentState = CowState.KickingBackwards;
+                this.CurrentState = CowState.KickingBackwards;
                 this.TargetPosition = Vector3.zero;
                 return;
             }
@@ -155,19 +158,19 @@ public abstract class Cow : Character
 
         if (distToPlayer < WALK_RANGE)
         {
-            this._currentState = CowState.WalkingTowardsPlayer;
+            this.CurrentState = CowState.WalkingTowardsPlayer;
             this.TargetPosition = null;
             return;
         }
         else if (distToPlayer < CHARGE_DISTANCE)
         {
-            this._currentState = CowState.WindingUpCharge;
+            this.CurrentState = CowState.WindingUpCharge;
             this.TargetPosition = null;
             return;
         }
         else if (distToPlayer < STARE_DISTANCE)
         {
-            this._currentState = CowState.StaringAtPlayer;
+            this.CurrentState = CowState.StaringAtPlayer;
             this.TargetPosition = null;
             return;
         }
@@ -204,7 +207,7 @@ public abstract class Cow : Character
         float distToGrazePos = (this.TargetPosition.Value - this.Position).sqrMagnitude;
         if (distToGrazePos < .1f)
         {
-            this._currentState = CowState.EatingGrass;
+            this.CurrentState = CowState.EatingGrass;
             this.Freeze();
             this.TargetPosition = Vector3.zero;
         }
@@ -231,13 +234,13 @@ public abstract class Cow : Character
             this.player.TakeDamage(this.Damage * 3, this);
         }
 
-        this._currentState = CowState.Grazing;
+        this.CurrentState = CowState.Grazing;
     }
 
     public void FinishBackKickAnimTrigger()
     {
         this.AnimationState = CowAnimationState.Idle;
-        this._currentState = CowState.Grazing;
+        this.CurrentState = CowState.Grazing;
     }
 
     private void EatGrass()
@@ -248,7 +251,7 @@ public abstract class Cow : Character
 
     public void FinishedEatingGrassAnimTrigger()
     {
-        this._currentState = CowState.Grazing;
+        this.CurrentState = CowState.Grazing;
     }
 
     private float chargeStartTime;
@@ -261,7 +264,7 @@ public abstract class Cow : Character
     public void FinishedWindingUpChargeAnimTrigger()
     {
         this.AnimationState = CowAnimationState.Charging;
-        this._currentState = CowState.Charging;
+        this.CurrentState = CowState.Charging;
         this.chargeStartTime = Time.time;
     }
 
@@ -273,7 +276,7 @@ public abstract class Cow : Character
 
         if (vecToPlayer.sqrMagnitude < STOP_CHARGE_DISTANCE || Time.time > chargeStartTime + MAX_CHARGE_TIME_S)
         {
-            this._currentState = CowState.SkiddingToStop;
+            this.CurrentState = CowState.SkiddingToStop;
             this.Freeze();
             return;
         }
@@ -299,17 +302,17 @@ public abstract class Cow : Character
 
         if (distToPlayer < GetAttackRange(this.PrimarySkill) * .8f)
         {
-            this._currentState = CowState.Fighting;
+            this.CurrentState = CowState.Fighting;
             return;
         }
         else if (distToPlayer < WALK_RANGE)
         {
-            this._currentState = CowState.WalkingTowardsPlayer;
+            this.CurrentState = CowState.WalkingTowardsPlayer;
             return;
         }
         else
         {
-            this._currentState = CowState.Grazing;
+            this.CurrentState = CowState.Grazing;
             return;
         }
     }
@@ -323,7 +326,7 @@ public abstract class Cow : Character
 
         if (this.ShouldFlee())
         {
-            this._currentState = CowState.Fleeing;
+            this.CurrentState = CowState.Fleeing;
             return;
         }
 
@@ -345,19 +348,19 @@ public abstract class Cow : Character
         if (this.CanPerformAttack(this.PrimarySkill))
         {
             this.PerformAttack(this.PrimarySkill);
-            this._currentState = CowState.PerformingAttack;
+            this.CurrentState = CowState.PerformingAttack;
             return;
         }
         else if (distToPlayer > GetAttackRange(this.PrimarySkill) * .9f)
         {
-            this._currentState = CowState.WalkingTowardsPlayer;
+            this.CurrentState = CowState.WalkingTowardsPlayer;
         }
     }
 
     public override void AttackAnimTrigger()
     {
         base.AttackAnimTrigger();
-        this._currentState = CowState.TurningTowardsTarget;
+        this.CurrentState = CowState.TurningTowardsTarget;
     }
 
     private bool ShouldFlee()
@@ -371,7 +374,7 @@ public abstract class Cow : Character
 
         if (vecAwayFromPlayer.sqrMagnitude > STARE_DISTANCE)
         {
-            this._currentState = CowState.Grazing;
+            this.CurrentState = CowState.Grazing;
             return;
         }
         else
@@ -389,12 +392,12 @@ public abstract class Cow : Character
 
         if (distToPlayer > WALK_RANGE)
         {
-            this._currentState = CowState.Grazing;
+            this.CurrentState = CowState.Grazing;
             return;
         }
         else if (distToPlayer < GetAttackRange(this.PrimarySkill) * .8f)
         {
-            this._currentState = CowState.Fighting;
+            this.CurrentState = CowState.Fighting;
             return;
         }
         else
@@ -414,7 +417,7 @@ public abstract class Cow : Character
         Quaternion lookRotation = Quaternion.LookRotation(vecToPlayer, Vector3.up);
         if (Quaternion.Angle(this.Body.Rotation, lookRotation) > 5)
         {
-            this._currentState = CowState.TurningTowardsTarget;
+            this.CurrentState = CowState.TurningTowardsTarget;
             return;
         }
         else
@@ -424,17 +427,17 @@ public abstract class Cow : Character
 
         if (distToPlayer < WALK_RANGE)
         {
-            this._currentState = CowState.WalkingTowardsPlayer;
+            this.CurrentState = CowState.WalkingTowardsPlayer;
             return;
         }
         else if (distToPlayer < CHARGE_DISTANCE)
         {
-            this._currentState = CowState.WindingUpCharge;
+            this.CurrentState = CowState.WindingUpCharge;
             return;
         }
         else if (distToPlayer > STARE_DISTANCE)
         {
-            this._currentState = CowState.Grazing;
+            this.CurrentState = CowState.Grazing;
             return;
         }
     }
@@ -508,22 +511,39 @@ public abstract class Cow : Character
 
             if (distToPlayer < WALK_RANGE)
             {
-                this._currentState = CowState.WalkingTowardsPlayer;
+                this.CurrentState = CowState.WalkingTowardsPlayer;
                 this.TargetPosition = null;
                 return;
             }
             else if (distToPlayer < CHARGE_DISTANCE)
             {
-                this._currentState = CowState.WindingUpCharge;
+                this.CurrentState = CowState.WindingUpCharge;
                 this.TargetPosition = null;
                 return;
             }
             else if (distToPlayer < STARE_DISTANCE)
             {
-                this._currentState = CowState.StaringAtPlayer;
+                this.CurrentState = CowState.StaringAtPlayer;
                 this.TargetPosition = null;
                 return;
             }
         }
+    }
+
+    public override void TakeDamage(int amount, Character attacker)
+    {
+        base.TakeDamage(amount, attacker);
+        this.CurrentState = CowState.Flinching;
+    }
+
+    public void Flinch()
+    {
+        this.AnimationState = CowAnimationState.Flinching;
+        this.Freeze();
+    }
+
+    public void EndFlinchAnimTrigger()
+    {
+        this.CurrentState = CowState.Grazing;
     }
 }

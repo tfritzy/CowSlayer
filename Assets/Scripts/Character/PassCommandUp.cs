@@ -76,4 +76,16 @@ public class PassCommandUp : MonoBehaviour
         transform.parent.GetComponent<Cow>().FinishedSkiddingToStopAnimTrigger();
         lastTriggerTime = Time.time;
     }
+
+    public void EndFlinchAnimTrigger()
+    {
+        // Skip duplicate events.
+        if (Time.time - lastTriggerTime < .03f)
+        {
+            return;
+        }
+
+        transform.parent.GetComponent<Cow>().EndFlinchAnimTrigger();
+        lastTriggerTime = Time.time;
+    }
 }
