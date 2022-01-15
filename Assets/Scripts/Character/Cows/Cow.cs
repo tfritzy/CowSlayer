@@ -527,6 +527,12 @@ public abstract class Cow : Character
                 this.TargetPosition = null;
                 return;
             }
+            else
+            {
+                this.CurrentState = CowState.Grazing;
+                this.TargetPosition = null;
+                return;
+            }
         }
     }
 
