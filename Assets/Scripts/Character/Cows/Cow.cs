@@ -42,13 +42,11 @@ public abstract class Cow : Character
         }
     }
 
-    protected virtual float Scale => 1f;
-
 
     private const float STARE_DISTANCE = 15 * 15;
     private const float CHARGE_DISTANCE = 9 * 9;
     private const float WALK_RANGE = 6 * 6;
-    private float BACK_KICK_RANGE;
+    private const float BACK_KICK_RANGE = 1.25f;
     Vector3 vecToPlayer;
 
     private const string ANIMATION_STATE_PARAM = "Animation_State";
@@ -72,7 +70,6 @@ public abstract class Cow : Character
     {
         base.Initialize();
         this.player = Constants.Persistant.PlayerScript;
-        this.BACK_KICK_RANGE = (1.25f * Scale) * (1.25f * Scale);
         this.Target = this.player;
         this.Allegiance = Allegiance.Cows;
         this.Enemies = new HashSet<Allegiance>() { Allegiance.Player };
@@ -93,24 +90,24 @@ public abstract class Cow : Character
             case (CowState.Grazing):
                 Graze();
                 return;
-            case (CowState.KickingBackwards):
-                KickBackwards();
-                return;
+            // case (CowState.KickingBackwards):
+            //     KickBackwards();
+            //     return;
             case (CowState.EatingGrass):
                 EatGrass();
                 return;
             case (CowState.WalkingTowardsPlayer):
                 WalkTowardsPlayer();
                 return;
-            case (CowState.WindingUpCharge):
-                WindUpCharge();
-                return;
-            case (CowState.Charging):
-                Charge();
-                return;
-            case (CowState.SkiddingToStop):
-                SkidToStop();
-                return;
+            // case (CowState.WindingUpCharge):
+            //     WindUpCharge();
+            //     return;
+            // case (CowState.Charging):
+            //     Charge();
+            //     return;
+            // case (CowState.SkiddingToStop):
+            //     SkidToStop();
+            //     return;
             case (CowState.Fighting):
                 Fight();
                 return;
@@ -162,12 +159,12 @@ public abstract class Cow : Character
             this.TargetPosition = null;
             return;
         }
-        else if (distToPlayer < CHARGE_DISTANCE)
-        {
-            this.CurrentState = CowState.WindingUpCharge;
-            this.TargetPosition = null;
-            return;
-        }
+        // else if (distToPlayer < CHARGE_DISTANCE)
+        // {
+        //     this.CurrentState = CowState.WindingUpCharge;
+        //     this.TargetPosition = null;
+        //     return;
+        // }
         else if (distToPlayer < STARE_DISTANCE)
         {
             this.CurrentState = CowState.StaringAtPlayer;
@@ -430,11 +427,11 @@ public abstract class Cow : Character
             this.CurrentState = CowState.WalkingTowardsPlayer;
             return;
         }
-        else if (distToPlayer < CHARGE_DISTANCE)
-        {
-            this.CurrentState = CowState.WindingUpCharge;
-            return;
-        }
+        // else if (distToPlayer < CHARGE_DISTANCE)
+        // {
+        //     this.CurrentState = CowState.WindingUpCharge;
+        //     return;
+        // }
         else if (distToPlayer > STARE_DISTANCE)
         {
             this.CurrentState = CowState.Grazing;
@@ -463,7 +460,7 @@ public abstract class Cow : Character
         // Place on ground.
         Vector3 newPosition = this.transform.position;
         newPosition.y = Constants.WorldProperties.GroundLevel +
-                        this.Body.MeshRenderer.bounds.extents.y / 2 + .01f;
+                        (this.Body.VerticalBounds.y - this.Body.VerticalBounds.x) / 2 + .01f;
         this.transform.position = newPosition;
     }
 
@@ -515,12 +512,12 @@ public abstract class Cow : Character
                 this.TargetPosition = null;
                 return;
             }
-            else if (distToPlayer < CHARGE_DISTANCE)
-            {
-                this.CurrentState = CowState.WindingUpCharge;
-                this.TargetPosition = null;
-                return;
-            }
+            // else if (distToPlayer < CHARGE_DISTANCE)
+            // {
+            //     this.CurrentState = CowState.WindingUpCharge;
+            //     this.TargetPosition = null;
+            //     return;
+            // }
             else if (distToPlayer < STARE_DISTANCE)
             {
                 this.CurrentState = CowState.StaringAtPlayer;

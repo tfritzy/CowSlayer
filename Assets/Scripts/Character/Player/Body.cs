@@ -9,7 +9,8 @@ public class Body
     public Transform Transform;
     public Animator Animator;
     public CapsuleCollider Collider;
-    public Renderer MeshRenderer;
+    public Vector2 VerticalBounds { get; private set; }
+    public float Height => this.VerticalBounds.y - this.VerticalBounds.x;
 
     public Body(Transform self)
     {
@@ -23,7 +24,23 @@ public class Body
         this.MainHand = Helpers.FindDeepChild(self, "RightHand")?.gameObject;
         this.Animator = self.GetComponent<Animator>();
         this.Collider = self.GetComponent<CapsuleCollider>();
-        this.MeshRenderer = self.transform.Find("Skin").GetComponent<Renderer>();
+
+        Vector2 bounds = new Vector2(float.MaxValue, float.MinValue);
+        foreach (MeshRenderer mr in self.GetComponentsInChildren<MeshRenderer>())
+        {
+            if (mr.bounds.max.y > bounds.y)
+            {
+                bounds.y = mr.bounds.max.y;
+            }
+
+            if (mr.bounds.min.y < bounds.x)
+            {
+
+                bounds.x = mr.bounds.min.y;
+            }
+        }
+
+        VerticalBounds = bounds;
 
         if (self.gameObject.TryGetComponent<PassCommandUp>(out _) == false)
         {

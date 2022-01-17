@@ -7,7 +7,7 @@ public class AreaSpawner : MonoBehaviour
     public Dictionary<string, Cow> SpawnedCows;
     public Area AreaType;
     public int AreaIndex;
-    private const int MaxCows = 0;
+    private const int MaxCows = 5;
     private List<GameObject> SpawnableCows;
     private Vector2 SpawnableAreaSize;
     private Vector3 AreaCenter;
@@ -77,7 +77,7 @@ public class AreaSpawner : MonoBehaviour
 
         Vector3 position = new Vector3(
             Random.Range(-SpawnableAreaSize.x / 2, SpawnableAreaSize.x / 2),
-            Constants.WorldProperties.GroundLevel + cow.GetComponent<Cow>().Body.MeshRenderer.bounds.extents.y + .01f,
+            Constants.WorldProperties.GroundLevel + cow.GetComponent<Cow>().Body.Height + .01f,
             Random.Range(-SpawnableAreaSize.y / 2, SpawnableAreaSize.y / 2))
             + AreaCenter;
 

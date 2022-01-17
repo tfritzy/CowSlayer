@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 2, g: 2, b: 2, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0
@@ -416,7 +416,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.59
+  m_Intensity: 1.15
   m_Range: 360.31
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -425,7 +425,7 @@ Light:
     m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.206
+    m_Strength: 0.406
     m_Bias: 0
     m_NormalBias: 0
     m_NearPlane: 1.09
@@ -1038,6 +1038,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e6c449522f85d49a7a6ab79e6b9523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  <MaxHealth>k__BackingField: 0
   Damage: 0
   AttackSpeedPercent: 0
   MeleeAttackRange: 0
@@ -1045,13 +1047,33 @@ MonoBehaviour:
   Name: 
   Allegiance: 0
   MaxMana: 0
+  <Level>k__BackingField: 0
+  Healthbar: {fileID: 0}
+  IsDead: 0
   MovementSpeed: 0
+  _position: {x: 0, y: 0, z: 0}
+  _forward: {x: 0, y: 0, z: 0}
+  _target: {fileID: 0}
+  _mana: 0
+  _health: 0
+  timeBetweenTargetChecks: 0.5
+  lastTargetCheckTime: 0
   TargetFindRadius: 0
-  _currentState: 0
+  lastManaRegenTime: 0
+  unFrozenConstraints: 116
+  frozenConstraints: 126
+  onlyTurnConstraints: 80
+  vecToPoint: {x: 0, y: 0, z: 0}
+  angleToPoint: 0
+  CurrentState: 0
+  player: {fileID: 0}
   IsZoneGuardian: 0
   Zone: 0
   XPReward: 0
+  BACK_KICK_RANGE: 0
+  vecToPlayer: {x: 0, y: 0, z: 0}
   _animationState: 0
+  chargeStartTime: 0
   EnemyOverride: 0
   AllegianceOverride: 1
 --- !u!65 &221664928
@@ -1400,6 +1422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e6c449522f85d49a7a6ab79e6b9523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  <MaxHealth>k__BackingField: 0
   Damage: 0
   AttackSpeedPercent: 0
   MeleeAttackRange: 0
@@ -1407,13 +1431,33 @@ MonoBehaviour:
   Name: 
   Allegiance: 0
   MaxMana: 0
+  <Level>k__BackingField: 0
+  Healthbar: {fileID: 0}
+  IsDead: 0
   MovementSpeed: 0
+  _position: {x: 0, y: 0, z: 0}
+  _forward: {x: 0, y: 0, z: 0}
+  _target: {fileID: 0}
+  _mana: 0
+  _health: 0
+  timeBetweenTargetChecks: 0.5
+  lastTargetCheckTime: 0
   TargetFindRadius: 0
-  _currentState: 0
+  lastManaRegenTime: 0
+  unFrozenConstraints: 116
+  frozenConstraints: 126
+  onlyTurnConstraints: 80
+  vecToPoint: {x: 0, y: 0, z: 0}
+  angleToPoint: 0
+  CurrentState: 0
+  player: {fileID: 0}
   IsZoneGuardian: 0
   Zone: 0
   XPReward: 0
+  BACK_KICK_RANGE: 0
+  vecToPlayer: {x: 0, y: 0, z: 0}
   _animationState: 0
+  chargeStartTime: 0
   EnemyOverride: 1
   AllegianceOverride: 0
 --- !u!65 &311114388

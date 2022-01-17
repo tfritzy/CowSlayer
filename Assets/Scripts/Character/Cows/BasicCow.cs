@@ -1,12 +1,12 @@
-﻿public class WimpyCow : Cow
+﻿public class BasicCow : Cow
 {
-    public override CowType CowType => CowType.WimpyCow;
+    public override CowType CowType => CowType.BasicCow;
     public override float ManaRegenPerMinute => 50f;
 
     public override void Initialize()
     {
         this.Name = "Wimpy Cow";
-        this.DropTable = new WimpyCowDropTable();
+        this.DropTable = new BasicCowDropTable();
         base.Initialize();
     }
 

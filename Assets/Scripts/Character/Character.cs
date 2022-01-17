@@ -477,7 +477,7 @@ public abstract class Character : MonoBehaviour, Interactable
     {
         float fullDist = (character.Position - this.Position).magnitude;
         fullDist -= character.Body.Collider.radius * character.Body.Transform.localScale.x;
-        fullDist -= this.Body.Collider.radius * character.Body.Transform.localScale.x;
+        fullDist -= this.Body.Collider.radius * this.Body.Transform.localScale.x;
         return fullDist;
     }
 }

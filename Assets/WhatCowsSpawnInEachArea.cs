@@ -8,17 +8,17 @@ public static class WhatCowsSpawnInEachArea
             Area.Grasslands,
             new List<List<CowType>>()
             {
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow },
-                new List<CowType>() { CowType.WimpyCow }
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.BasicCow }
             }
         }
     };
@@ -29,14 +29,14 @@ public static class WhatCowsSpawnInEachArea
             Area.Grasslands,
             new List<CowType>()
             {
-                CowType.WimpyCow,
-                CowType.WimpyCow,
-                CowType.WimpyCow,
-                CowType.WimpyCow,
-                CowType.WimpyCow,
-                CowType.WimpyCow,
-                CowType.WimpyCow,
-                CowType.WimpyCow,
+                CowType.BasicCow,
+                CowType.BasicCow,
+                CowType.BasicCow,
+                CowType.BasicCow,
+                CowType.BasicCow,
+                CowType.BasicCow,
+                CowType.BasicCow,
+                CowType.BasicCow,
             }
         }
     };
