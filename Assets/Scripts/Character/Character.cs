@@ -439,21 +439,17 @@ public abstract class Character : MonoBehaviour, Interactable
         vecToPoint = point - this.Position;
         angleToPoint = Vector3.Angle(this.Body.Forward, vecToPoint);
 
-        if (angleToPoint > 30)
-        {
-            this.Body.Transform.rotation = Quaternion.RotateTowards(this.Body.Transform.rotation, Quaternion.LookRotation(vecToPoint), this.TurnRateDegPerS * Time.deltaTime);
-            this.rb.velocity = Vector3.Lerp(this.rb.velocity, Vector3.zero, Time.deltaTime);
-        }
-        else
-        {
-            this.UnFreeze();
-            this.rb.velocity = Vector3.RotateTowards(
-                this.rb.velocity == Vector3.zero ? this.Body.Forward : this.rb.velocity,
-                vecToPoint.normalized * this.MovementSpeed,
-                this.TurnRateDegPerS * Time.deltaTime * Mathf.Deg2Rad,
-                float.MaxValue);
-            this.Body.Transform.rotation = Quaternion.LookRotation(this.rb.velocity);
-        }
+        // if (angleToPoint > 30)
+        // {
+        //     this.Body.Transform.rotation = Quaternion.RotateTowards(this.Body.Transform.rotation, Quaternion.LookRotation(vecToPoint), this.TurnRateDegPerS * Time.deltaTime);
+        //     this.rb.velocity = Vector3.Lerp(this.rb.velocity, Vector3.zero, Time.deltaTime);
+        // }
+        // else
+        // {
+        this.UnFreeze();
+        this.rb.velocity = vecToPoint.normalized * this.MovementSpeed;
+        this.Body.Transform.rotation = Quaternion.LookRotation(this.rb.velocity);
+        // }
     }
 
     /// <summary>
