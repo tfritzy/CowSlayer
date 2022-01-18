@@ -97,7 +97,6 @@ public class Player : Character
     protected override void UpdateLoop()
     {
         base.UpdateLoop();
-        SetVelocity();
         PrimaryAttackLoop();
         SecondaryAttack();
     }

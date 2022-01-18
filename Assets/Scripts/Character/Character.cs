@@ -293,11 +293,23 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Health = Mathf.Min(this.Health, this.MaxHealth);
     }
 
-    protected virtual void SetVelocity() { }
     protected virtual void OnDeath()
     {
         GameObject.Destroy(this.Healthbar.gameObject);
-        GameObject.Destroy(this.gameObject.gameObject);
+        GameObject.Destroy(this.gameObject);
+        this.Body.Animator.enabled = false;
+        this.Body.Transform.SetParent(null);
+
+        foreach (Collider collider in this.Body.Transform.GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = true;
+            if (collider.attachedRigidbody != null)
+            {
+                collider.attachedRigidbody.useGravity = true;
+            }
+        }
+
+        Destroy(this.Body.Transform.gameObject, 10f);
     }
 
     private float lastManaRegenTime;
