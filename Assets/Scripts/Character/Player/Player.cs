@@ -97,6 +97,7 @@ public class Player : Character
     protected override void UpdateLoop()
     {
         base.UpdateLoop();
+        SetVelocity();
         PrimaryAttackLoop();
         SecondaryAttack();
     }
@@ -134,7 +135,7 @@ public class Player : Character
         this.Gold = 100;
     }
 
-    protected override void SetVelocity()
+    private void SetVelocity()
     {
         Vector3 input = GetInput();
         rb.velocity = GetInput().normalized * MovementSpeed * (IsRunning ? 2 : 1);
