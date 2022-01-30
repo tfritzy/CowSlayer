@@ -55,7 +55,7 @@ public static class Helpers
         return Quaternion.LookRotation(GetVectorBetween(target.gameObject, source.gameObject));
     }
 
-    public static Transform FindDeepChild(this Transform aParent, string aName)
+    public static Transform FindDeepChild(this Transform aParent, string aName, bool errorIfNotFound = false)
     {
         Queue<Transform> queue = new Queue<Transform>();
         queue.Enqueue(aParent);
@@ -66,6 +66,11 @@ public static class Helpers
                 return c;
             foreach (Transform t in c)
                 queue.Enqueue(t);
+        }
+
+        if (errorIfNotFound)
+        {
+            throw new System.Exception($"Unable to find required transform '{aName}' in hierarchy of '{aParent.name}'");
         }
 
         return null;

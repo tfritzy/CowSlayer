@@ -8,7 +8,7 @@ public static class WhatCowsSpawnInEachArea
             Area.Grasslands,
             new List<List<CowType>>()
             {
-                new List<CowType>() { CowType.BasicCow },
+                new List<CowType>() { CowType.SpearThrower },
                 new List<CowType>() { CowType.BasicCow },
                 new List<CowType>() { CowType.BasicCow },
                 new List<CowType>() { CowType.BasicCow },
@@ -29,7 +29,7 @@ public static class WhatCowsSpawnInEachArea
             Area.Grasslands,
             new List<CowType>()
             {
-                CowType.BasicCow,
+                CowType.SpearThrower,
                 CowType.BasicCow,
                 CowType.BasicCow,
                 CowType.BasicCow,

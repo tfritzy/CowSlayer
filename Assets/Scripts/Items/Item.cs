@@ -25,6 +25,7 @@ public abstract class Item
             return new List<Tuple<int, string>> { new Tuple<int, string>(1, Name) };
         }
     }
+    public virtual bool HasInstantiation => true;
 
     /// <summary>
     /// Creates a new instance of this item. If effects are not passed, new effects will
@@ -33,11 +34,15 @@ public abstract class Item
     public Item()
     {
         this.Id = GenerateId();
-        Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Equipment}/{Name.Replace(" ", "")}");
         this.SecondaryEffects = GenerateSecondaryEffects();
         this.PrimaryEffect = PrimaryEffectPrefab;
+
+        if (this.HasInstantiation)
+        {
+            Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Equipment}/{Name.Replace(" ", "")}");
+        }
     }
-    
+
     protected List<Effect> GenerateSecondaryEffects()
     {
         if (NumSecondaryEffects == 0)

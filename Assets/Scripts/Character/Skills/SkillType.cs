@@ -11,4 +11,5 @@ public enum SkillType
     CrossbowAttack,
     Punch,
     SwordSwing,
+    SpearThrow,
 }

@@ -14,6 +14,5 @@ public class Fists : Weapon
     protected override Effect PrimaryEffectPrefab => new DamageItemEffect(1, 1);
     protected override List<Effect> SecondaryEffectPool => null;
     protected override int NumSecondaryEffects => 0;
-
-    public override Vector3 ProjectileStartPosition => Constants.Persistant.PlayerScript.Body.MainHand.transform.position;
+    public override bool HasInstantiation => false;
 }

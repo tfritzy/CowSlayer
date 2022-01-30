@@ -39,8 +39,8 @@ public class Body
         }
 
         Transform = self;
-        this.OffHand = Helpers.FindDeepChild(self, "LeftHand")?.gameObject;
-        this.MainHand = Helpers.FindDeepChild(self, "RightHand")?.gameObject;
+        this.OffHand = Helpers.FindDeepChild(self, "LeftHand", true)?.gameObject;
+        this.MainHand = Helpers.FindDeepChild(self, "RightHand", true)?.gameObject;
         this.Animator = self.GetComponent<Animator>();
         this.Collider = self.GetComponent<CapsuleCollider>();
 

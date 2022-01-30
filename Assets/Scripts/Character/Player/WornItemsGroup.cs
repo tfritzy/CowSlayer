@@ -9,7 +9,6 @@ public class WornItemsGroup : ItemGroup
     public WornItemsGroup(string Name, Character bearer) : base(Name)
     {
         this.Bearer = bearer;
-        this.fists = new Fists();
     }
 
     public override int MaxSize => 9;
@@ -26,6 +25,12 @@ public class WornItemsGroup : ItemGroup
         {
             if (Items[ItemWearLocations.Slots[ItemWearLocations.SlotType.MainHand][0]] == null)
             {
+                if (this.fists == null)
+                {
+                    this.fists = new Fists();
+                    this.fists.OnEquip(Bearer);
+                }
+
                 return this.fists;
             }
 

@@ -10,7 +10,6 @@ public class FlameSprite : PassiveSkill
     public override float DamageModifier => 1f + Level * .25f;
     private GameObject SpriteBody;
     private string SpriteBodyPath = $"{Constants.FilePaths.Prefabs.Skills}/FlameSpriteBody";
-    public override bool IsLevelable => true;
 
     public override bool Activate(Character attacker, AttackTargetingDetails targetingDetails)
     {

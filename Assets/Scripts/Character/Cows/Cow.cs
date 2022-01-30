@@ -64,7 +64,7 @@ public abstract class Cow : Character
         }
     }
 
-    public override float ManaRegenPerMinute => throw new NotImplementedException();
+    public override float ManaRegenPerMinute => 1;
 
     public override void Initialize()
     {
@@ -77,7 +77,6 @@ public abstract class Cow : Character
         this.name = this.Name;
         this.Zone = int.Parse(transform.parent.name.Split('_')[1]);
         this.Level = this.Zone + 1;
-        this.PrimarySkill = new Whack();
     }
 
     protected override void UpdateLoop()

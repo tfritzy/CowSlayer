@@ -28,20 +28,31 @@ public abstract class Weapon : EquipableItem
     public override void OnEquip(Character bearer)
     {
         base.OnEquip(bearer);
-        Instantiation = GameObject.Instantiate(
-            Prefab,
-            bearer.Body.MainHand.transform);
-        Instantiation.transform.position = bearer.Body.MainHand.transform.position;
-
-        foreach (Collider c in Instantiation.GetComponentsInChildren<Collider>())
+        if (HasInstantiation)
         {
-            c.enabled = false;
+            Instantiation = GameObject.Instantiate(
+                        Prefab,
+                        bearer.Body.MainHand.transform);
+            Instantiation.transform.position = bearer.Body.MainHand.transform.position;
+
+            foreach (Collider c in Instantiation.GetComponentsInChildren<Collider>())
+            {
+                c.enabled = false;
+            }
+
+            this.projectileStartPositionObj = Instantiation?.transform.Find("ProjectileStartPosition") ?? Instantiation.transform;
+        }
+        else
+        {
+            this.projectileStartPositionObj = bearer.Body.MainHand.transform;
         }
 
-        this.projectileStartPositionObj = Instantiation.transform.Find("ProjectileStartPosition") ?? Instantiation.transform;
 
-        // TODO: set through selection.
-        bearer.SetAbility(0, DefaultAttack);
+        if (bearer.PrimarySkill == null)
+        {
+            // TODO: set through selection.
+            bearer.SetAbility(0, DefaultAttack);
+        }
     }
 
     public override void OnUnequip(Character bearer)
