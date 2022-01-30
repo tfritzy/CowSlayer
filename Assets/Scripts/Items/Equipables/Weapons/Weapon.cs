@@ -11,7 +11,7 @@ public abstract class Weapon : EquipableItem
     public abstract PlayerAnimationState WalkAnimation { get; }
     public abstract PlayerAnimationState RunAnimation { get; }
     public virtual PlayerAnimationState SpellAnimation => AttackAnimation;
-    public Character Bearer;
+
     public virtual Vector3 ProjectileStartPosition
     {
         get

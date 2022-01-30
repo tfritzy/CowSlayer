@@ -6,12 +6,14 @@ public class SkillTreeButton : MonoBehaviour
 {
     public SkillType SkillType;
     public int ButtonIndex;
+    public Skill Skill { get; private set; }
 
     private SkillTree parent;
     private Image background;
     private Image outline;
     private Image icon;
     private Text level;
+
 
     void Update()
     {
@@ -26,6 +28,7 @@ public class SkillTreeButton : MonoBehaviour
     public void Setup(SkillType skillType, SkillTree parent, int buttonIndex)
     {
         this.SkillType = skillType;
+        this.Skill = Skill.BuildSkill(skillType, null);
         this.parent = parent;
         this.ButtonIndex = buttonIndex;
         background = transform.Find("Background").GetComponent<Image>();
@@ -33,7 +36,7 @@ public class SkillTreeButton : MonoBehaviour
         icon = transform.Find("Icon").GetComponent<Image>();
         level = transform.Find("Level").GetComponent<Text>();
         level.text = "";
-        icon.sprite = Constants.GetSkill(skillType).Icon;
+        icon.sprite = this.Skill.Icon;
 
         this.IsSelectingAbility = false;
         SetupColors();
@@ -68,8 +71,7 @@ public class SkillTreeButton : MonoBehaviour
 
     public bool IsUnlockable()
     {
-        Skill skill = Constants.GetSkill(SkillType);
-        foreach (SkillType type in skill.UnlockDependsOn)
+        foreach (SkillType type in this.Skill.UnlockDependsOn)
         {
             GameState.Data.SkillLevels.TryGetValue(type, out int skillLevel);
 

@@ -17,35 +17,6 @@ public static class Constants
         }
     }
 
-    public static Skill GetSkill(SkillType skillType)
-    {
-        switch (skillType)
-        {
-            case (SkillType.Firebolt):
-                return new FireBolt();
-            case (SkillType.Fireball):
-                return new FireBall();
-            case (SkillType.Meteor):
-                return new Meteor();
-            case (SkillType.Attunement):
-                return new Attunement();
-            case (SkillType.Whack):
-                return new Whack();
-            case (SkillType.FlameSprite):
-                return new FlameSprite();
-            case (SkillType.FireWave):
-                return new FireWave();
-            case (SkillType.CrossbowAttack):
-                return new CrossbowAttack();
-            case (SkillType.Punch):
-                return new Punch();
-            case (SkillType.SwordSwing):
-                return new SwordSwing();
-            default:
-                throw new Exception($"Unknown skill {skillType}");
-        }
-    }
-
     public static class WorldProperties
     {
         public const float GroundLevel = 0f;

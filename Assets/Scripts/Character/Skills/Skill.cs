@@ -16,13 +16,22 @@ public abstract class Skill
     public abstract float DamageModifier { get; }
     protected virtual bool ShowsDecal => false;
     protected virtual Item Ammo => null;
+    protected Character Bearer;
 
     public int Level
     {
         get
         {
-            // TODO: Get level from wielder.
-            return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 1;
+            // TODO: Store levels on each character
+            if (Bearer is Player)
+            {
+                return GameState.Data.SkillLevels.ContainsKey(Type) ? GameState.Data.SkillLevels[Type] : 0;
+            }
+            else
+            {
+                return 1;
+            }
+
         }
     }
 
@@ -33,8 +42,9 @@ public abstract class Skill
     private Sprite _icon;
     protected abstract void CreatePrefab(AttackTargetingDetails attackTargetingDetails);
 
-    public Skill()
+    public Skill(Character bearer)
     {
+        this.Bearer = bearer;
         Prefab = Resources.Load<GameObject>($"{Constants.FilePaths.Prefabs.Skills}/{Name}");
     }
 
@@ -186,4 +196,36 @@ public abstract class Skill
     {
         return null;
     }
+
+    public static Skill BuildSkill(SkillType skillType, Character bearer)
+    {
+        switch (skillType)
+        {
+            case (SkillType.Firebolt):
+                return new FireBolt(bearer);
+            case (SkillType.Fireball):
+                return new FireBall(bearer);
+            case (SkillType.Meteor):
+                return new Meteor(bearer);
+            case (SkillType.Attunement):
+                return new Attunement(bearer);
+            case (SkillType.Whack):
+                return new Whack(bearer);
+            case (SkillType.FlameSprite):
+                return new FlameSprite(bearer);
+            case (SkillType.FireWave):
+                return new FireWave(bearer);
+            case (SkillType.CrossbowAttack):
+                return new CrossbowAttack(bearer);
+            case (SkillType.Punch):
+                return new Punch(bearer);
+            case (SkillType.SwordSwing):
+                return new SwordSwing(bearer);
+            case (SkillType.SpearThrow):
+                return new SpearThrow(bearer);
+            default:
+                throw new System.Exception($"Unknown skill {skillType}");
+        }
+    }
+
 }

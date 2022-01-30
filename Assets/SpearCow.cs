@@ -23,7 +23,7 @@ public class SpearCow : Cow
         this.RangedAttackRange = 5f;
         this.MovementSpeed = 2f;
         this.XPReward = 1 + Level;
-        this.PrimarySkill = new SpearThrow();
+        this.PrimarySkill = new SpearThrow(this);
         base.SetInitialStats();
     }
 }

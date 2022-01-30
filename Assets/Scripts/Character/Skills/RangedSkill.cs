@@ -5,6 +5,10 @@ public abstract class RangedSkill : Skill
     protected abstract float ProjectileSpeed { get; }
     protected virtual Vector3 ProjectileStartPositionOffset => Vector3.zero;
 
+    public RangedSkill(Character bearer) : base(bearer)
+    {
+    }
+
     public override bool Activate(Character attacker, AttackTargetingDetails attackTargetingDetails)
     {
         if (base.Activate(attacker, attackTargetingDetails) == false)

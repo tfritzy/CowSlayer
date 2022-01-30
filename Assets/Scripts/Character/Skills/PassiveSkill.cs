@@ -1,6 +1,6 @@
 public abstract class PassiveSkill : Skill
 {
-    public PassiveSkill()
+    public PassiveSkill(Character bearer) : base(bearer)
     {
         Constants.Persistant.PlayerScript.PassiveSkills.Add(this);
     }
@@ -17,5 +17,6 @@ public abstract class PassiveSkill : Skill
     }
 
     public abstract void ApplyEffect(AttackTargetingDetails targetingDetails);
+
 
 }
