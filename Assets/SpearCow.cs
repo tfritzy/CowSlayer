@@ -19,8 +19,6 @@ public class SpearCow : Cow
         this.Damage = 3 + Level;
         this.AttackSpeedPercent = 1;
         this.TargetFindRadius = 7f;
-        this.MeleeAttackRange = .1f;
-        this.RangedAttackRange = 5f;
         this.MovementSpeed = 2f;
         this.XPReward = 1 + Level;
         this.PrimarySkill = new SpearThrow(this);

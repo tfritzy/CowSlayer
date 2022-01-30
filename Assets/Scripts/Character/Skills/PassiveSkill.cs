@@ -1,5 +1,7 @@
 public abstract class PassiveSkill : Skill
 {
+    public override float Range => 0f;
+
     public PassiveSkill(Character bearer) : base(bearer)
     {
         Constants.Persistant.PlayerScript.PassiveSkills.Add(this);

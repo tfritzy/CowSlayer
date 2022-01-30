@@ -43,8 +43,7 @@ public abstract class Cow : Character
     }
 
 
-    private const float STARE_DISTANCE = 15 * 15;
-    private const float CHARGE_DISTANCE = 9 * 9;
+    protected float StareDistance => this.PrimarySkill.Range + 3f;
     private const float WALK_RANGE = 6 * 6;
     private const float BACK_KICK_RANGE = 1.25f;
     Vector3 vecToPlayer;
@@ -134,7 +133,7 @@ public abstract class Cow : Character
         vecToPlayer = player.Position - this.Position;
         float distToPlayer = vecToPlayer.sqrMagnitude;
 
-        if (ShouldFlee() && distToPlayer < STARE_DISTANCE)
+        if (ShouldFlee() && distToPlayer < StareDistance)
         {
             this.CurrentState = CowState.Fleeing;
             return;
@@ -164,7 +163,7 @@ public abstract class Cow : Character
         //     this.TargetPosition = null;
         //     return;
         // }
-        else if (distToPlayer < STARE_DISTANCE)
+        else if (distToPlayer < StareDistance)
         {
             this.CurrentState = CowState.StaringAtPlayer;
             this.TargetPosition = null;
@@ -296,7 +295,7 @@ public abstract class Cow : Character
         float distToPlayer = this.DistanceToCharacter(this.player);
         this.Freeze();
 
-        if (distToPlayer < GetAttackRange(this.PrimarySkill) * .8f)
+        if (distToPlayer < this.PrimarySkill.Range * .8f)
         {
             this.CurrentState = CowState.Fighting;
             return;
@@ -347,7 +346,7 @@ public abstract class Cow : Character
             this.CurrentState = CowState.PerformingAttack;
             return;
         }
-        else if (distToPlayer > GetAttackRange(this.PrimarySkill) * .9f)
+        else if (distToPlayer > this.PrimarySkill.Range * .9f)
         {
             this.CurrentState = CowState.WalkingTowardsPlayer;
         }
@@ -368,7 +367,7 @@ public abstract class Cow : Character
     {
         Vector3 vecAwayFromPlayer = this.Position - this.player.Position;
 
-        if (vecAwayFromPlayer.sqrMagnitude > STARE_DISTANCE)
+        if (vecAwayFromPlayer.sqrMagnitude > StareDistance)
         {
             this.CurrentState = CowState.Grazing;
             return;
@@ -391,7 +390,7 @@ public abstract class Cow : Character
             this.CurrentState = CowState.Grazing;
             return;
         }
-        else if (distToPlayer < GetAttackRange(this.PrimarySkill) * .8f)
+        else if (distToPlayer < this.PrimarySkill.Range * .8f)
         {
             this.CurrentState = CowState.Fighting;
             return;
@@ -431,7 +430,7 @@ public abstract class Cow : Character
         //     this.CurrentState = CowState.WindingUpCharge;
         //     return;
         // }
-        else if (distToPlayer > STARE_DISTANCE)
+        else if (distToPlayer > StareDistance)
         {
             this.CurrentState = CowState.Grazing;
             return;
@@ -447,20 +446,9 @@ public abstract class Cow : Character
             this.Damage *= 2;
             this.MovementSpeed *= 1.3f;
             this.TargetFindRadius *= 2;
-            this.Body.Transform.localScale *= 2;
-            this.MeleeAttackRange *= 1.5f;
-            this.RangedAttackRange *= 1.5f;
+            this.transform.localScale *= 2;
             this.gameObject.name = "ZoneGuardian " + Zone;
-            Vector3 position = this.transform.position;
-            position.y = Constants.WorldProperties.GroundLevel;
-            this.transform.position = position;
         }
-
-        // Place on ground.
-        Vector3 newPosition = this.transform.position;
-        newPosition.y = Constants.WorldProperties.GroundLevel +
-                        (this.Body.VerticalBounds.y - this.Body.VerticalBounds.x) / 2 + .01f;
-        this.transform.position = newPosition;
     }
 
     protected override void OnDeath()
@@ -511,13 +499,7 @@ public abstract class Cow : Character
                 this.TargetPosition = null;
                 return;
             }
-            // else if (distToPlayer < CHARGE_DISTANCE)
-            // {
-            //     this.CurrentState = CowState.WindingUpCharge;
-            //     this.TargetPosition = null;
-            //     return;
-            // }
-            else if (distToPlayer < STARE_DISTANCE)
+            else if (distToPlayer < StareDistance)
             {
                 this.CurrentState = CowState.StaringAtPlayer;
                 this.TargetPosition = null;

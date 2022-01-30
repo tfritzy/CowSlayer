@@ -9,6 +9,7 @@ public class SpearThrow : RangedSkill
     public override SkillType Type => SkillType.SpearThrow;
     public override float DamageModifier => 1f;
     protected override float ProjectileSpeed => 10f;
+    public override float Range => 8f;
 
     public SpearThrow(Character bearer) : base(bearer)
     {

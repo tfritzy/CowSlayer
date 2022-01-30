@@ -25,6 +25,7 @@ public class Meteor : RangedSkill
     protected override float ProjectileSpeed => 35f;
     protected override Vector3 ProjectileStartPositionOffset => new Vector3(0f, 30f, -10f);
     protected override float ExplosionRadius => 3f;
+    public override float Range => 10f;
 
     public Meteor(Character bearer) : base(bearer)
     {

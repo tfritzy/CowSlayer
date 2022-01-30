@@ -7,6 +7,7 @@ public class FireBolt : RangedSkill
     public override SkillType Type => SkillType.Firebolt;
     public override float DamageModifier => 2f + 0.20f * Level;
     protected override float ProjectileSpeed => 14f;
+    public override float Range => 8f;
 
     public FireBolt(Character bearer) : base(bearer)
     {

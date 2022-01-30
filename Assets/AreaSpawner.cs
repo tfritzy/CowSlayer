@@ -77,12 +77,10 @@ public class AreaSpawner : MonoBehaviour
 
         Vector3 position = new Vector3(
             Random.Range(-SpawnableAreaSize.x / 2, SpawnableAreaSize.x / 2),
-            Constants.WorldProperties.GroundLevel + cow.GetComponent<Cow>().Body.VerticalBounds.x + .01f,
+            Constants.WorldProperties.GroundLevel,
             Random.Range(-SpawnableAreaSize.y / 2, SpawnableAreaSize.y / 2))
             + AreaCenter;
 
-        cow.GetComponent<Cow>().transform.position = position;
-        position.y = 0;
         cow.transform.position = position;
 
         cow.GetComponent<Cow>().Initialize();

@@ -8,6 +8,7 @@ public class Whack : MeleeSkill
     public override int ManaCost => 0;
     public override SkillType Type => SkillType.Whack;
     public override float DamageModifier => 1f;
+    public override float Range => .2f;
 
     public Whack(Character bearer) : base(bearer)
     {

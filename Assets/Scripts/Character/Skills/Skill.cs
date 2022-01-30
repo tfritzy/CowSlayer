@@ -13,6 +13,7 @@ public abstract class Skill
     protected GameObject Prefab;
     public virtual HashSet<SkillType> UnlockDependsOn => new HashSet<SkillType>();
     public abstract SkillType Type { get; }
+    public abstract float Range { get; }
     public abstract float DamageModifier { get; }
     protected virtual bool ShowsDecal => false;
     protected virtual Item Ammo => null;

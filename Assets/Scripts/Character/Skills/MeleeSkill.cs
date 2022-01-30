@@ -16,7 +16,7 @@ public abstract class MeleeSkill : Skill
         CreatePrefab(attackTargetingDetails);
 
         // only damage if in range, but still reset cooldown.
-        if (attacker.MeleeAttackRange > attackTargetingDetails.Attacker.DistanceToCharacter(attackTargetingDetails.Target))
+        if (this.Range > attackTargetingDetails.Attacker.DistanceToCharacter(attackTargetingDetails.Target))
         {
             attackTargetingDetails.Target.TakeDamage(CalculateDamage(attackTargetingDetails.Attacker), attackTargetingDetails.Attacker);
         }

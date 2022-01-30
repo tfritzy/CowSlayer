@@ -8,11 +8,12 @@ public class FireWave : RangedSkill
     public override int ManaCost => 20;
     public override SkillType Type => SkillType.FireWave;
     public override float DamageModifier => 1f;
-    public float Range => 5f + Level * 0.25f;
+    public float WaveDistance => 5f + Level * 0.25f;
     public float Width => 1f + Level * 0.1f;
     public float FireDuration => 1f + Level * 0.25f;
     protected override float ProjectileSpeed => 0.5f;
     private const float DistBetweenFires = 0.4f;
+    public override float Range => WaveDistance;
 
     public FireWave(Character bearer) : base(bearer)
     {
@@ -28,7 +29,7 @@ public class FireWave : RangedSkill
         Vector3 direction = attackTargetingDetails.Target.transform.position - attackTargetingDetails.Attacker.transform.position;
         direction = direction.normalized * DistBetweenFires;
 
-        for (int i = 0; i < Range / DistBetweenFires; i++)
+        for (int i = 0; i < WaveDistance / DistBetweenFires; i++)
         {
             position += direction;
             GameObject fire = GameObject.Instantiate(

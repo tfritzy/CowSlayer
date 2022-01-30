@@ -14,8 +14,6 @@ public abstract class Character : MonoBehaviour, Interactable
         get { return 1 / AttackSpeedPercent; }
     }
     protected bool CanAttackWhileMoving => false;
-    public float MeleeAttackRange;
-    public float RangedAttackRange;
     private Skill _primarySkill;
     public Skill PrimarySkill
     {
@@ -186,7 +184,7 @@ public abstract class Character : MonoBehaviour, Interactable
         }
 
         float distanceToTarget = this.DistanceToCharacter(Target);
-        if (distanceToTarget <= GetAttackRange(skill))
+        if (distanceToTarget <= skill.Range)
         {
             return true;
         }
@@ -359,30 +357,6 @@ public abstract class Character : MonoBehaviour, Interactable
     {
         // SetInitialStats();
         WornItems.ApplyItemEffects(this);
-    }
-
-    protected float GetSqrAttackRange(Skill skill)
-    {
-        if (skill is MeleeSkill)
-        {
-            return MeleeAttackRange * MeleeAttackRange;
-        }
-        else
-        {
-            return RangedAttackRange * RangedAttackRange;
-        }
-    }
-
-    protected float GetAttackRange(Skill skill)
-    {
-        if (skill is MeleeSkill)
-        {
-            return MeleeAttackRange;
-        }
-        else
-        {
-            return RangedAttackRange;
-        }
     }
 
     protected abstract void SetInitialStats();
