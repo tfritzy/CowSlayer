@@ -11,6 +11,7 @@
     {
         this.Name = "Wimpy Cow";
         this.DropTable = new BasicCowDropTable();
+        this.PrimarySkill = new Whack(this);
         base.Initialize();
     }
 
@@ -22,7 +23,6 @@
         this.TargetFindRadius = 5f;
         this.MovementSpeed = 2f;
         this.XPReward = 1 + Level;
-        this.PrimarySkill = new Whack(this);
         base.SetInitialStats();
     }
 }

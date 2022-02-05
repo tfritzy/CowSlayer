@@ -13,6 +13,7 @@ public class SpearCow : Cow
         this.Name = "Spear Cow";
         this.DropTable = new BasicCowDropTable();
         base.Initialize();
+        this.PrimarySkill = new SpearThrow(this);
     }
 
     protected override void SetInitialStats()
@@ -23,7 +24,6 @@ public class SpearCow : Cow
         this.TargetFindRadius = 7f;
         this.MovementSpeed = 2f;
         this.XPReward = 1 + Level;
-        this.PrimarySkill = new SpearThrow(this);
         base.SetInitialStats();
     }
 }

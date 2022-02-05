@@ -448,8 +448,6 @@ public abstract class Cow : Character
             this.Damage *= 2;
             this.MovementSpeed *= 1.3f;
             this.TargetFindRadius *= 2;
-            this.transform.localScale *= 2;
-            this.gameObject.name = "ZoneGuardian " + Zone;
         }
     }
 
@@ -477,6 +475,8 @@ public abstract class Cow : Character
     {
         this.IsZoneGuardian = true;
         this.SetInitialStats();
+        this.transform.localScale *= 2;
+        this.gameObject.name = "ZoneGuardian " + Zone;
     }
 
     protected override void SetAttackAnimation(Skill skill)
