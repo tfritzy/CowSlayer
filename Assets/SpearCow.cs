@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class SpearCow : Cow
 {
-    public override CowType CowType => CowType.SpearThrower;
+
+    private CowType cowType = CowType.SpearThrower;
+    public override CowType CowType => cowType;
 
     public override void Initialize()
     {

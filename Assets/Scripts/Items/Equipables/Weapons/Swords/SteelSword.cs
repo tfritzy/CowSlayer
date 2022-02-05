@@ -6,9 +6,9 @@ public class SteelSword : Sword
 
     public override ItemRarity Rarity => ItemRarity.Uncommon;
 
-    protected override Effect PrimaryEffectPrefab => new DamageItemEffect(8, 12);
+    public override StatModifier PrimaryAttribute => new FlatDamageStatModifier(8, 12, this.Id);
 
-    protected override List<Effect> SecondaryEffectPool => null;
+    protected override List<StatModifier> SecondaryAttributePool => null;
 
     protected override int NumSecondaryEffects => 0;
 }

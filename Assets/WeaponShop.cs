@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Blacksmith : Shop
 {
-    public override string StoreName => "Blacksmith";
+
+    private string storeName = "Blacksmith";
+    public override string StoreName => storeName;
     public override List<Item> StartingItems => new List<Item> { new Stick(), new Stick() };
 }

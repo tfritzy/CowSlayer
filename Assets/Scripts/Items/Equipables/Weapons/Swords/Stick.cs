@@ -6,8 +6,8 @@ class Stick : Sword
 {
     public override string Name => "Stick";
     public override ItemRarity Rarity => ItemRarity.Common;
-    protected override Effect PrimaryEffectPrefab => new DamageItemEffect(1, 3);
-    protected override List<Effect> SecondaryEffectPool => new List<Effect>() { };
+    public override StatModifier PrimaryAttribute => new FlatDamageStatModifier(1, 3, this.Id);
+    protected override List<StatModifier> SecondaryAttributePool => new List<StatModifier>() { };
     protected override int NumSecondaryEffects => 0;
 }
 

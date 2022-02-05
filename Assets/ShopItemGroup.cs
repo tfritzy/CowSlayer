@@ -5,9 +5,15 @@ using UnityEngine;
 public class ShopItemGroup : ItemGroup
 {
     private HashSet<string> PurchasedItems;
-    public override int MaxSize => 20;
-    public override string UIPrefabName => "ChestUI";
-    public override bool RequiresReceiveConfirmation => true;
+
+    private int maxSize = 20;
+    public override int MaxSize => maxSize;
+
+    private string uIPrefabName = "ChestUI";
+    public override string UIPrefabName => uIPrefabName;
+
+    private bool requiresReceiveConfirmation = true;
+    public override bool RequiresReceiveConfirmation => requiresReceiveConfirmation;
 
     private GameObject currentlyOpenConfirmationWindow;
 

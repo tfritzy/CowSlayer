@@ -63,7 +63,9 @@ public abstract class Cow : Character
         }
     }
 
-    public override float ManaRegenPerMinute => 1;
+
+    private float manaRegenPerMinute = 1;
+    public override float ManaRegenPerMinute => manaRegenPerMinute;
 
     public override void Initialize()
     {

@@ -1,7 +1,11 @@
 ﻿public class BasicCow : Cow
 {
-    public override CowType CowType => CowType.BasicCow;
-    public override float ManaRegenPerMinute => 50f;
+
+    private CowType cowType = CowType.BasicCow;
+    public override CowType CowType => cowType;
+
+    private float manaRegenPerMinute = 50f;
+    public override float ManaRegenPerMinute => manaRegenPerMinute;
 
     public override void Initialize()
     {

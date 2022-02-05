@@ -1,6 +1,8 @@
 public abstract class PassiveSkill : Skill
 {
-    public override float Range => 0f;
+
+    private float range = 0f;
+    public override float Range => range;
 
     public PassiveSkill(Character bearer) : base(bearer)
     {

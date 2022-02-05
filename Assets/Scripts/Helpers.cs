@@ -1,5 +1,6 @@
 // Use sparingly >:(
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public static class Helpers
@@ -80,5 +81,17 @@ public static class Helpers
     {
         point.y = Constants.WorldProperties.GroundLevel;
         return point;
+    }
+
+    public static string GenerateId(string prefix)
+    {
+        StringBuilder sb = new StringBuilder($"{prefix}_");
+        for (int i = 0; i < 20; i++)
+        {
+            char c = (char)('a' + Random.Range(0, 51));
+            sb.Append(c);
+        }
+
+        return sb.ToString();
     }
 }

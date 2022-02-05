@@ -31,7 +31,9 @@ public class GoldDrop : StackableDrop
             return _icon;
         }
     }
-    public override int MaxPrefabs => 2;
+
+    private int maxPrefabs = 2;
+    public override int MaxPrefabs => maxPrefabs;
     public GoldDrop(int low, int high) : base(low, high) { }
 
     public override GameObject GetDropIndicator()

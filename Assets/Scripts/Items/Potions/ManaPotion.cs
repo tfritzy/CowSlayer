@@ -3,5 +3,7 @@ using System.Collections.Generic;
 
 public abstract class ManaPotion : Potion
 {
-    public override ItemRarity Rarity => ItemRarity.Common;
+
+    private ItemRarity rarity = ItemRarity.Common;
+    public override ItemRarity Rarity => rarity;
 }

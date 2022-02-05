@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PotionShop : Shop
 {
-    public override string StoreName => "Potion Shop";
+
+    private string storeName = "Potion Shop";
+    public override string StoreName => storeName;
     public override List<Item> StartingItems => new List<Item> { new SmallHealthPotion() { Quantity = 100 }, new SmallManaPotion() { Quantity = 100 } };
 }

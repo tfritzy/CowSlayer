@@ -11,8 +11,12 @@ public class WornItemsGroup : ItemGroup
         this.Bearer = bearer;
     }
 
-    public override int MaxSize => 9;
-    public override string UIPrefabName => "PlayerWornItems";
+
+    private int maxSize = 9;
+    public override int MaxSize => maxSize;
+
+    private string uIPrefabName = "PlayerWornItems";
+    public override string UIPrefabName => uIPrefabName;
     private Fists fists;
     public override bool CanHoldItem(Item item)
     {
@@ -74,15 +78,7 @@ public class WornItemsGroup : ItemGroup
     public override Item RemoveItem(int slotIndex, int quantity)
     {
         Item item = base.RemoveItem(slotIndex, quantity);
-        ((EquipableItem)item).OnUnequip(Bearer);
+        ((EquipableItem)item).OnUnEquip(Bearer);
         return item;
-    }
-
-    public void ApplyItemEffects(Character character)
-    {
-        foreach (Item item in Items)
-        {
-            item?.ApplyEffects(character);
-        }
     }
 }

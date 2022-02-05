@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemDrop : Drop 
+public class ItemDrop : Drop
 {
     public Item Item;
     public override bool HasAutoPickup => false;

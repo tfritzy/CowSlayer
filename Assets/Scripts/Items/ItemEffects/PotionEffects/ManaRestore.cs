@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class ManaRestore : Effect
+public abstract class ManaRestore : FlatStatModifier
 {
-    public abstract int Value { get; }
-
-    public ManaRestore()
+    public ManaRestore(int value, string id) : base(value, id)
     {
+
     }
 
-    public override string Description => $"Restores {Value} Mana";
-    public override string ShortDescription => $"Restores {Value} Mana";
+    public override string Description => $"Restores {Value} mana";
+    public override string ShortDescription => $"Restores {Value} mana";
 
-    public override void Apply(Character character)
+    public override void ApplyModifier(Character character)
     {
-        character.Mana += Value;
+        character.Heal(Value);
     }
 }

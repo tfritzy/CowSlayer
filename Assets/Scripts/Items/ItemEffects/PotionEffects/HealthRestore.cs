@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class HealthRestore : Effect
+public abstract class HealthRestore : FlatStatModifier
 {
-    public abstract int Value { get; }
-
-    public HealthRestore()
+    public HealthRestore(int value, string id) : base(value, id)
     {
+
     }
 
-    public override string Description => $"Restores {Value} Health";
-    public override string ShortDescription => $"Restores {Value} Health";
+    public override string Description => $"Restores {Value} health";
+    public override string ShortDescription => $"Restores {Value} health";
 
-    public override void Apply(Character character)
+    public override void ApplyModifier(Character character)
     {
         character.Heal(Value);
     }

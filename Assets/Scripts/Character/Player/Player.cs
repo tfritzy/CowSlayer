@@ -7,7 +7,9 @@ public class Player : Character
 {
     public ItemGroup Inventory;
     public int Gold;
-    public override float ManaRegenPerMinute => 100f;
+
+    private float manaRegenPerMinute = 100f;
+    public override float ManaRegenPerMinute => manaRegenPerMinute;
     private GameObject playerInventoryUI;
     private Joystick joystick { get { return Constants.Persistant.Joystick; } }
     public bool IsRunning { private set; get; }

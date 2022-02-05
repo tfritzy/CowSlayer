@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class SmallHealthPotion : HealthPotion
 {
-    public override string Name => "Small Health Potion";
-    protected override Effect PrimaryEffectPrefab => new SmallHealthRestore();
+    private string name = "Small Health Potion";
+    public override string Name => name;
+    public override StatModifier PrimaryAttribute => new SmallHealthRestore(this.Id);
+    public override ItemRarity Rarity => ItemRarity.Common;
 }

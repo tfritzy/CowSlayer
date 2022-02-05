@@ -4,14 +4,28 @@ using UnityEngine;
 
 public class Punch : MeleeSkill
 {
-    public override string Name => "Punch";
-    public override float Cooldown => 2f;
-    public override bool CanAttackWhileMoving => false;
-    public override int ManaCost => 0;
-    public override SkillType Type => SkillType.Punch;
-    public override float DamageModifier => 1f;
+
+    private string name = "Punch";
+    public override string Name => name;
+
+    private float cooldown = 2f;
+    public override float Cooldown => cooldown;
+
+    private bool canAttackWhileMoving = false;
+    public override bool CanAttackWhileMoving => canAttackWhileMoving;
+
+    private int manaCost = 0;
+    public override int ManaCost => manaCost;
+
+    private SkillType type = SkillType.Punch;
+    public override SkillType Type => type;
+
+    private float damageModifier = 1f;
+    public override float DamageModifier => damageModifier;
     protected override void CreatePrefab(AttackTargetingDetails attackTargetingDetails) { }
-    public override float Range => .1f;
+
+    private float range = .1f;
+    public override float Range => range;
 
     public Punch(Character bearer) : base(bearer)
     {

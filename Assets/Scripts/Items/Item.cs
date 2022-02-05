@@ -11,11 +11,10 @@ public abstract class Item
     public string Id;
     public GameObject Prefab;
     public virtual int Price => 10;
-    public Effect PrimaryEffect;
-    protected abstract Effect PrimaryEffectPrefab { get; }
-    protected abstract List<Effect> SecondaryEffectPool { get; }
+    public abstract StatModifier PrimaryAttribute { get; }
+    protected abstract List<StatModifier> SecondaryAttributePool { get; }
     protected abstract int NumSecondaryEffects { get; }
-    public List<Effect> SecondaryEffects;
+    public List<StatModifier> SecondaryEffects;
     public int Quantity;
     public virtual bool Stacks => false;
     protected virtual List<Tuple<int, string>> Icons
@@ -26,6 +25,7 @@ public abstract class Item
         }
     }
     public virtual bool HasInstantiation => true;
+    private const string ID_PREFIX = "Item";
 
     /// <summary>
     /// Creates a new instance of this item. If effects are not passed, new effects will
@@ -33,9 +33,8 @@ public abstract class Item
     /// </summary>
     public Item()
     {
-        this.Id = GenerateId();
+        this.Id = Helpers.GenerateId(ID_PREFIX);
         this.SecondaryEffects = GenerateSecondaryEffects();
-        this.PrimaryEffect = PrimaryEffectPrefab;
 
         if (this.HasInstantiation)
         {
@@ -43,18 +42,19 @@ public abstract class Item
         }
     }
 
-    protected List<Effect> GenerateSecondaryEffects()
+    protected List<StatModifier> GenerateSecondaryEffects()
     {
         if (NumSecondaryEffects == 0)
         {
-            return null;
+            return new List<StatModifier>();
         }
 
-        List<Effect> effects = new List<Effect>();
-        List<Effect> effectPoolCopy = new List<Effect>(this.SecondaryEffectPool);
-        for (int i = 0; i < Math.Min(NumSecondaryEffects, SecondaryEffectPool.Count); i++)
+        List<StatModifier> effects = new List<StatModifier>();
+        List<StatModifier> effectPoolCopy = new List<StatModifier>(this.SecondaryAttributePool);
+        System.Random random = new System.Random(this.Id.GetHashCode());
+        for (int i = 0; i < Math.Min(NumSecondaryEffects, SecondaryAttributePool.Count); i++)
         {
-            int rollIndex = UnityEngine.Random.Range(0, effectPoolCopy.Count);
+            int rollIndex = random.Next(0, effectPoolCopy.Count);
             effects.Add(effectPoolCopy[rollIndex]);
             effectPoolCopy.RemoveAt(rollIndex);
         }
@@ -83,7 +83,7 @@ public abstract class Item
     public Item Duplicate()
     {
         Item newItem = (Item)this.MemberwiseClone();
-        newItem.Id = GenerateId();
+        newItem.Id = Helpers.GenerateId(ID_PREFIX);
         return newItem;
     }
 
@@ -113,27 +113,37 @@ public abstract class Item
 
     public virtual void ApplyEffects(Character character)
     {
-        PrimaryEffect.Apply(character);
+        PrimaryAttribute.ApplyModifier(character);
 
         if (SecondaryEffects == null)
         {
             return;
         }
 
-        foreach (Effect effect in SecondaryEffects)
+        foreach (StatModifier effect in SecondaryEffects)
         {
-            effect.Apply(character);
+            effect.ApplyModifier(character);
         }
     }
 
     public virtual void OnEquip(Character bearer)
     {
-        bearer.RecalculateItemEffects();
+        bearer.AddStatModifier(this.PrimaryAttribute);
+
+        foreach (StatModifier modifier in this.SecondaryEffects)
+        {
+            bearer.AddStatModifier(modifier);
+        }
     }
 
-    public virtual void OnUnequip(Character bearer)
+    public virtual void OnUnEquip(Character bearer)
     {
-        bearer.RecalculateItemEffects();
+        bearer.RemoveStatModifier(this.PrimaryAttribute);
+
+        foreach (StatModifier modifier in this.SecondaryEffects)
+        {
+            bearer.RemoveStatModifier(modifier);
+        }
     }
 
     public virtual GameObject ShowItemDetailsPage()
@@ -146,7 +156,7 @@ public abstract class Item
         itemDetails.transform.Find("ItemIcon").Find("Icon").GetComponent<Image>().sprite = GetIcon();
         itemDetails.transform.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.Base;
         itemDetails.transform.Find("Outline").GetComponent<Image>().color = GetRarityColor();
-        itemDetails.transform.Find("PrimaryStatDescription").GetComponent<Text>().text = this.PrimaryEffect.ShortDescription;
+        itemDetails.transform.Find("PrimaryStatDescription").GetComponent<Text>().text = this.PrimaryAttribute.ShortDescription;
         Transform stats = itemDetails.transform.Find("Stats");
         int i = 0;
         for (; i < SecondaryEffects?.Count; i++)
@@ -185,9 +195,4 @@ public abstract class Item
             ColorExtensions.Create(184, 108, 248) // Light Purple
         }
     };
-
-    private string GenerateId()
-    {
-        return $"{Name}_{Guid.NewGuid().ToString("N")}";
-    }
 }

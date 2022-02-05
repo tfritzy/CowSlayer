@@ -6,7 +6,7 @@ public class GoldRing : EquipableItem
     public override string Name => "Gold Ring";
     public override ItemWearLocations.SlotType PlaceWorn => ItemWearLocations.SlotType.Ring;
     public override ItemRarity Rarity => ItemRarity.Rare;
-    protected override Effect PrimaryEffectPrefab => new DamageItemEffect(1, 3);
-    protected override List<Effect> SecondaryEffectPool => new List<Effect>() { new DamageItemEffect(1, 3) };
+    public override StatModifier PrimaryAttribute => new FlatDamageStatModifier(1, 3, this.Id);
+    protected override List<StatModifier> SecondaryAttributePool => new List<StatModifier>() { new FlatDamageStatModifier(1, 3, this.Id) };
     protected override int NumSecondaryEffects => 0;
 }

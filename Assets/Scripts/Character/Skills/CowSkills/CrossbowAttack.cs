@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class CrossbowAttack : RangedSkill
 {
-    public override string Name => "CrossbowAttack";
-    public override float Cooldown => 3f;
-    public override bool CanAttackWhileMoving => false;
-    public override int ManaCost => 0;
-    public override SkillType Type => SkillType.CrossbowAttack;
-    public override float DamageModifier => 2f;
+
+    private string name = "CrossbowAttack";
+    public override string Name => name;
+
+    private float cooldown = 3f;
+    public override float Cooldown => cooldown;
+
+    private bool canAttackWhileMoving = false;
+    public override bool CanAttackWhileMoving => canAttackWhileMoving;
+
+    private int manaCost = 0;
+    public override int ManaCost => manaCost;
+
+    private SkillType type = SkillType.CrossbowAttack;
+    public override SkillType Type => type;
+
+    private float damageModifier = 2f;
+    public override float DamageModifier => damageModifier;
     protected override float ProjectileSpeed => 20f;
     protected override Item Ammo => new Arrow();
-    public override float Range => 8f;
+
+    private float range = 8f;
+    public override float Range => range;
 
     public CrossbowAttack(Character bearer) : base(bearer)
     {

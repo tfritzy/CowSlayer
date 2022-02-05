@@ -55,9 +55,9 @@ public abstract class Weapon : EquipableItem
         }
     }
 
-    public override void OnUnequip(Character bearer)
+    public override void OnUnEquip(Character bearer)
     {
-        base.OnUnequip(bearer);
+        base.OnUnEquip(bearer);
         GameObject.Destroy(Instantiation);
     }
 }

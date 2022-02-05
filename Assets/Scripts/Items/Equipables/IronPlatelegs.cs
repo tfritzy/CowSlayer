@@ -6,7 +6,7 @@ public class IronPlatelegs : EquipableItem
     public override string Name => "Iron Platelegs";
     public override ItemWearLocations.SlotType PlaceWorn => ItemWearLocations.SlotType.Legs;
     public override ItemRarity Rarity => ItemRarity.Common;
-    protected override Effect PrimaryEffectPrefab => new DamageItemEffect(1, 3);
-    protected override List<Effect> SecondaryEffectPool => new List<Effect>() { };
+    public override StatModifier PrimaryAttribute => new FlatDamageStatModifier(1, 3, this.Id);
+    protected override List<StatModifier> SecondaryAttributePool => new List<StatModifier>() { };
     protected override int NumSecondaryEffects => 0;
 }

@@ -22,7 +22,9 @@ public class ArrowDrop : StackableDrop
     {
         get { return ArrowSizeMap; }
     }
-    public override int MaxPrefabs => 1;
+
+    private int maxPrefabs = 1;
+    public override int MaxPrefabs => maxPrefabs;
     private readonly Dictionary<int, DropType> ArrowSizeMap = new Dictionary<int, DropType>()
     {
         { 1, DropType.Single_Arrow },

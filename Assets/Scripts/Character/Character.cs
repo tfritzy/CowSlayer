@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Character : MonoBehaviour, Interactable
 {
     protected Rigidbody rb;
-    public int MaxHealth { get; protected set; }
+    public int MaxHealth;
     public int Damage;
     public float AttackSpeedPercent;
     public WornItemsGroup WornItems;
@@ -53,6 +54,8 @@ public abstract class Character : MonoBehaviour, Interactable
     protected bool IsDead;
     public float MovementSpeed;
     public virtual float TurnRateDegPerS => 60;
+    private Dictionary<string, FlatStatModifier> FlatStatModifiers;
+    private Dictionary<string, MultiplicativeStatModifer> MultiplicativeStatModifiers;
 
     private Vector3 _position;
     public Vector3 Position
@@ -145,6 +148,8 @@ public abstract class Character : MonoBehaviour, Interactable
         this.Health = this.MaxHealth;
         this.Mana = this.MaxMana;
         this.rb = this.GetComponent<Rigidbody>();
+        this.FlatStatModifiers = new Dictionary<string, FlatStatModifier>();
+        this.MultiplicativeStatModifiers = new Dictionary<string, MultiplicativeStatModifer>();
         UnFreeze();
     }
 
@@ -353,12 +358,6 @@ public abstract class Character : MonoBehaviour, Interactable
         Body.Transform.rotation = Quaternion.LookRotation(spot - this.transform.position, Vector3.up);
     }
 
-    public void RecalculateItemEffects()
-    {
-        // SetInitialStats();
-        WornItems.ApplyItemEffects(this);
-    }
-
     protected abstract void SetInitialStats();
 
     protected void MoveTowards(Vector3 targetPosition)
@@ -425,17 +424,9 @@ public abstract class Character : MonoBehaviour, Interactable
         vecToPoint = point - this.Position;
         angleToPoint = Vector3.Angle(this.Body.Forward, vecToPoint);
 
-        // if (angleToPoint > 30)
-        // {
-        //     this.Body.Transform.rotation = Quaternion.RotateTowards(this.Body.Transform.rotation, Quaternion.LookRotation(vecToPoint), this.TurnRateDegPerS * Time.deltaTime);
-        //     this.rb.velocity = Vector3.Lerp(this.rb.velocity, Vector3.zero, Time.deltaTime);
-        // }
-        // else
-        // {
         this.UnFreeze();
         this.rb.velocity = vecToPoint.normalized * this.MovementSpeed;
         this.Body.Transform.rotation = Quaternion.LookRotation(this.rb.velocity);
-        // }
     }
 
     /// <summary>
@@ -461,5 +452,55 @@ public abstract class Character : MonoBehaviour, Interactable
         fullDist -= character.Body.Collider.radius * character.Body.Transform.localScale.x;
         fullDist -= this.Body.Collider.radius * this.Body.Transform.localScale.x;
         return fullDist;
+    }
+
+    private void RecalculateStats()
+    {
+        this.SetInitialStats();
+        foreach (StatModifier modifier in this.FlatStatModifiers.Values)
+        {
+            modifier.ApplyModifier(this);
+        }
+
+        foreach (StatModifier modifier in this.MultiplicativeStatModifiers.Values)
+        {
+            modifier.ApplyModifier(this);
+        }
+    }
+
+    public void AddStatModifier(StatModifier statModifier)
+    {
+        if (statModifier is MultiplicativeStatModifer)
+        {
+            this.MultiplicativeStatModifiers[statModifier.Id] = (MultiplicativeStatModifer)statModifier;
+        }
+        else if (statModifier is FlatStatModifier)
+        {
+            this.FlatStatModifiers[statModifier.Id] = (FlatStatModifier)statModifier;
+        }
+        else
+        {
+            throw new System.Exception("Unknown type of stat modifier");
+        }
+
+        this.RecalculateStats();
+    }
+
+    public void RemoveStatModifier(StatModifier statModifier)
+    {
+        if (statModifier is MultiplicativeStatModifer)
+        {
+            this.MultiplicativeStatModifiers.Remove(statModifier.Id);
+        }
+        else if (statModifier is FlatStatModifier)
+        {
+            this.FlatStatModifiers.Remove(statModifier.Id);
+        }
+        else
+        {
+            throw new System.Exception("Unknown type of stat modifier");
+        }
+
+        this.RecalculateStats();
     }
 }

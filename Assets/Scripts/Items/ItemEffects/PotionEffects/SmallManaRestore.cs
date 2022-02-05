@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SmallManaRestore : ManaRestore
 {
-    public override int Value => 50;
-    public override string Name => "Small Mana Restore";
+    private const string name = "Small mana restore";
+    public override string Name => name;
+
+    public SmallManaRestore(string id) : base(30, id) { }
 }

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SmallHealthRestore : HealthRestore
 {
-    public override int Value => 30;
-    public override string Name => "Small Health Restore";
+    private const string name = "Small health restore";
+    public override string Name => name;
+
+    public SmallHealthRestore(string id) : base(30, id) { }
 }

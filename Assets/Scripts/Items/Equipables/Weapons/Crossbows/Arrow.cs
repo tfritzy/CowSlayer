@@ -5,8 +5,8 @@ public class Arrow : Item
 {
     public override string Name => "Arrow";
     public override ItemRarity Rarity => ItemRarity.Common;
-    protected override Effect PrimaryEffectPrefab => new DamageItemEffect(1, 1);
-    protected override List<Effect> SecondaryEffectPool => null;
+    public override StatModifier PrimaryAttribute => new FlatDamageStatModifier(1, 1, this.Id);
+    protected override List<StatModifier> SecondaryAttributePool => null;
     protected override int NumSecondaryEffects => 0;
     public override bool Stacks => true;
     protected override List<Tuple<int, string>> Icons
