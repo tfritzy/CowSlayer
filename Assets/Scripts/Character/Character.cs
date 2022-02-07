@@ -5,9 +5,20 @@ using UnityEngine;
 public abstract class Character : MonoBehaviour, Interactable
 {
     protected Rigidbody rb;
+    protected abstract int BaseMaxHealth { get; }
     public int MaxHealth;
+    protected abstract int BaseDamage { get; }
     public int Damage;
+    protected abstract int BaseMagicAffinity { get; }
+    public int MagicAffinity;
+    protected abstract float BaseAttackSpeedPercent { get; }
     public float AttackSpeedPercent;
+    protected abstract float BaseMovementSpeed { get; }
+    public float MovementSpeed;
+    public int MaxMana;
+    protected abstract int BaseMaxMana { get; }
+    public int Armor;
+    protected abstract int BaseArmor { get; }
     public WornItemsGroup WornItems;
     protected float TimeBetweenAttacks
     {
@@ -47,12 +58,10 @@ public abstract class Character : MonoBehaviour, Interactable
     public Allegiance Allegiance;
     public HashSet<Allegiance> Enemies;
     public Body Body;
-    public int MaxMana;
     public virtual int Level { get; set; }
     public abstract float ManaRegenPerMinute { get; }
     protected Healthbar Healthbar;
     protected bool IsDead;
-    public float MovementSpeed;
     public virtual float TurnRateDegPerS => 60;
     private Dictionary<string, FlatStatModifier> FlatStatModifiers;
     private Dictionary<string, MultiplicativeStatModifer> MultiplicativeStatModifiers;
@@ -261,7 +270,7 @@ public abstract class Character : MonoBehaviour, Interactable
         }
     }
 
-    public float TargetFindRadius;
+    public const float TargetFindRadius = 7f;
     protected Character FindTarget()
     {
         Collider[] nearby = Physics.OverlapSphere(this.transform.position, TargetFindRadius);
@@ -358,7 +367,16 @@ public abstract class Character : MonoBehaviour, Interactable
         Body.Transform.rotation = Quaternion.LookRotation(spot - this.transform.position, Vector3.up);
     }
 
-    protected abstract void SetInitialStats();
+    protected void SetInitialStats()
+    {
+        this.MaxHealth = this.BaseMaxHealth;
+        this.MaxMana = this.BaseMaxMana;
+        this.Damage = this.BaseDamage;
+        this.AttackSpeedPercent = this.BaseAttackSpeedPercent;
+        this.MovementSpeed = this.BaseMovementSpeed;
+        this.MagicAffinity = this.BaseMagicAffinity;
+        this.Armor = this.BaseArmor;
+    }
 
     protected void MoveTowards(Vector3 targetPosition)
     {
@@ -459,12 +477,12 @@ public abstract class Character : MonoBehaviour, Interactable
         this.SetInitialStats();
         foreach (StatModifier modifier in this.FlatStatModifiers.Values)
         {
-            modifier.ApplyModifier(this);
+            modifier.Apply(this);
         }
 
         foreach (StatModifier modifier in this.MultiplicativeStatModifiers.Values)
         {
-            modifier.ApplyModifier(this);
+            modifier.Apply(this);
         }
     }
 

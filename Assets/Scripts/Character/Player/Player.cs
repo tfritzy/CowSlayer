@@ -7,6 +7,13 @@ public class Player : Character
 {
     public ItemGroup Inventory;
     public int Gold;
+    protected override int BaseMaxHealth => 25;
+    protected override int BaseDamage => 1;
+    protected override int BaseMagicAffinity => 1;
+    protected override float BaseAttackSpeedPercent => 1;
+    protected override float BaseMovementSpeed => 3;
+    protected override int BaseMaxMana => 10;
+    protected override int BaseArmor => 0;
 
     private float manaRegenPerMinute = 100f;
     public override float ManaRegenPerMinute => manaRegenPerMinute;
@@ -95,7 +102,6 @@ public class Player : Character
         }
     }
 
-
     protected override void UpdateLoop()
     {
         base.UpdateLoop();
@@ -111,7 +117,7 @@ public class Player : Character
         this.Enemies = new HashSet<Allegiance>() { Allegiance.Cows };
         this.rb = this.GetComponent<Rigidbody>();
         this.Inventory = new ChestItemGroup("Inventory");
-        this.Inventory.AddItems(new List<Item> { new SmallManaPotion(), new SmallHealthPotion(), new ShoddyCrossbow(), new Stick(), new BasicStaff(), new Arrow(), new SteelSword() });
+        this.Inventory.AddItems(new List<Item> { new SmallManaPotion(), new SmallHealthPotion(), new ShoddyCrossbow(3), new Stick(2), new BasicStaff(3), new Arrow(), new SteelSword(3) });
         this.Name = "Player";
         this.name = "Player";
         this.XP = GameState.Data.PlayerXP;
@@ -122,17 +128,6 @@ public class Player : Character
         {
             originalTargetIndicatorScale = this.targetIndicator.transform.localScale;
         }
-    }
-
-    protected override void SetInitialStats()
-    {
-        this.MaxHealth = 20;
-        this.MaxMana = 100;
-        this.Damage = 1;
-        this.AttackSpeedPercent = 1f;
-        this.TargetFindRadius = 10f;
-        this.MovementSpeed = 2.5f;
-        this.Gold = 100;
     }
 
     private void SetVelocity()

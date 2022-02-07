@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Extensions;
+using System.Linq;
 
 public abstract class Item
 {
@@ -10,11 +11,11 @@ public abstract class Item
     public abstract ItemRarity Rarity { get; }
     public string Id;
     public GameObject Prefab;
-    public virtual int Price => 10;
-    public abstract StatModifier PrimaryAttribute { get; }
-    protected abstract List<StatModifier> SecondaryAttributePool { get; }
-    protected abstract int NumSecondaryEffects { get; }
-    public List<StatModifier> SecondaryEffects;
+    public virtual int Price => 8; // TODO: calculate value.
+    public List<StatModifier> PrimaryAttributes;
+    protected abstract List<StatModifier> GeneratePrimaryAttributes();
+    public List<StatModifier> SecondaryAttributes;
+    protected abstract Func<string, float, StatModifier>[] SecondaryAttributePool { get; }
     public int Quantity;
     public virtual bool Stacks => false;
     protected virtual List<Tuple<int, string>> Icons
@@ -26,6 +27,9 @@ public abstract class Item
     }
     public virtual bool HasInstantiation => true;
     private const string ID_PREFIX = "Item";
+    public int Level { get; protected set; }
+    public float BasePower => this.Level * 10;
+    public float PowerPerAttribute => this.Level * 5;
 
     /// <summary>
     /// Creates a new instance of this item. If effects are not passed, new effects will
@@ -34,7 +38,8 @@ public abstract class Item
     public Item()
     {
         this.Id = Helpers.GenerateId(ID_PREFIX);
-        this.SecondaryEffects = GenerateSecondaryEffects();
+        this.PrimaryAttributes = GeneratePrimaryAttributes();
+        this.SecondaryAttributes = GenerateSecondaryEffects();
 
         if (this.HasInstantiation)
         {
@@ -42,21 +47,21 @@ public abstract class Item
         }
     }
 
+    private StatModifier GenerateAttributeFromPool(string itemId)
+    {
+        System.Random random = new System.Random(itemId.GetHashCode());
+        float power = RollPowerForAttribute(itemId);
+        return SecondaryAttributePool[random.Next(SecondaryAttributePool.Length)](itemId, power);
+    }
+
     protected List<StatModifier> GenerateSecondaryEffects()
     {
-        if (NumSecondaryEffects == 0)
-        {
-            return new List<StatModifier>();
-        }
-
+        int numSecondaryEffects = GetNumAttributes(this.Rarity);
         List<StatModifier> effects = new List<StatModifier>();
-        List<StatModifier> effectPoolCopy = new List<StatModifier>(this.SecondaryAttributePool);
-        System.Random random = new System.Random(this.Id.GetHashCode());
-        for (int i = 0; i < Math.Min(NumSecondaryEffects, SecondaryAttributePool.Count); i++)
+
+        for (int i = 0; i < numSecondaryEffects; i++)
         {
-            int rollIndex = random.Next(0, effectPoolCopy.Count);
-            effects.Add(effectPoolCopy[rollIndex]);
-            effectPoolCopy.RemoveAt(rollIndex);
+            effects.Add(GenerateAttributeFromPool(this.Id));
         }
 
         return effects;
@@ -113,34 +118,30 @@ public abstract class Item
 
     public virtual void ApplyEffects(Character character)
     {
-        PrimaryAttribute.ApplyModifier(character);
-
-        if (SecondaryEffects == null)
+        foreach (StatModifier attribute in this.PrimaryAttributes)
         {
-            return;
+            attribute.Apply(character);
         }
 
-        foreach (StatModifier effect in SecondaryEffects)
+        foreach (StatModifier attribute in SecondaryAttributes)
         {
-            effect.ApplyModifier(character);
+            attribute.Apply(character);
         }
     }
 
     public virtual void OnEquip(Character bearer)
     {
-        bearer.AddStatModifier(this.PrimaryAttribute);
-
-        foreach (StatModifier modifier in this.SecondaryEffects)
-        {
-            bearer.AddStatModifier(modifier);
-        }
+        this.ApplyEffects(bearer);
     }
 
     public virtual void OnUnEquip(Character bearer)
     {
-        bearer.RemoveStatModifier(this.PrimaryAttribute);
+        foreach (StatModifier attribute in this.PrimaryAttributes)
+        {
+            bearer.RemoveStatModifier(attribute);
+        }
 
-        foreach (StatModifier modifier in this.SecondaryEffects)
+        foreach (StatModifier modifier in this.SecondaryAttributes)
         {
             bearer.RemoveStatModifier(modifier);
         }
@@ -156,12 +157,12 @@ public abstract class Item
         itemDetails.transform.Find("ItemIcon").Find("Icon").GetComponent<Image>().sprite = GetIcon();
         itemDetails.transform.Find("Background").GetComponent<Image>().color = Constants.UI.Colors.Base;
         itemDetails.transform.Find("Outline").GetComponent<Image>().color = GetRarityColor();
-        itemDetails.transform.Find("PrimaryStatDescription").GetComponent<Text>().text = this.PrimaryAttribute.ShortDescription;
+        itemDetails.transform.Find("PrimaryStatDescription").GetComponent<Text>().text = this.PrimaryAttributes.First().ShortDescription; // TODO: Make UI handle multiple primaries.
         Transform stats = itemDetails.transform.Find("Stats");
         int i = 0;
-        for (; i < SecondaryEffects?.Count; i++)
+        for (; i < SecondaryAttributes?.Count; i++)
         {
-            stats.Find($"Stat{i}").Find("Text").GetComponent<Text>().text = SecondaryEffects[i].ShortDescription;
+            stats.Find($"Stat{i}").Find("Text").GetComponent<Text>().text = SecondaryAttributes[i].ShortDescription;
         }
 
         for (; i < 5; i++)
@@ -195,4 +196,61 @@ public abstract class Item
             ColorExtensions.Create(184, 108, 248) // Light Purple
         }
     };
+
+    private const int NUM_ROLL_SLOTS = 10000;
+    protected ItemRarity RarityFromId(string id)
+    {
+        // 40% common, 30% Uncommon, 20% rare, 10% exquisite
+        // Legendary items are their own unique items, and cannot be rolled here.
+        int roll = id.GetHashCode() % NUM_ROLL_SLOTS;
+        if (roll < 4000)
+        {
+            return ItemRarity.Common;
+        }
+        else if (roll < 7000)
+        {
+            return ItemRarity.Uncommon;
+        }
+        else if (roll < 9000)
+        {
+            return ItemRarity.Rare;
+        }
+        else
+        {
+            return ItemRarity.Exquisite;
+        }
+    }
+
+    private static int GetNumAttributes(ItemRarity rarity)
+    {
+        switch (rarity)
+        {
+            case (ItemRarity.Common):
+                return 0;
+            case (ItemRarity.Uncommon):
+                return 1;
+            case (ItemRarity.Rare):
+                return 2;
+            case (ItemRarity.Exquisite):
+                return 3;
+            case (ItemRarity.Legendary):
+                return 4;
+            default:
+                throw new System.Exception("Unknown rarity");
+        }
+    }
+
+    protected static float RollPowerForAttribute(string itemId)
+    {
+        System.Random random = new System.Random(itemId.GetHashCode());
+        float power = (float)random.NextDouble() + .5f;
+
+        // Be nice and make pretty numbers;
+        if (power >= 1.45f)
+        {
+            power = 1.5f;
+        }
+
+        return power;
+    }
 }

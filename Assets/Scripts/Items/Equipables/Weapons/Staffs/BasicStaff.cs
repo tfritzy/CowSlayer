@@ -2,9 +2,12 @@ using System.Collections.Generic;
 
 public class BasicStaff : Staff
 {
+    private ItemRarity rarity;
+    public BasicStaff(int level) : base(level)
+    {
+        this.rarity = RarityFromId(this.Id);
+    }
+
     public override string Name => "Basic Staff";
-    public override ItemRarity Rarity => ItemRarity.Common;
-    public override StatModifier PrimaryAttribute => new FlatDamageStatModifier(2, 4, this.Id);
-    protected override List<StatModifier> SecondaryAttributePool => null;
-    protected override int NumSecondaryEffects => 0;
+    public override ItemRarity Rarity => rarity;
 }

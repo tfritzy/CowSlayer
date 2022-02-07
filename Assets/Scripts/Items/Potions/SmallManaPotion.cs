@@ -6,5 +6,10 @@ public class SmallManaPotion : ManaPotion
 {
     private string name = "Small Mana Potion";
     public override string Name => name;
-    public override StatModifier PrimaryAttribute => new SmallManaRestore(this.Id);
+    protected override List<StatModifier> GeneratePrimaryAttributes()
+    {
+        return new List<StatModifier>() {
+            new SmallManaRestore(this.Id),
+        };
+    }
 }

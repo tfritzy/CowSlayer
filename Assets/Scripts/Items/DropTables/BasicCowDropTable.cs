@@ -8,12 +8,12 @@ public class BasicCowDropTable : DropTable
         DropChances = new Dictionary<Drop, int>
         {
             { new GoldDrop(10, 100), 30 },
-            { new ItemDrop(new IronSword()), 10 },
-            { new ItemDrop(new SteelSword()), 10 },
-            { new ItemDrop(new WoodenSword()), 10 },
+            { new ItemDrop(new IronSword(1)), 10 },
+            { new ItemDrop(new SteelSword(3)), 10 },
+            { new ItemDrop(new WoodenSword(2)), 10 },
             { new ArrowDrop(1, 1), 10 },
-            { new ItemDrop(new Stick()), 10 },
-            { new ItemDrop(new BasicStaff()), 10 },
+            { new ItemDrop(new Stick(4)), 10 },
+            { new ItemDrop(new BasicStaff(3)), 10 },
         };
 
         base.SetValues();

@@ -6,9 +6,9 @@ public class FlatDamageStatModifier : FlatStatModifier
     public override string Description => $"Increases damage by {Value}";
     public override string ShortDescription => $"+{Value} damage";
 
-    public FlatDamageStatModifier(int minValue, int maxValue, string id) : base(minValue, maxValue, id) { }
+    public FlatDamageStatModifier(string id, float power) : base(id, power) { }
 
-    public override void ApplyModifier(Character character)
+    public override void Apply(Character character)
     {
         character.Damage += this.Value;
     }

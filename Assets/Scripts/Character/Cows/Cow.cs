@@ -4,23 +4,6 @@ using UnityEngine;
 
 public abstract class Cow : Character
 {
-    public enum CowState
-    {
-        Grazing,
-        EatingGrass,
-        StaringAtPlayer,
-        KickingBackwards,
-        WindingUpCharge,
-        Charging,
-        SkiddingToStop,
-        Fighting,
-        PerformingAttack,
-        Fleeing,
-        WalkingTowardsPlayer,
-        TurningTowardsTarget,
-        Flinching,
-    }
-
     public CowState CurrentState;
     private Player player;
     public bool IsZoneGuardian;
@@ -28,6 +11,16 @@ public abstract class Cow : Character
     public int XPReward;
     public abstract CowType CowType { get; }
     public DropTable DropTable;
+
+    // TODO: Choose stats based on cow's power.
+    protected override int BaseMaxHealth => 5 + Level * 2;
+    protected override int BaseDamage => 2 + Level;
+    protected override int BaseMagicAffinity => 1;
+    protected override float BaseAttackSpeedPercent => 1;
+    protected override float BaseMovementSpeed => 2;
+    protected override int BaseMaxMana => 10;
+    protected override int BaseArmor => 3;
+
 
     private Vector3? _targetPosition;
     public Vector3? TargetPosition
@@ -78,6 +71,23 @@ public abstract class Cow : Character
         this.name = this.Name;
         this.Zone = int.Parse(transform.parent.name.Split('_')[1]);
         this.Level = this.Zone + 1;
+    }
+
+    public enum CowState
+    {
+        Grazing,
+        EatingGrass,
+        StaringAtPlayer,
+        KickingBackwards,
+        WindingUpCharge,
+        Charging,
+        SkiddingToStop,
+        Fighting,
+        PerformingAttack,
+        Fleeing,
+        WalkingTowardsPlayer,
+        TurningTowardsTarget,
+        Flinching,
     }
 
     protected override void UpdateLoop()
@@ -436,18 +446,6 @@ public abstract class Cow : Character
         {
             this.CurrentState = CowState.Grazing;
             return;
-        }
-    }
-
-    protected override void SetInitialStats()
-    {
-        if (IsZoneGuardian)
-        {
-            this.MaxHealth *= 4;
-            this.Health *= 4;
-            this.Damage *= 2;
-            this.MovementSpeed *= 1.3f;
-            this.TargetFindRadius *= 2;
         }
     }
 

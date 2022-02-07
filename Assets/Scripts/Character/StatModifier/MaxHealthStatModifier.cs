@@ -6,9 +6,9 @@ public class MaxHealthStatModifier : FlatStatModifier
     public override string Description => $"Increases max health by {Value}";
     public override string ShortDescription => $"+{Value} max health";
 
-    public MaxHealthStatModifier(int minValue, int maxValue, string id) : base(minValue, maxValue, id) { }
+    public MaxHealthStatModifier(string id, float power) : base(id, power) { }
 
-    public override void ApplyModifier(Character character)
+    public override void Apply(Character character)
     {
         character.MaxHealth += this.Value;
         character.Health += this.Value;

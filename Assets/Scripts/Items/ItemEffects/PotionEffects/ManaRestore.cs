@@ -11,7 +11,7 @@ public abstract class ManaRestore : FlatStatModifier
     public override string Description => $"Restores {Value} mana";
     public override string ShortDescription => $"Restores {Value} mana";
 
-    public override void ApplyModifier(Character character)
+    public override void Apply(Character character)
     {
         character.Heal(Value);
     }

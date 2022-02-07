@@ -7,5 +7,5 @@ public class Blacksmith : Shop
 
     private string storeName = "Blacksmith";
     public override string StoreName => storeName;
-    public override List<Item> StartingItems => new List<Item> { new Stick(), new Stick() };
+    public override List<Item> StartingItems => new List<Item> { new Stick(4), new Stick(3) };
 }

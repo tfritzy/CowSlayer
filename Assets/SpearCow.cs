@@ -15,15 +15,4 @@ public class SpearCow : Cow
         base.Initialize();
         this.PrimarySkill = new SpearThrow(this);
     }
-
-    protected override void SetInitialStats()
-    {
-        this.MaxHealth = 10 + Level * 2;
-        this.Damage = 3 + Level;
-        this.AttackSpeedPercent = 1;
-        this.TargetFindRadius = 7f;
-        this.MovementSpeed = 2f;
-        this.XPReward = 1 + Level;
-        base.SetInitialStats();
-    }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public abstract class Weapon : EquipableItem
 {
@@ -21,9 +22,15 @@ public abstract class Weapon : EquipableItem
     }
     private Transform projectileStartPositionObj;
 
-    public Weapon()
+    public Weapon(int level) : base(level)
     {
     }
+
+    private static Func<string, float, StatModifier>[] secondaryAttributePool = new Func<string, float, StatModifier>[] {
+        (string id, float power) => new FlatDamageStatModifier(id, power),
+        (string id, float power) => new MaxHealthStatModifier(id, power),
+    };
+    protected override Func<string, float, StatModifier>[] SecondaryAttributePool => secondaryAttributePool;
 
     public override void OnEquip(Character bearer)
     {

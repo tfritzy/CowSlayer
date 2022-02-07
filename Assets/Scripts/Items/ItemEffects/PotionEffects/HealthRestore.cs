@@ -11,7 +11,7 @@ public abstract class HealthRestore : FlatStatModifier
     public override string Description => $"Restores {Value} health";
     public override string ShortDescription => $"Restores {Value} health";
 
-    public override void ApplyModifier(Character character)
+    public override void Apply(Character character)
     {
         character.Heal(Value);
     }

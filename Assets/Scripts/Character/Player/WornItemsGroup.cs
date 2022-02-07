@@ -31,7 +31,7 @@ public class WornItemsGroup : ItemGroup
             {
                 if (this.fists == null)
                 {
-                    this.fists = new Fists();
+                    this.fists = new Fists(1);
                     this.fists.OnEquip(Bearer);
                 }
 

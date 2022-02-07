@@ -4,11 +4,13 @@ using UnityEngine;
 public class Chest : MonoBehaviour, Interactable
 {
     public ItemGroup ItemGroup;
-    
-    void Start() {
+
+    void Start()
+    {
         this.ItemGroup = new ChestItemGroup("Chest");
-        this.ItemGroup.AddItems(new List<Item>() {new GoldRing(), new HornedHelm(), new IceRing(),
-            new IronPlatelegs(), new LeatherBody(), new NorthstarAmulet()});
+        this.ItemGroup.AddItems(
+            new List<Item>() { new GoldRing(3), new HornedHelm(1), new IronPlatelegs(5), new LeatherBody(3) }
+        );
     }
 
     public void Interact()
