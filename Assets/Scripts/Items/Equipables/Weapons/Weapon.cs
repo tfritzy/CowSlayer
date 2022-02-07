@@ -29,6 +29,8 @@ public abstract class Weapon : EquipableItem
     private static Func<string, float, StatModifier>[] secondaryAttributePool = new Func<string, float, StatModifier>[] {
         (string id, float power) => new FlatDamageStatModifier(id, power),
         (string id, float power) => new MaxHealthStatModifier(id, power),
+        (string id, float power) => new MovementSpeedStatModifier(id, power),
+        (string id, float power) => new ArmorStatModifier(id, power),
     };
     protected override Func<string, float, StatModifier>[] SecondaryAttributePool => secondaryAttributePool;
 

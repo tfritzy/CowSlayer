@@ -7,7 +7,7 @@ public class Player : Character
 {
     public ItemGroup Inventory;
     public int Gold;
-    protected override int BaseMaxHealth => 25;
+    protected override int BaseMaxHealth => int.MaxValue;
     protected override int BaseDamage => 1;
     protected override int BaseMagicAffinity => 1;
     protected override float BaseAttackSpeedPercent => 1;

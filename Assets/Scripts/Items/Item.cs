@@ -47,21 +47,24 @@ public abstract class Item
         }
     }
 
-    private StatModifier GenerateAttributeFromPool(string itemId)
-    {
-        System.Random random = new System.Random(itemId.GetHashCode());
-        float power = RollPowerForAttribute(itemId);
-        return SecondaryAttributePool[random.Next(SecondaryAttributePool.Length)](itemId, power);
-    }
-
     protected List<StatModifier> GenerateSecondaryEffects()
     {
         int numSecondaryEffects = GetNumAttributes(this.Rarity);
         List<StatModifier> effects = new List<StatModifier>();
+        List<int> secondaryEffectIndexOptions = Enumerable.Range(0, SecondaryAttributePool.Length).ToList();
+        System.Random random = new System.Random(this.Id.GetHashCode());
 
         for (int i = 0; i < numSecondaryEffects; i++)
         {
-            effects.Add(GenerateAttributeFromPool(this.Id));
+            if (secondaryEffectIndexOptions.Count == 0)
+            {
+                throw new System.Exception($"Item {this.Name} doesn't have a large enough secondary pool.");
+            }
+
+            float power = RollPowerForAttribute(this.Id);
+            int index = secondaryEffectIndexOptions[random.Next(secondaryEffectIndexOptions.Count)];
+            secondaryEffectIndexOptions.Remove(index);
+            effects.Add(SecondaryAttributePool[index](this.Id, power));
         }
 
         return effects;

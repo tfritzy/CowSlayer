@@ -7,7 +7,7 @@ public class LeatherBody : Torso
     {
     }
 
-    public override string Name => "Leather body";
+    public override string Name => "Leather Body";
     public override ItemWearLocations.SlotType PlaceWorn => ItemWearLocations.SlotType.Chest;
     public override ItemRarity Rarity => ItemRarity.Common;
 }
